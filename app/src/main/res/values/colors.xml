@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors -->
+    <color name="primary_color">#2A4D8E</color>  <!-- Dark Blue (Primary Brand) -->
+    <color name="primary_light">#E3EAF5</color>  <!-- Light Blue (Card Background) -->
+    <color name="primary_dark">#1A365D</color>   <!-- Darker Blue (Optional) -->
+
+    <!-- Secondary Colors -->
+    <color name="secondary_color">#3A7B9E</color> <!-- Teal Blue (Secondary Brand) -->
+    <color name="secondary_light">#E1F0F7</color>
+
+    <color name="pending_actions">#F8EFEE</color>
+    <color name="doc_analyzer">#EFF5F8</color>
+
+
+    <!-- Quick actions Bg -->
+    <color name="card1_bg">#3EF0E0</color>
+    <color name="card2_bg">#39E9FF</color>
+    <color name="card3_bg">#45A7F6</color>
+    <color name="card4_bg">#FF5D5D</color>
+    <!-- Surface/Background -->
+    <color name="surface">#FFFFFF</color>         <!-- White (Cards, Dialogs) -->
+    <color name="background">#F8F9FA</color>      <!-- Off-White (App Background) -->
+
+    <!-- Text Colors -->
+    <color name="text_primary">#212121</color>    <!-- Almost Black (Headings) -->
+    <color name="text_secondary">#757575</color>  <!-- Gray (Subtext) -->
+    <color name="text_on_primary">#FFFFFF</color> <!-- White (Text on Primary Color) -->
+
+    <!-- Status Colors -->
+    <color name="success">#4CAF50</color>         <!-- Green (Positive Actions) -->
+    <color name="error_alert">#D32F2F</color>     <!-- Red (Warnings/Errors) -->
+    <color name="warning">#FFA000</color>         <!-- Amber (Alerts) -->
+
+    <!-- Divider/Stroke -->
+    <color name="divider_color">#E0E0E0</color>   <!-- Light Gray (Dividers) -->
+    <color name="stroke_color">#BDBDBD</color>    <!-- Border Gray -->
+
+    <!-- Black/White (Utility) -->
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+
+    <color name="backgroundColor">#FFFFFFFF</color> <!-- Light background -->
+    <color name="textColor">#000000</color>       <!-- Dark text -->
+    <color name="textColorBotNav">#FFFFFFFF</color>
+    <!-- Dark text -->
+    <color name="icons_bg">#000000</color>
+    <color name="icons_bg_bot_nav">#FFFFFFFF</color>
+    <color name="bottom_nav">#3A7B9E</color> <!-- Teal Blue (Secondary Brand) -->
+    <color name="common_btn">#3A7B9E</color>
+
+</resources>

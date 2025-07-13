@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingVertical="16dp"
+        android:paddingHorizontal="12dp"
+        >
+
+        <TextView
+            android:layout_marginTop="16dp"
+            android:id="@+id/txtWelcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hi, Alex!"
+            android:textColor="@color/textColor"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Let’s make legal work smarter today"
+            android:textColor="@color/textColor"
+            android:textStyle="italic"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/txtWelcome"
+            app:layout_constraintTop_toBottomOf="@id/txtWelcome"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            app:tint="@color/icons_bg"
+            android:src="@drawable/notifications_active_24px"
+            app:layout_constraintBottom_toBottomOf="@+id/txtSubtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/txtWelcome" />
+        <HorizontalScrollView
+            android:id="@+id/horizontalTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtRecentActivity">
+
+            <LinearLayout
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Card 1: Documents Analyzed -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="150dp"
+                    android:layout_height="120dp"
+                    android:layout_marginEnd="12dp"
+                    app:cardBackgroundColor="@color/doc_analyzer"
+                    app:cardCornerRadius="12dp"
+                    app:strokeColor="@color/primary_color"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="16dp">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/docs_24px"
+                            app:tint="@color/primary_color" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="12"
+                            android:textColor="@color/textColor"
+                            android:textSize="28sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Documents Analyzed"
+                            android:textColor="@color/textColor"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Card 2: Pending Actions -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="150dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="0.50"
+                    app:cardBackgroundColor="@color/pending_actions"
+                    app:cardCornerRadius="12dp"
+                    app:strokeColor="@color/error_alert"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+
+                        android:orientation="vertical"
+                        android:paddingHorizontal="16dp">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/arming_countdown_24px"
+                            app:tint="@color/error_alert" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="3"
+                            android:textColor="@color/textColor"
+                            android:textSize="28sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pending Actions"
+                            android:textColor="@color/textColor"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/txtQuickActions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Quick Actions"
+            android:textColor="@color/textColor"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtSubtitle"/>
+
+        <GridLayout
+            android:id="@+id/quickActionsGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:columnCount="2"
+            android:rowCount="2"
+            app:layout_constraintTop_toBottomOf="@id/txtQuickActions">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                app:cardBackgroundColor="@color/card1_bg"
+                android:layout_columnWeight="1"
+                app:cardElevation="5dp"
+                android:layout_margin="8dp"
+                android:layout_rowWeight="1"
+                app:cardCornerRadius="12dp">
+
+                <LinearLayout
+                    android:id="@+id/analyzeDoc"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        app:tint="@color/icons_bg"
+                        android:src="@drawable/docs_24px"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:layout_marginTop="8dp"
+                        android:paddingHorizontal="8dp"
+                        android:textAlignment="center"
+                        android:text="Analyze\nDocument"
+                        android:textColor="@color/textColor"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Action 2: Scan Contract -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_columnWeight="1"
+                app:cardBackgroundColor="@color/card2_bg"
+                android:layout_margin="8dp"
+                app:cardElevation="5dp"
+                android:layout_rowWeight="1"
+                app:cardCornerRadius="12dp">
+
+                <LinearLayout
+                    android:id="@+id/generateTemplate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        app:tint="@color/icons_bg"
+                        android:src="@drawable/edit_document_24px"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:paddingHorizontal="8dp"
+                        android:textAlignment="center"
+                        android:textSize="16sp"
+                        android:text="Generate\nContract"
+                        android:textColor="@color/textColor"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardElevation="5dp"
+                android:layout_rowWeight="1"
+                app:cardBackgroundColor="@color/card3_bg"
+                app:cardCornerRadius="12dp">
+
+                <LinearLayout
+                    android:id="@+id/complianceCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        app:tint = "@color/icons_bg"
+                        android:src="@drawable/policy_24px"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:paddingHorizontal="8dp"
+                        android:textAlignment="center"
+                        android:text="Compliance\nCheck"
+                        android:textSize="16sp"
+                        android:textColor="@color/textColor"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardElevation="5dp"
+                android:layout_rowWeight="1"
+                app:cardBackgroundColor="@color/card4_bg"
+                app:cardCornerRadius="12dp">
+
+                <LinearLayout
+                    android:id="@+id/summarizeReport"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        app:tint = "@color/icons_bg"
+                        android:src="@drawable/summarize_24px"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:paddingHorizontal="8dp"
+                        android:textAlignment="center"
+                        android:textSize="16sp"
+                        android:text="Summarize\nDocument"
+                        android:textColor="@color/textColor"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </GridLayout>
+
+        <TextView
+            android:id="@+id/txtRecentActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Recent Activity"
+            android:textColor="@color/textColor"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/quickActionsGrid" />
+        <TextView
+            android:id="@+id/viewAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="view all"
+            android:textColor="@color/error_alert"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/txtRecentActivity"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toTopOf="@id/txtRecentActivity" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerRecentDocs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtRecentActivity" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

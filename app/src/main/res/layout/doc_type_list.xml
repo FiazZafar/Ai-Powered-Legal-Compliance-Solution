@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView
+    android:layout_width="match_parent"
+    android:layout_height="140dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/white"
+    android:layout_columnWeight="1"
+    app:cardElevation="5dp"
+    android:layout_margin="8dp"
+    android:layout_rowWeight="1"
+    app:cardCornerRadius="12dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@+id/analyzeDoc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:tint="@color/icons_bg"
+            android:src="@drawable/docs_24px"/>
+
+        <TextView
+            android:id="@+id/taskType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            android:paddingHorizontal="8dp"
+            android:textAlignment="center"
+            android:text="Analyze\nDocument"
+            android:textColor="@color/textColor"/>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

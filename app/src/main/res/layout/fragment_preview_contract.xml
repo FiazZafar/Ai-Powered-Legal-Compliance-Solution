@@ -1,0 +1,35 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/contractTextView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="12dp"
+        android:textSize="16sp"
+        android:textColor="#111827"
+        android:background="#FFFFFF"
+        android:gravity="top"
+        android:scrollbars="vertical" />
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:id="@+id/webView"
+
+        />
+    <Button
+        android:id="@+id/generatePdfButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Approve and Generate PDF"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#4F46E5"
+        android:textColor="#FFFFFF"
+        android:padding="12dp" />
+</LinearLayout>

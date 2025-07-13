@@ -1,0 +1,373 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/backgroundColor">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/stepTitle4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Step 4: Review and Generate"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_dark"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="16dp" />
+
+        <!-- Review Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Review Your Details"
+            android:textColor="@color/textColor"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:paddingBottom="8dp" />
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:paddingVertical="10dp"
+           android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="First Party : "
+            android:layout_weight="1.75"
+            android:paddingHorizontal="10dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/textColor"
+            />
+           <TextView
+               android:id="@+id/partyA_name_txt"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_weight="1.2"
+               android:text="Fiaz Zafar"
+               android:textSize="16sp"
+               android:textColor="@color/textColor"
+               />
+       </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Second Party: "
+                android:layout_weight="1.75"
+                android:paddingHorizontal="10dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/textColor"
+                />
+            <TextView
+                android:id="@+id/partyB_name_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fiaz Zafar"
+                android:layout_weight="1.2"
+                android:textSize="16sp"
+                android:textColor="@color/textColor"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email Party A: "
+                android:layout_weight="1.75"
+                android:paddingHorizontal="10dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/textColor"
+                />
+            <TextView
+                android:id="@+id/partyA_email_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:text="Fiaz Zafar"
+                android:textSize="16sp"
+                android:textColor="@color/textColor"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.75"
+                android:text="Party B Email: "
+                android:paddingHorizontal="10dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/textColor"
+                />
+            <TextView
+                android:id="@+id/partyB_email_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:text="Fiaz Zafar"
+                android:textSize="16sp"
+                android:textColor="@color/textColor"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.75"
+                android:text="Contract Title: "
+                android:paddingHorizontal="10dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/textColor"
+                />
+            <TextView
+                android:id="@+id/contract_title_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:text="Fiaz Zafar"
+                android:textSize="16sp"
+                android:textColor="@color/textColor"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.75"
+                android:text="Contract Type: "
+                android:paddingHorizontal="10dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/textColor"
+                />
+            <TextView
+                android:id="@+id/contract_type_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:text="Fiaz Zafar"
+                android:textSize="16sp"
+                android:textColor="@color/textColor"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.75"
+                android:text="Start Date: "
+                android:paddingHorizontal="10dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/textColor"
+                />
+            <TextView
+                android:id="@+id/start_date_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:text="Fiaz Zafar"
+                android:textSize="16sp"
+                android:textColor="@color/textColor"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.75"
+                android:text="End Date: "
+                android:paddingHorizontal="10dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/textColor"
+                />
+            <TextView
+                android:id="@+id/end_date_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:text="Fiaz Zafar"
+                android:textSize="16sp"
+                android:textColor="@color/textColor"
+                />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.75"
+                android:text="Jurisdiction: "
+                android:paddingHorizontal="10dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/textColor"
+                />
+            <TextView
+                android:id="@+id/jurisdiction_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:text="Fiaz Zafar"
+                android:textSize="16sp"
+                android:textColor="@color/textColor"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.75"
+                android:text="Payment Terms: "
+                android:paddingHorizontal="10dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/textColor"
+                />
+            <TextView
+                android:id="@+id/payment_terms_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:text="Fiaz Zafar"
+                android:textSize="16sp"
+                android:textColor="@color/textColor"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.75"
+                android:text="General Terms: "
+                android:paddingHorizontal="10dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/textColor"
+                />
+            <TextView
+                android:id="@+id/general_terms_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:text="Fiaz Zafar"
+                android:textSize="16sp"
+                android:textColor="@color/textColor"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.75"
+                android:text="Special Clauses: "
+                android:paddingHorizontal="10dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/textColor"
+                />
+            <TextView
+                android:id="@+id/special_clauses_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:text="Fiaz Zafar"
+                android:textSize="16sp"
+                android:textColor="@color/textColor"
+                />
+        </LinearLayout>
+
+        <!-- Edit Button -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/editButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Information"
+            android:textAllCaps="false"
+            android:textColor="#2E3A59"
+            android:background="@drawable/btn_common_bg"
+            android:backgroundTint="#E0E0E0"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:padding="10dp"/>
+
+        <!-- Generate Button -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/generateButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Generate Contract"
+            android:textAllCaps="false"
+            android:textColor="@color/textColor"
+            android:background="@drawable/btn_common_bg"
+            android:layout_marginTop="24dp"
+            android:padding="14dp" />
+
+    </LinearLayout>
+</ScrollView>

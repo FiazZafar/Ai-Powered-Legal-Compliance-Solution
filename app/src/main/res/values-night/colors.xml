@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Primary Colors -->
+    <color name="primary_color">#90CAF9</color>
+    <color name="primary_light">#32707E</color>
+    <color name="primary_dark">#42A5F5</color>
+
+    <!-- Secondary Colors (Teal Blue Brand) -->
+    <color name="secondary_color">#5DA4BE</color>        <!-- Muted Teal Blue -->
+    <color name="secondary_light">#B2D7E7</color>        <!-- Soft Teal for surfaces/cards -->
+
+    <!-- pending action card bg -->
+    <color name="pending_actions">#393E46</color>
+    <color name="doc_analyzer">#393E46</color>
+
+    <!-- Surface/Background -->
+    <color name="surface">#1E1E1E</color>
+    <color name="background">#121212</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#B0BEC5</color>
+    <color name="text_on_primary">#0D0D0D</color>
+
+    <!-- Status Colors -->
+    <color name="success">#81C784</color>
+    <color name="error_alert">#EF5350</color>
+    <color name="warning">#FFB74D</color>
+
+    <!-- Divider/Stroke -->
+    <color name="divider_color">#2C2C2C</color>
+    <color name="stroke_color">#3D3D3D</color>
+
+    <!-- Utility -->
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+
+    <!-- Aliases -->
+    <color name="backgroundColor">#222831</color>
+    <color name="textColor">#FFFF</color>
+    <color name="textColorBotNav">#FFFF</color>
+
+    <!-- Quick Actions (Dark Mode Adaptation) -->
+    <color name="card1_bg">#393E46</color>   <!-- Lighter cyan -->
+    <color name="card2_bg">#393E46</color>   <!-- Softer green -->
+    <color name="card3_bg">#393E46</color>   <!-- Muted teal -->
+    <color name="card4_bg">#393E46</color>
+
+
+
+    <color name="icons_bg">#FFFFFF</color>
+    <color name="icons_bg_bot_nav">#FFFFFF</color>
+    <color name="bottom_nav">#393E46</color><!-- Teal Blue (Secondary Brand) -->
+    <color name="common_btn">#222831</color>
+
+</resources>

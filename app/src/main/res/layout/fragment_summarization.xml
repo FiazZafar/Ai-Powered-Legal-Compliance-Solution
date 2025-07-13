@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginHorizontal="16dp"
+    tools:context=".fragments.SummarizationFragment">
+
+    <TextView
+        android:id="@+id/resultLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Analysis Result"
+        android:textStyle="bold"
+        android:textColor="@color/primary_color"
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:background="@drawable/textview_border"
+        app:layout_constraintTop_toBottomOf="@id/resultLabel"
+        app:layout_constraintBottom_toTopOf="@+id/linearlayout1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginVertical="8dp">
+
+        <TextView
+            android:id="@+id/summarizeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:padding="12dp"
+            android:textIsSelectable="true"
+            android:text="Your result will appear here..."
+            android:lineSpacingExtra="4dp"/>
+    </ScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/linearlayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="8dp"
+        android:visibility="visible">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/uploadAgainBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Upload Again"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_common_bg"
+            android:layout_marginEnd="8dp"
+            android:padding="10dp"
+            android:textStyle="bold"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/scanAgainBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Scan Again"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_common_bg"
+            android:layout_marginStart="8dp"
+            android:padding="10dp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearlayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:background="#99FFFFFF">
+
+        <ProgressBar
+            android:id="@+id/progress_circular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/loadingContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Analyzing document..."
+            android:textColor="@color/black"
+            android:layout_marginTop="12dp"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
