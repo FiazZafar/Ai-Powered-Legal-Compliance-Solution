@@ -146,7 +146,9 @@ public class GenerateClauseFrag extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(),
                 android.R.layout.simple_spinner_dropdown_item,suggestionsList);
         autoCompleteTextView.setAdapter(adapter);
-//        autoCompleteTextView.setThreshold(0);
+        autoCompleteTextView.setThreshold(0);
+        autoCompleteTextView.setOnClickListener(view ->
+                autoCompleteTextView.showDropDown());
         binding.dynamicInputFields.addView(autoCompleteTextView);
     }
 
