@@ -8,6 +8,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.hardware.input.InputManager;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -147,6 +149,11 @@ public class GenerateClauseFrag extends Fragment {
                 android.R.layout.simple_spinner_dropdown_item,suggestionsList);
         autoCompleteTextView.setAdapter(adapter);
         autoCompleteTextView.setThreshold(0);
+        autoCompleteTextView.setOnFocusChangeListener((view , hasFocus)->{
+            if (hasFocus){
+                autoCompleteTextView.showDropDown();
+            }
+        });
         autoCompleteTextView.setOnClickListener(view ->
                 autoCompleteTextView.showDropDown());
         binding.dynamicInputFields.addView(autoCompleteTextView);
@@ -169,11 +176,18 @@ public class GenerateClauseFrag extends Fragment {
             }
         });
         binding.generateBtn.setOnClickListener(view -> {
+
+            InputMethodManager im = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            View currentView = requireActivity().getCurrentFocus();
+            if (currentView != null)
+                im.hideSoftInputFromWindow(view.getWindowToken(),0);
+
             Map<String,String> inputsValues = new LinkedHashMap<>();
             String clauseType = binding.selectTypeSpinner.getSelectedItem().toString();
             if (!clauseType.isEmpty()){
                 for (int i = 0; i < binding.dynamicInputFields.getChildCount() ; i++){
                     View child = binding.dynamicInputFields.getChildAt(i);
+
                     if(child instanceof EditText){
                         String labelOfInput = ((EditText) child).getHint().toString().trim();
                         String currentInput = ((EditText) child).getText().toString().trim();
