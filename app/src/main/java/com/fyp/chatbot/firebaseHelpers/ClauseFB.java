@@ -20,14 +20,11 @@ public class ClauseFB implements ClauseInterface {
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("FYP App");
     @Override
     public void saveClause(String userId, ClauseModel clauseModel, FirebaseCallback<Boolean> onSave) {
-        Log.d("ClauseMVVM", "saveClause: Fb started");
         myRef.child("Clause Node").push().setValue(clauseModel).addOnCompleteListener(task -> {
             if (task.isSuccessful()){
-                Log.d("ClauseMVVM", "saveClause: Success FB");
                 onSave.onComplete(true);
             }else {
                 onSave.onComplete(false);
-                Log.d("ClauseMVVM", "saveClause: Failed FB");
             }
         });
     }
@@ -35,7 +32,7 @@ public class ClauseFB implements ClauseInterface {
     @Override
     public void fetchClause(String userId, FirebaseCallback<List<ClauseModel>> onClauseList) {
         List<ClauseModel> myList = new ArrayList<>();
-        myRef.child("Clause_Node").addValueEventListener(new ValueEventListener() {
+        myRef.child("Clause Node").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 myList.clear();
@@ -61,7 +58,7 @@ public class ClauseFB implements ClauseInterface {
 
     @Override
     public void deleteClause(String userId, String clauseId, FirebaseCallback<Boolean> onDeleteClause) {
-        myRef.child("Clause_Node").removeValue().addOnCompleteListener(task -> {
+        myRef.child("Clause Node").removeValue().addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 onDeleteClause.onComplete(true);
             }else {
@@ -72,7 +69,7 @@ public class ClauseFB implements ClauseInterface {
 
     @Override
     public void deleteAll(String userId, FirebaseCallback<Boolean> onDeleteAll) {
-        myRef.child("Clause_Node").removeValue().addOnCompleteListener(task -> {
+        myRef.child("Clause Node").removeValue().addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 onDeleteAll.onComplete(true);
             }else {

@@ -17,6 +17,9 @@
         android:theme="@style/Theme.ChatBot"
         tools:targetApi="31">
         <activity
+            android:name=".activities.ClauseHistory"
+            android:exported="false" />
+        <activity
             android:name=".activities.DocAnalyzer"
             android:exported="false" />
         <activity

@@ -215,7 +215,7 @@
                 app:cardCornerRadius="12dp">
 
                 <LinearLayout
-                    android:id="@+id/generateTemplate"
+                    android:id="@+id/generateClause"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -234,7 +234,7 @@
                         android:paddingHorizontal="8dp"
                         android:textAlignment="center"
                         android:textSize="16sp"
-                        android:text="Generate\nContract"
+                        android:text="Generate\nClause"
                         android:textColor="@color/textColor"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

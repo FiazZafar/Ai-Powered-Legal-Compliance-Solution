@@ -15,6 +15,7 @@ import com.fyp.chatbot.repository.GeminiRepository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class GenerateClauseMVVM extends ViewModel {
     GeminiRepository geminiRepository = new GeminiRepository();
@@ -45,7 +46,7 @@ public class GenerateClauseMVVM extends ViewModel {
     public LiveData<Boolean> saveClause(String clauseType, String clauseTxt) {
         Log.d("ClauseMVVM", "saveClause: Started");
         MutableLiveData<Boolean> clauseStatus = new MutableLiveData<>();
-        ClauseModel clauseModel = new ClauseModel(clauseType,clauseTxt,System.currentTimeMillis());
+        ClauseModel clauseModel = new ClauseModel(UUID.randomUUID().toString(),clauseType,clauseTxt,System.currentTimeMillis());
         clauseInterface.saveClause("",clauseModel,onSavedClause -> {
             Log.d("ClauseMVVM", "saveClause: result is " + onSavedClause);
             clauseStatus.postValue(onSavedClause);

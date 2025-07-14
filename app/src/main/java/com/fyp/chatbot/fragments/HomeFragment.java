@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment {
 
 
         binding.complianceCheck.setOnClickListener(view2 -> {
-            getParentFragmentManager().beginTransaction().replace(R.id.container,new GenerateClauseFrag())
+            getParentFragmentManager().beginTransaction().replace(R.id.container,new ComplianceCheck())
                 .addToBackStack(null)
                 .commit();
         });
@@ -56,8 +56,12 @@ public class HomeFragment extends Fragment {
                 .addToBackStack(null)
                 .commit();
         });
-        binding.generateTemplate.setOnClickListener(view4 ->
-                startActivity(new Intent(requireContext(),ContractGenerate.class)));
-        return view;
+        binding.generateClause.setOnClickListener(view4 ->{
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.container, new GenerateClauseFrag())
+                    .addToBackStack(null)
+                    .commit();
+        });
+    return view;
     }
 }

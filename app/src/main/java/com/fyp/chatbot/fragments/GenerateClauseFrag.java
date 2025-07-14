@@ -122,7 +122,6 @@ public class GenerateClauseFrag extends Fragment {
 
     }
     private void addAutoCompleteField(String hint,@Nullable List<String> suggestionsList) {
-
         // Label TextView
         TextView label = new TextView(this.getContext());
         label.setText(hint);
@@ -201,9 +200,11 @@ public class GenerateClauseFrag extends Fragment {
                             return;
                         }
                         inputsValues.put(labelOfInput,currentInput);
+
                     }
                 }
             }
+
             clauseMVVM.setClause(clauseType,inputsValues).observe(getViewLifecycleOwner(),
                     onResult -> {
                 if (onResult != null){

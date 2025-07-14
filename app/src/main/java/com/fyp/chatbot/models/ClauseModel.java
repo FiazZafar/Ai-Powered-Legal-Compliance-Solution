@@ -5,14 +5,26 @@ public class ClauseModel {
     String clauseBody;
     long timeStamp;
 
+
+    String id;
+
     public ClauseModel() {
     }
 
-    public ClauseModel(String clauseTitle, String clauseBody, long timeStamp) {
+    public ClauseModel(String uid,String clauseTitle, String clauseBody, long timeStamp) {
+        this.id = uid;
         this.clauseTitle = clauseTitle;
         this.clauseBody = clauseBody;
         this.timeStamp = timeStamp;
     }
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getClauseTitle() {
         return clauseTitle;
     }
