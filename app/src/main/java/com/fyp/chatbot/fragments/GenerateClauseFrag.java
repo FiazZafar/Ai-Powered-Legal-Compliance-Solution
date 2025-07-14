@@ -43,7 +43,7 @@ public class GenerateClauseFrag extends Fragment {
 
     FragmentGenerateClauseBinding binding;
     GenerateClauseMVVM clauseMVVM;
-    String clauseTxt ;
+    String clauseTxt,clauseType;
     public GenerateClauseFrag() {}
 
     @Override
@@ -64,7 +64,6 @@ public class GenerateClauseFrag extends Fragment {
 
     private void renderDynamicInputFields(String clauseTypes) {
         binding.dynamicInputFields.removeAllViews();
-        
         switch (clauseTypes){
             case "Confidentiality Clause":
                 addAutoCompleteField("Parties Involved", Arrays.asList(
@@ -122,7 +121,6 @@ public class GenerateClauseFrag extends Fragment {
         }
 
     }
-
     private void addAutoCompleteField(String hint,@Nullable List<String> suggestionsList) {
 
         // Label TextView
@@ -158,7 +156,6 @@ public class GenerateClauseFrag extends Fragment {
                 autoCompleteTextView.showDropDown());
         binding.dynamicInputFields.addView(autoCompleteTextView);
     }
-
     private void initListners() {
         binding.clauseCopyBtn.setEnabled(true);
         binding.clauseCopyBtn.setOnClickListener(view -> {
@@ -168,12 +165,20 @@ public class GenerateClauseFrag extends Fragment {
                 ClipData data = ClipData.newPlainText("Clause",clauseTxt);
                 Log.d("ClipData", "initListners: ClipBoard after cliking copy btn:  " + data);
                 clipboardManager.setPrimaryClip(data);
-                binding.clauseCopyBtn.setText("Clause copied");
                 binding.clauseCopyBtn.setEnabled(false);
                 Toast.makeText(requireContext(), "Clause copied to clipboard", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(requireContext(), "Nothing to copy", Toast.LENGTH_SHORT).show();
             }
+        });
+        binding.saveClauseBtn.setOnClickListener(view -> {
+            clauseMVVM.saveClause(clauseType,clauseTxt).observe(getViewLifecycleOwner(),
+                    onClauseSave -> {
+            if (onClauseSave)
+                Toast.makeText(this.getContext(), "Clause Saved to list...", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this.getContext(), "Failed to Saved to list...", Toast.LENGTH_SHORT).show();
+            });
         });
         binding.generateBtn.setOnClickListener(view -> {
 
@@ -206,6 +211,7 @@ public class GenerateClauseFrag extends Fragment {
                     Log.d("MvvM", "initListners: result is true " + onResult);
                         binding.generateClauseResponse.setText(onResult);
                         binding.clauseCopyBtn.setVisibility(VISIBLE);
+                        binding.saveClauseBtn.setVisibility(VISIBLE);
                 }else {
                     Log.d("MvvM", "initListners: result is false" + onResult);
                 }
@@ -213,7 +219,6 @@ public class GenerateClauseFrag extends Fragment {
 
        });
     }
-
     private void selectClauseType() {
         List<String> clauseTypes = Arrays.asList(
                 "Confidentiality Clause",
@@ -228,13 +233,12 @@ public class GenerateClauseFrag extends Fragment {
         binding.selectTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                String clauseType = clauseTypes.get(position);
+                clauseType = clauseTypes.get(position);
                 renderDynamicInputFields(clauseType);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
     }

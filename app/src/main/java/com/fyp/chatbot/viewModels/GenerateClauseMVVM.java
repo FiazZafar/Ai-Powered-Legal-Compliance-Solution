@@ -8,6 +8,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.fyp.chatbot.apimodels.GeminiResponse;
+import com.fyp.chatbot.firebaseHelpers.ClauseFB;
+import com.fyp.chatbot.interfaces.ClauseInterface;
+import com.fyp.chatbot.models.ClauseModel;
 import com.fyp.chatbot.repository.GeminiRepository;
 
 import java.util.List;
@@ -15,8 +18,7 @@ import java.util.Map;
 
 public class GenerateClauseMVVM extends ViewModel {
     GeminiRepository geminiRepository = new GeminiRepository();
-
-
+    ClauseInterface clauseInterface = new ClauseFB();
     public LiveData<String> setClause(String clauseType , Map<String,String> inputValues){
 
         Log.d("MvvM", "setClause: Setup of clause started");
@@ -40,4 +42,14 @@ public class GenerateClauseMVVM extends ViewModel {
         return prompt.toString();
     }
 
+    public LiveData<Boolean> saveClause(String clauseType, String clauseTxt) {
+        Log.d("ClauseMVVM", "saveClause: Started");
+        MutableLiveData<Boolean> clauseStatus = new MutableLiveData<>();
+        ClauseModel clauseModel = new ClauseModel(clauseType,clauseTxt,System.currentTimeMillis());
+        clauseInterface.saveClause("",clauseModel,onSavedClause -> {
+            Log.d("ClauseMVVM", "saveClause: result is " + onSavedClause);
+            clauseStatus.postValue(onSavedClause);
+        });
+        return clauseStatus;
+    }
 }

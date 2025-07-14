@@ -70,21 +70,23 @@
             android:text="Clause Information"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:layout_marginTop="16dp"
             android:layout_marginHorizontal="16dp"
             android:textColor="@color/textColor"/>
 
     </LinearLayout>
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/generateBtn"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/Widget.AppCompat.Button"
         android:text="Generate Clause"
+        android:minWidth="200dp"
         android:textStyle="bold"
+        android:textColor="@color/textColor"
+        android:textSize="16sp"
+        android:paddingHorizontal="12dp"
         android:background="@drawable/btn_common_bg"
         android:layout_margin="16dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dynamicInputFields"/>
     <TextView
@@ -100,36 +102,55 @@
         app:layout_constraintTop_toBottomOf="@+id/generateBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-    <TextView
-        android:id="@+id/generateClauseResponse"
+    <LinearLayout
+        android:id="@+id/generateClauseResponseLinear"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/textview_border"
+        android:orientation="vertical"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
         android:elevation="2dp"
-        android:textColor="@color/textColor"
-        android:textStyle="normal"
-        android:textSize="14sp"
+        android:minHeight="150dp"
         android:padding="8dp"
-        android:hint="Your result will appear here..."
-        android:textIsSelectable="true"
-        android:minHeight="200dp"
+        android:background="@drawable/textview_border"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/generateClauseTxt"/>
+        app:layout_constraintTop_toBottomOf="@id/generateClauseTxt">
+        <TextView
+            android:id="@+id/generateClauseResponse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColor"
+            android:textStyle="normal"
+            android:textSize="14sp"
+            android:hint="Your result will appear here..."
+            android:textIsSelectable="true"/>
+        <ImageButton
+            android:id="@+id/clauseCopyBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/content_copy_24px"
+            android:background="@android:color/transparent"
+            app:tint="@color/icons_bg"
+            android:visibility="gone"
+            android:layout_gravity="bottom|end"/>
+    </LinearLayout>
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/clauseCopyBtn"
-        android:layout_width="0dp"
+        android:id="@+id/saveClauseBtn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="200dp"
         android:background="@drawable/btn_common_bg"
         style="@style/Widget.AppCompat.Button"
-        android:text="copy"
+        android:text="Save Clause"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:paddingHorizontal="12dp"
+        android:textColor="@color/textColor"
         android:layout_margin="16dp"
         android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/generateClauseResponse"/>
+        app:layout_constraintTop_toBottomOf="@+id/generateClauseResponseLinear"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
