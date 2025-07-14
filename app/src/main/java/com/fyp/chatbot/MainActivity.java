@@ -24,15 +24,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-//            getWindow().setNavigationBarDividerColor(this.getColor(R.color.divider_color));
-//            getWindow().setNavigationBarColor(this.getColor(R.color.bottom_nav));
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//                getWindow().setNavigationBarContrastEnforced(true);
-//            }
-//        }
-
 
         getIntents();
         binding.chatBotBtn.setOnClickListener(view ->
@@ -43,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this,ContractGenerate.class)));
         binding.profilePicConstraint.setOnClickListener(view ->
                     loadFragment(new ProfileScreen(),1));
-
         binding.analyzeContractContraints.setOnClickListener(view -> {
             startActivity(new Intent(this, DocAnalyzer.class));
         });
+
     }
 
     private void getIntents() {

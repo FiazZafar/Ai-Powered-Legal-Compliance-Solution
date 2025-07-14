@@ -29,6 +29,7 @@ public class GeminiRepository {
     }
 
     public LiveData<String> generateAnalysis(String prompt) {
+        Log.d("MvvM", "setClause: Sending to Ai");
         MutableLiveData<String> resultLiveData = new MutableLiveData<>();
 
         RequestBodyGemini requestBodyGemini = new RequestBodyGemini(
@@ -44,6 +45,7 @@ public class GeminiRepository {
                             try {
                                 String result = response.body().getCandidates().get(0)
                                         .getContent().getParts().get(0).getText();
+                                Log.d("MvvM", "setClause:Ai result is " + result);
                                 resultLiveData.postValue(result);
                             } catch (Exception e) {
                                 resultLiveData.postValue("Parsing error");

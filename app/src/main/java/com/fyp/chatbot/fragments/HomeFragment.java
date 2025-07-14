@@ -43,8 +43,8 @@ public class HomeFragment extends Fragment {
 
 
         binding.complianceCheck.setOnClickListener(view2 -> {
-            ComplianceCheck complianceCheck = new ComplianceCheck();
-            getParentFragmentManager().beginTransaction().replace(R.id.container,complianceCheck)
+
+            getParentFragmentManager().beginTransaction().replace(R.id.container,new GenerateClauseFrag())
                 .addToBackStack(null)
                 .commit();
         });
