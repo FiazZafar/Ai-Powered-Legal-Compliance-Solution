@@ -13,6 +13,7 @@ import com.fyp.chatbot.interfaces.ClauseInterface;
 import com.fyp.chatbot.models.ClauseModel;
 import com.fyp.chatbot.repository.GeminiRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -20,6 +21,7 @@ import java.util.UUID;
 public class GenerateClauseMVVM extends ViewModel {
     GeminiRepository geminiRepository = new GeminiRepository();
     ClauseInterface clauseInterface = new ClauseFB();
+    MutableLiveData<List<ClauseModel>> clauseList = new MutableLiveData<>();
     public LiveData<String> setClause(String clauseType , Map<String,String> inputValues){
 
         Log.d("MvvM", "setClause: Setup of clause started");
@@ -52,5 +54,19 @@ public class GenerateClauseMVVM extends ViewModel {
             clauseStatus.postValue(onSavedClause);
         });
         return clauseStatus;
+    }
+
+    public MutableLiveData<List<ClauseModel>> getClauseList() {
+        return clauseList;
+    }
+
+    public void setClauseList() {
+        clauseInterface.fetchClause("",onClauseList -> {
+            if (onClauseList != null){
+                clauseList.postValue(onClauseList);
+            }else {
+                clauseList.postValue(new ArrayList<>());
+            }
+        });
     }
 }

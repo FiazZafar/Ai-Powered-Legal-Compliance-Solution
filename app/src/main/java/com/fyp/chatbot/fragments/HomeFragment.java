@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.fyp.chatbot.ContractGenerate;
 import com.fyp.chatbot.MainActivity;
 import com.fyp.chatbot.R;
+import com.fyp.chatbot.activities.ClauseHistory;
 import com.fyp.chatbot.activities.DocAnalyzer;
 import com.fyp.chatbot.adapters.RecentDocAdapter;
 import com.fyp.chatbot.databinding.FragmentHomeBinding;
@@ -46,6 +47,9 @@ public class HomeFragment extends Fragment {
             getParentFragmentManager().beginTransaction().replace(R.id.container,new ComplianceCheck())
                 .addToBackStack(null)
                 .commit();
+        });
+        binding.savedClauses.setOnClickListener(view1 -> {
+            startActivity(new Intent(this.getContext(), ClauseHistory.class));
         });
         binding.summarizeReport.setOnClickListener(view3 -> {
             SummarizationFragment summarizationFragment = new SummarizationFragment();
