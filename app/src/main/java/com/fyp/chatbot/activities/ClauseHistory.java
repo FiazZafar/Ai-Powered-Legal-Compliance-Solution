@@ -37,7 +37,7 @@ public class ClauseHistory extends AppCompatActivity {
        clauseMVVM.setClauseList();
        clauseList = new ArrayList<>();
 
-       adapter = new ClauseHistoryAdapter(clauseList);
+       adapter = new ClauseHistoryAdapter(clauseList,this);
        initViews();
        initObservers();
 
