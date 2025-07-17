@@ -11,10 +11,10 @@
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="400dp"
         android:maxHeight="440dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ai_logo"
+        android:src="@drawable/intro_ai_court"
 
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,7 @@
         android:layout_height="0dp"
         android:background="@drawable/intro_background"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="440dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,56 +1,135 @@
 package com.fyp.chatbot.viewModels;
 
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.fyp.chatbot.interfaces.FirebaseCallback;
 import com.fyp.chatbot.repository.GeminiRepository;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class SummarizationViewModel extends ViewModel {
     private final GeminiRepository geminiRepository = new GeminiRepository();
+    private final MutableLiveData<String> aiResult = new MutableLiveData<>();
 
-    public LiveData<String> setAiResponse(String extractedText, String taskType) {
-        if (extractedText.length() > 10000) {
-            extractedText = extractedText.substring(0, 10000);
-            int lastPeriod = extractedText.lastIndexOf(".");
-            if (lastPeriod > 0) {
-                extractedText = extractedText.substring(0, lastPeriod + 1);
+    public MutableLiveData<String> getAiResult() {
+        return aiResult;
+    }
+
+    public void setAiResponse(String extractedText, String taskType) {
+        int chunkSize = 1000;
+        int totalChunks = (int) Math.ceil((double) extractedText.length() / chunkSize);
+        Map<Integer, String> orderedResponses = new ConcurrentHashMap<>();
+        AtomicInteger completedChunks = new AtomicInteger(0);
+        AtomicBoolean quotaExceeded = new AtomicBoolean(false);
+
+        for (int i = 0; i < totalChunks; i++) {
+            int start = i * chunkSize;
+            int end = Math.min(start + chunkSize, extractedText.length());
+            String chunk = extractedText.substring(start, end);
+            int chunkIndex = i;
+
+            if (quotaExceeded.get()) {
+                break;
+            }
+
+            String prompt;
+
+            switch (taskType) {
+                case "Contract Summarizer":
+                    prompt = createContractSummaryPrompt(chunkIndex + 1, totalChunks, chunk);
+                    break;
+                case "Risk Clause Detector":
+                    prompt = createRiskClausePrompt(chunk);
+                    break;
+                case "Confidentiality Clause Tracker":
+                    prompt = createConfidentialityClausePrompt(chunk);
+                    break;
+                default:
+                    prompt = createLegalAnalysisPrompt(chunk, "Pakistan");
+            }
+            geminiRepository.generateAnalysis(prompt, result -> {
+                // If quota error detected
+                if (result.contains("RESOURCE_EXHAUSTED")) {
+                    quotaExceeded.set(true);
+                    orderedResponses.put(chunkIndex, "⚠️ The AI service is currently unavailable " +
+                            "due to request limits. Please try again after some time.");
+                } else {
+                    orderedResponses.put(chunkIndex, result.trim());
+                }
+
+                if (completedChunks.incrementAndGet() == totalChunks || quotaExceeded.get()) {
+                    StringBuilder finalSummary = new StringBuilder();
+                    Set<Integer> seen = new HashSet<>();
+                    for (int j = 0; j < totalChunks; j++) {
+                        String part = orderedResponses.getOrDefault(j, "");
+                        if (!seen.contains(j) && !part.trim().equals("-") && !part.trim().isEmpty()) {
+                            finalSummary.append(part).append("\n\n");
+                            seen.add(j);
+                            if (quotaExceeded.get()) break; // Only include partial output if quota hit
+                        }
+                    }
+
+                    if (quotaExceeded.get()) {
+                        finalSummary.append("🔒 Parts were skipped due to AI usage limits." +
+                                " Please try again later.");
+                    }
+
+                    aiResult.postValue(finalSummary.toString().trim());
+                }
+            });
+        }
+    }
+
+
+    private String createContractSummaryPrompt(int partNumber,
+                                                    int totalParts, String chunkText) {
+        Map<String, String> sectionMap = new LinkedHashMap<>();
+        sectionMap.put("Document Type", "**Document Type**\n- Classify as Contract / Policy / Filing etc.");
+        sectionMap.put("Key Entities", "**Key Entities**\n- Parties, Jurisdiction");
+        sectionMap.put("Obligations", "✅ **Obligations / Rules**\n- Bullet-pointed duties");
+        sectionMap.put("Critical Dates", "⚠️ **Critical Dates**\n- Deadlines, renewal terms");
+        sectionMap.put("Notable Clauses", "🔍 **Notable Clauses**\n- Top 2–3 impactful sections");
+        sectionMap.put("Confidentiality", "🔒 **Confidentiality**\n- Scope, obligations");
+        sectionMap.put("Enforcement", "⚖️ **Penalties / Enforcement**\n- Non-compliance outcomes");
+        sectionMap.put("Jurisdiction", "🌐 **Jurisdiction**\n- Governing law, region");
+
+        StringBuilder includedSections = new StringBuilder();
+        for (Map.Entry<String, String> entry : sectionMap.entrySet()) {
+            if (chunkText.toLowerCase().contains(entry.getKey().toLowerCase())) {
+                includedSections.append(entry.getValue()).append("\n\n");
             }
         }
-        List<String> complianceAreas = Arrays.asList("Data Protection & Privacy (e.g., GDPR/CCPA)"
-                ,"Employment & Labor Compliance","Financial Disclosure Requirements",
-                "Anti-Bribery & Anti-Corruption","Healthcare or HIPAA Regulations",
-                "Tax & Regulatory Reporting","Environmental & Safety Standards");
-        String prompt;
-        switch (taskType) {
-            case "Contract Summarizer":
-                prompt = createContractSummaryPrompt(extractedText);
-                break;
-            case "Risk Clause Detector":
-                prompt = createRiskClausePrompt(extractedText);
-                break;
-            case "Confidentiality Clause Tracker":
-                prompt = createConfidentialityClausePrompt(extractedText);
-                break;
-            case "Jurisdiction Identifier":
-                prompt = createJurisdictionFinderPrompt(extractedText);
-                break;
-            case "Compliance Checker":
-                prompt = createComplianceCheckPrompt(extractedText, "Japan",complianceAreas);
-                break;
-            case "Obligation Extractor":
-                prompt = createObligationExtractorPrompt(extractedText);
-                break;
-            default:
-                prompt = createLegalAnalysisPrompt(extractedText, "Pakistan");
-                break;
+
+        if (includedSections.length() == 0) {
+            includedSections.append("📄 This section has general legal text. No specific clauses detected.\n");
         }
 
-        return geminiRepository.generateAnalysis(prompt);
+        return "**Legal Summary – Part " + partNumber + " of " + totalParts + "**\n\n" +
+                "Please analyze **only this part** of the document. Return a concise, formal summary using the structure below (if applicable).\n" +
+                "- Focus only on sections found in the text.\n" +
+                "- Do NOT repeat earlier parts or explain overall context.\n" +
+                "- Use markdown formatting.\n\n" +
+                includedSections.toString() +
+                "\n**Document Text**:\n" + chunkText;
     }
+
+
 
     private String createComplianceCheckPrompt(String extractedText, String jurisdiction, List<String> complianceAreas) {
         return "**Contract Compliance Audit Report** (" + jurisdiction + ")\n\n" +
@@ -72,80 +151,47 @@ public class SummarizationViewModel extends ViewModel {
                 "- Highlight gaps, ambiguities, or violations\n" +
                 "- Focus on clauses relevant to the listed compliance areas only\n\n" +
 
-                "**Contract for Review:**\n" + extractedText;
+                "**Contract for Review:**\n" ;
+    }
+    private String createRiskClausePrompt(String chunkText) {
+        return "Analyze the following excerpt from a legal or business document **silently and directly**. " +
+                "Your task is to identify potential **risks**, if any, based solely on the visible content below. " +
+                "Do **not** include any introductions, summaries, or numbered risk labels.\n\n" +
+
+                "### **Format strictly using bold labels (e.g., `**Risk Type**:`)**\n" +
+                "- Use the exact following format for each risk (repeat if needed):  \n\n" +
+                "**Risk Type**: [Financial / Legal / Operational / Compliance]  \n" +
+                "- **Excerpt**:  \n" +
+                " > Quote the exact sentence or clause that poses the risk.  \n" +
+                "- **Severity**: 🟥 High / 🟧 Medium / 🟩 Low — briefly justify  \n" +
+                "- **Suggested Mitigation**:  \n" +
+                "  - Short advice to reduce or address the risk  \n\n" +
+
+                "### **Risk Detection Guidelines:**\n" +
+                "- ✅ Vague or broad language: “reasonable efforts,” “as appropriate”  \n" +
+                "- ✅ One-sided obligations: unlimited indemnity, strong penalties  \n" +
+                "- ✅ Compliance gaps: GDPR, HIPAA, export laws, etc.  \n" +
+                "- ✅ Uncapped financial liabilities or hidden obligations  \n\n" +
+
+                "If no risks are identified, respond only with: `-`\n\n" +
+                "**Document Excerpt:**\n" + chunkText;
+    }
+    private String createConfidentialityClausePrompt(String chunkText) {
+        return "You are reviewing a section of a legal or business document. " +
+                "Identify any **confidentiality-related clauses** within the visible text below.\n\n" +
+                "### For each clause found, provide:\n" +
+                "- **Clause Number**: [If available, e.g., §5.3]\n" +
+                "- **Clause Text**: Exact wording mentioning confidentiality or non-disclosure\n" +
+                "- **Type**: `Unilateral`, `Mutual`, or `Non-standard`\n" +
+                "- **Scope**: What is considered confidential?\n" +
+                "- **Term Duration**: How long confidentiality obligations apply\n\n" +
+                "### Detection Guidelines:\n" +
+                "- Include terms like: *confidential*, *non-disclosure*, *proprietary information*\n" +
+                "- Ignore general boilerplate unless it has legal weight\n" +
+                "- ❗ If no clause is found in this section, respond with: `-` (just a dash — nothing else)\n\n" +
+                "**Visible Document Section to Analyze:**\n" + chunkText;
     }
 
-    private String createContractSummaryPrompt(String extractedText) {
-        return "**Generate a Structured Legal/Business Summary**  \n" +
-                "Analyze the uploaded document and provide a concise overview tailored to its content type.  \n" +
-                "\n" +
-                "### **Sections Required**  \n" +
-                "1. **Document Type**  \n" +
-                "   - Classify: `Contract` / `Policy` / `Regulatory Filing` / `Corporate Agreement` / `Other`.  \n" +
-                "   - Subtype (if applicable): e.g., \"NDA,\" \"Employment Policy,\" \"SEC Filing.\"  \n" +
-                "\n" +
-                "2. **Key Entities**  \n" +
-                "   - **Parties/Stakeholders**: Names, roles (e.g., \"Vendor: ABC Inc., Client: XYZ Corp\").  \n" +
-                "   - **Jurisdiction**: Governing law/region (if mentioned).  \n" +
-                "\n" +
-                "3. **Core Provisions**  \n" +
-                "   - ✅ **Obligations/Rules**: Bullet-pointed duties/requirements.  \n" +
-                "   - ⚠\uFE0F **Critical Dates**: Effective dates, deadlines, renewal terms.  \n" +
-                "   - \uD83D\uDD0D **Notable Clauses**: Highlight 2-3 most consequential sections.  \n" +
-                "\n" +
-                "4. **Risk & Compliance**  \n" +
-                "   - **Confidentiality**: Scope (if any).  \n" +
-                "   - **Penalties/Enforcement**: Non-compliance consequences.  \n" +
-                "\n" +
-                "### **Adaptive Rules**  \n" +
-                "- If the document lacks a section (e.g., no jurisdiction), omit it.  \n" +
-                "- Use **bold** headers, `•` for lists. Max **300 words**.  \n" +
-                "\n" +
-                "**Document Text**:  " + extractedText;
-
-    }
-    private String createRiskClausePrompt(String extractedText) {
-        return  "Identify and explain potential risks in the uploaded legal/business document.  \n" +
-                "\n" +
-                "### **Risk Findings**  \n" +
-                "**1. Risk Type**: [Financial / Legal / Operational / Compliance]  \n" +
-                "- **Location**: §3.2 (or \"Page 4, Paragraph 2\")  \n" +
-                "- **Excerpt**:  \n" +
-                "  > \"Party A assumes all liability for third-party claims.\"  \n" +
-                "- **Severity**: \uD83D\uDD34 High (Unlimited liability exposes Party A to significant financial risk.)  \n" +
-                "- **Suggested Mitigation**:  \n" +
-                "  - \"Cap liability at [X%] of contract value.\"  \n" +
-                "\n" +
-                "**2. Risk Type**: [Compliance]  \n" +
-                "- **Location**: Section 5.1  \n" +
-                "- **Excerpt**:  \n" +
-                "  > \"Data may be stored in any country.\"  \n" +
-                "- **Severity**: \uD83D\uDFE0 Medium (Violates GDPR territorial restrictions.)  \n" +
-                "- **Suggested Mitigation**:  \n" +
-                "  - \"Specify GDPR-compliant storage locations (e.g., EU servers).\"  \n" +
-                "\n" +
-                "### **Detection Logic**  \n" +
-                "- Flagged risks include:  \n" +
-                "  - ✅ **Ambiguous terms**: \"Reasonable efforts,\" \"as applicable.\"  \n" +
-                "  - ✅ **One-sided clauses**: Unconditional indemnification, excessive penalties.  \n" +
-                "  - ✅ **Compliance gaps**: Conflicts with GDPR, HIPAA, or industry standards.  \n" +
-                "\n" +
-                "**Document Text**:" + extractedText;
-    }
-    private String createConfidentialityClausePrompt(String extractedText) {
-        return "**Confidentiality Tracker Report**\n\n" +
-                "Analyze the contract and find all confidentiality-related clauses.\n\n" +
-                "### Output Format:\n" +
-                "- **Clause Number**: [If available]\n" +
-                "- **Clause Text**: [Full text mentioning confidentiality]\n" +
-                "- **Type**: [Unilateral / Mutual / Non-standard]\n" +
-                "- **Scope**: [What is considered confidential?]\n" +
-                "- **Term Duration**: [Time period confidentiality remains in force]\n\n" +
-                "**Detection Guidelines**:\n" +
-                "- Include terms like 'non-disclosure', 'confidential', 'proprietary information'\n" +
-                "- Ignore general definitions unless legally significant\n\n" +
-                "**Document to Analyze**:\n" + extractedText;
-    }
     private String createJurisdictionFinderPrompt(String extractedText) {
         return "**Jurisdiction Identification Report**\n\n" +
                 "Scan the contract and extract all jurisdiction-related details.\n\n" +
@@ -157,7 +203,7 @@ public class SummarizationViewModel extends ViewModel {
                 "**Instruction Notes**:\n" +
                 "- Search for 'governing law', 'venue', 'dispute resolution', etc.\n" +
                 "- Return null if jurisdiction is not defined\n\n" +
-                "**Document to Process**:\n" + extractedText;
+                "**Document to Process**:\n" ;
     }
     private String createObligationExtractorPrompt(String extractedText) {
         return "**Legal Obligations Extractor**\n\n" +
@@ -170,7 +216,7 @@ public class SummarizationViewModel extends ViewModel {
                 "**Instructions**:\n" +
                 "- Focus on words like 'shall', 'must', 'agrees to', etc.\n" +
                 "- Return at least 5 key obligations, if available\n\n" +
-                "**Contract**:\n" + extractedText;
+                "**Contract**:\n" ;
     }
     private String createLegalAnalysisPrompt(String extractedText, String jurisdiction) {
         return "**Professional Contract Analysis Report** (" + jurisdiction + ")\n\n" +
@@ -208,6 +254,6 @@ public class SummarizationViewModel extends ViewModel {
                 "**Analysis Protocol**:\n" +
                 "- Focus on clarity and completeness\n" +
                 "- Avoid compliance judgments\n" +
-                "- Contract Text Provided:\n" + extractedText;
+                "- Contract Text Provided:\n" ;
     }
 }

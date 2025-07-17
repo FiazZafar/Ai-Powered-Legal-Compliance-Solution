@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginTop="48dp"
-                android:src="@drawable/ai_logo"
+                android:src="@drawable/intro_ai_court"
                 android:layout_gravity="center"
                 />
 
@@ -42,15 +42,15 @@
                     android:layout_height="wrap_content"
                     android:text="Smart"
                     android:textColor="@color/primary_dark"
-                    android:textSize="45dp"
+                    android:textSize="45sp"
                     android:textStyle="bold"
                     android:layout_weight="0.50"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" Goval"
+                    android:text="Goval"
                     android:textColor="@color/textColor"
-                    android:textSize="40dp"
+                    android:textSize="40sp"
                     android:layout_weight="0.50"/>
             </LinearLayout>
 

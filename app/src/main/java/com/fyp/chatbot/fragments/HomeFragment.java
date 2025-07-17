@@ -15,6 +15,7 @@ import com.fyp.chatbot.MainActivity;
 import com.fyp.chatbot.R;
 import com.fyp.chatbot.activities.ClauseHistory;
 import com.fyp.chatbot.activities.DocAnalyzer;
+import com.fyp.chatbot.activities.DocsHistory;
 import com.fyp.chatbot.adapters.RecentDocAdapter;
 import com.fyp.chatbot.databinding.FragmentHomeBinding;
 import com.fyp.chatbot.models.Docoments;
@@ -38,13 +39,18 @@ public class HomeFragment extends Fragment {
         View view = binding.getRoot();
 
         docomentsList = new ArrayList<>();
+        docomentsList.add(new Docoments("doc.pdf",String.valueOf(System.currentTimeMillis())));
+        docomentsList.add(new Docoments("doc.pdf",String.valueOf(System.currentTimeMillis())));
+        docomentsList.add(new Docoments("doc.pdf",String.valueOf(System.currentTimeMillis())));
+        docomentsList.add(new Docoments("doc.pdf",String.valueOf(System.currentTimeMillis())));
 
-        binding.recyclerRecentDocs.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.recyclerRecentDocs.setLayoutManager(new LinearLayoutManager(this.getContext()));
         binding.recyclerRecentDocs.setAdapter(new RecentDocAdapter(docomentsList));
 
 
         binding.complianceCheck.setOnClickListener(view2 -> {
-            getParentFragmentManager().beginTransaction().replace(R.id.container,new ComplianceCheck())
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.container,new ComplianceCheck())
                 .addToBackStack(null)
                 .commit();
         });
@@ -55,6 +61,7 @@ public class HomeFragment extends Fragment {
             SummarizationFragment summarizationFragment = new SummarizationFragment();
             Bundle bundle = new Bundle();
             bundle.putBoolean("Summarize_Report",true);
+            bundle.putString("TaskType","Contract Summarizer");
             summarizationFragment.setArguments(bundle);
             getParentFragmentManager().beginTransaction().replace(R.id.container,summarizationFragment)
                 .addToBackStack(null)
@@ -66,6 +73,19 @@ public class HomeFragment extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
-    return view;
+        binding.complianceCheck.setOnClickListener(view5 -> {
+            SummarizationFragment summarizationFragment = new SummarizationFragment();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("Compliance_check",true);
+            bundle.putString("TaskType","Compliance Checker");
+            summarizationFragment.setArguments(bundle);
+            getParentFragmentManager().beginTransaction().replace(R.id.container,summarizationFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+        binding.viewAll.setOnClickListener(view6 -> {
+            startActivity(new Intent(this.getContext(), DocsHistory.class));
+        } );
+        return view;
     }
 }

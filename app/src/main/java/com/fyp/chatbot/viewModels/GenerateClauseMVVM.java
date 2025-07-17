@@ -22,14 +22,20 @@ public class GenerateClauseMVVM extends ViewModel {
     GeminiRepository geminiRepository = new GeminiRepository();
     ClauseInterface clauseInterface = new ClauseFB();
     MutableLiveData<List<ClauseModel>> clauseList = new MutableLiveData<>();
-    public LiveData<String> setClause(String clauseType , Map<String,String> inputValues){
+    MutableLiveData<String> generateClause = new MutableLiveData<>();
+
+    public MutableLiveData<String> getGenerateClause() {
+        return generateClause;
+    }
+
+    public void setClause(String clauseType , Map<String,String> inputValues){
 
         Log.d("MvvM", "setClause: Setup of clause started");
         String prompt = buildClausePrompt(clauseType,inputValues);
         if (!prompt.isEmpty()){
-            return geminiRepository.generateAnalysis(prompt);
+            geminiRepository.generateAnalysis(prompt,onResult -> generateClause.postValue(onResult));
         }
-        return null;
+
     }
     private String buildClausePrompt(String clauseType, Map<String,String> inputs) {
         StringBuilder prompt = new StringBuilder();

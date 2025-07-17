@@ -55,11 +55,25 @@ public class GenerateClauseFrag extends Fragment {
         binding.clauseCopyBtn.setVisibility(GONE);
         selectClauseType();
         initListners();
+        initObservers();
 
         return binding.getRoot();
     }
 
-
+    private void initObservers() {
+        clauseMVVM.getGenerateClause().observe(getViewLifecycleOwner(),
+                onResult -> {
+                    if (onResult != null){
+                        clauseTxt = onResult;
+                        Log.d("MvvM", "initListners: result is true " + onResult);
+                        binding.generateClauseResponse.setText(onResult);
+                        binding.clauseCopyBtn.setVisibility(VISIBLE);
+                        binding.saveClauseBtn.setVisibility(VISIBLE);
+                    }else {
+                        Log.d("MvvM", "initListners: result is false" + onResult);
+                    }
+                });
+    }
 
 
     private void renderDynamicInputFields(String clauseTypes) {
@@ -205,18 +219,7 @@ public class GenerateClauseFrag extends Fragment {
                 }
             }
 
-            clauseMVVM.setClause(clauseType,inputsValues).observe(getViewLifecycleOwner(),
-                    onResult -> {
-                if (onResult != null){
-                    clauseTxt = onResult;
-                    Log.d("MvvM", "initListners: result is true " + onResult);
-                        binding.generateClauseResponse.setText(onResult);
-                        binding.clauseCopyBtn.setVisibility(VISIBLE);
-                        binding.saveClauseBtn.setVisibility(VISIBLE);
-                }else {
-                    Log.d("MvvM", "initListners: result is false" + onResult);
-                }
-            });
+            clauseMVVM.setClause(clauseType,inputsValues);
 
        });
     }

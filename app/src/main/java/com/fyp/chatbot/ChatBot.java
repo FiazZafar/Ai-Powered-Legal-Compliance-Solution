@@ -55,12 +55,7 @@ public class ChatBot extends AppCompatActivity {
         markwon = Markwon.create(getApplicationContext());
 
 
-        binding.backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        binding.backBtn.setOnClickListener(view -> onBackPressed());
         LinearLayoutManager myManger = new LinearLayoutManager(this);
         myManger.setStackFromEnd(true);
         chatsAdapter = new ChatsAdapter(messagesList,markwon);

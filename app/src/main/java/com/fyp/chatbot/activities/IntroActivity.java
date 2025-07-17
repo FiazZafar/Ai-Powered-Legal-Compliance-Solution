@@ -20,7 +20,7 @@ public class IntroActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        if (mAuth.getCurrentUser() != null){
+        if (mAuth.getCurrentUser() == null){
             startActivity(new Intent(this, MainActivity.class));
         }else {
 

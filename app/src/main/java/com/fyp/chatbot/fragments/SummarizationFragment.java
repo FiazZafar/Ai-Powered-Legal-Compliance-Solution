@@ -24,11 +24,9 @@ import io.noties.markwon.Markwon;
 
 public class SummarizationFragment extends Fragment {
     private SummarizationViewModel viewModel;
-    private DocumentRepository repository = new DocumentRepository();
     private FragmentSummarizationBinding binding;
     private static final int PICK_PDF_REQUEST = 101;
-    private Boolean DocAnalyzer = false;
-    private Boolean summarizationReport = false;
+    private Boolean complianceCheck ,DocAnalyzer,summarizationReport= false;
     private String taskType;
     public SummarizationFragment() {}
 
@@ -37,18 +35,32 @@ public class SummarizationFragment extends Fragment {
         binding = FragmentSummarizationBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(this).get(SummarizationViewModel.class);
 
+
+        initObserver();
+
         if (getArguments() != null) {
-            DocAnalyzer = getArguments().getBoolean("DocAnalyzer", false);
-            summarizationReport = getArguments().getBoolean("Summarize_Report", false);
             taskType = getArguments().getString("TaskType");
         }
 
-        if (DocAnalyzer || summarizationReport) {
+        if (taskType != null && !taskType.isEmpty()){
             openFilePicker();
+        }else {
+            Toast.makeText(this.getContext(), "Empty operation", Toast.LENGTH_SHORT).show();
         }
 
 
         return binding.getRoot();
+    }
+
+    private void initObserver() {
+        viewModel.getAiResult().observe(getViewLifecycleOwner(), onResponse -> {
+            binding.linearlayout2.setVisibility(View.GONE);
+            if (onResponse != null) {
+                displayAnalysisResults(onResponse);
+            } else {
+                Toast.makeText(requireContext(), "Empty response", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void openFilePicker() {
@@ -71,24 +83,16 @@ public class SummarizationFragment extends Fragment {
     }
     private void handleSelectedDocument(Uri docUri) {
         binding.linearlayout2.setVisibility(View.VISIBLE);
+        DocumentRepository repository = new DocumentRepository();
+
 
         Executors.newSingleThreadExecutor().execute(() -> {
             try {
                 String extractedText = repository.extractText(requireContext(), docUri);
-
-                if (taskType != null && !taskType.isEmpty()) {
                     requireActivity().runOnUiThread(() -> {
-                        viewModel.setAiResponse(extractedText, taskType)
-                                .observe(getViewLifecycleOwner(), onResponse -> {
-                                    binding.linearlayout2.setVisibility(View.GONE);
-                                    if (onResponse != null) {
-                                        displayAnalysisResults(onResponse);
-                                    } else {
-                                        Toast.makeText(requireContext(), "Empty response", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                        viewModel.setAiResponse(extractedText, taskType);
                     });
-                }
+
             } catch (IOException e) {
                 requireActivity().runOnUiThread(() -> showError("File reading failed: " + e.getMessage()));
             }

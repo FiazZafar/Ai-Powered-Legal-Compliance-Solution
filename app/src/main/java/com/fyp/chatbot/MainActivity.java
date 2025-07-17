@@ -10,11 +10,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.cloudinary.android.MediaManager;
 import com.fyp.chatbot.activities.DocAnalyzer;
 import com.fyp.chatbot.databinding.ActivityMainBinding;
 import com.fyp.chatbot.fragments.HomeFragment;
 import com.fyp.chatbot.fragments.ProfileScreen;
 import com.fyp.chatbot.fragments.SummarizationFragment;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
@@ -26,6 +30,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         getIntents();
+        setUpCloudinary();
+
+
+
+
+
         binding.chatBotBtn.setOnClickListener(view ->
                 startActivity(new Intent(MainActivity.this, ChatBot.class)));
         binding.dashboardBtnConstraint.setOnClickListener(view ->
@@ -38,6 +48,20 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, DocAnalyzer.class));
         });
 
+    }
+
+    private void setUpCloudinary() {
+
+        Map<String, String> config = new HashMap<>();
+        config.put("cloud_name", "dpdvhy4fx");
+        config.put("api_key", "184645256189384");
+        config.put("api_secret", "1t6EsEAX623sS0ZU0u1ln4cjRd8");
+
+        try {
+            MediaManager.get();
+        } catch (IllegalStateException e) {
+            MediaManager.init(this, config);
+        }
     }
 
     private void getIntents() {
