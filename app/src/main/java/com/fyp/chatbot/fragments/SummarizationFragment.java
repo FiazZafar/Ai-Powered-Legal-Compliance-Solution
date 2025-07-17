@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,23 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
 import com.fyp.chatbot.databinding.FragmentSummarizationBinding;
 import com.fyp.chatbot.repository.DocumentRepository;
 import com.fyp.chatbot.repository.GeminiRepository;
 import com.fyp.chatbot.viewModels.SummarizationViewModel;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import io.noties.markwon.Markwon;
 
@@ -84,9 +97,9 @@ public class SummarizationFragment extends Fragment {
     private void handleSelectedDocument(Uri docUri) {
         binding.linearlayout2.setVisibility(View.VISIBLE);
         DocumentRepository repository = new DocumentRepository();
-
-
-        Executors.newSingleThreadExecutor().execute(() -> {
+        
+        Executors.newFixedThreadPool(2).execute(() -> {
+            saveDocToInternalStorage(docUri);
             try {
                 String extractedText = repository.extractText(requireContext(), docUri);
                     requireActivity().runOnUiThread(() -> {
@@ -94,11 +107,34 @@ public class SummarizationFragment extends Fragment {
                     });
 
             } catch (IOException e) {
-                requireActivity().runOnUiThread(() -> showError("File reading failed: " + e.getMessage()));
+                requireActivity().runOnUiThread(() -> showError("File reading failed: "
+                        + e.getMessage()));
             }
         });
     }
 
+    private void saveDocToInternalStorage(Uri uri) {
+        try {
+            InputStream inputStream = this.getContext().getContentResolver()
+                    .openInputStream(uri);
+            File docFile = new File(this.getContext().getFilesDir(),"Smart_Goval_"
+                    + taskType + "_"
+                    + System.currentTimeMillis() + ".pdf");
+            OutputStream outputStream = new FileOutputStream(docFile);
+            byte [] buffer = new byte[1024];
+            int length;
+            while ( (length = inputStream.read(buffer)) > 0){
+                outputStream.write(buffer,0,length);
+            }
+            Log.d("Storage", "saveDocToInternalStorage: File saved internally!");
+            inputStream.close();
+            outputStream.close();
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            Log.d("Storage", "saveDocToInternalStorage: Failed to copy file");
+        }
+    }
 
 
     private void displayAnalysisResults(String markdown) {

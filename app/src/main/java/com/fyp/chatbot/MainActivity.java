@@ -16,7 +16,9 @@ import com.fyp.chatbot.databinding.ActivityMainBinding;
 import com.fyp.chatbot.fragments.HomeFragment;
 import com.fyp.chatbot.fragments.ProfileScreen;
 import com.fyp.chatbot.fragments.SummarizationFragment;
+import com.fyp.chatbot.models.Docoments;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,4 +94,6 @@ public class MainActivity extends AppCompatActivity {
         }
         ft.commit();
     }
+
 }
+

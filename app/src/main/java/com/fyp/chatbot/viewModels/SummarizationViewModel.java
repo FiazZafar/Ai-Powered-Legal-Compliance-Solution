@@ -27,9 +27,15 @@ public class SummarizationViewModel extends ViewModel {
     private final GeminiRepository geminiRepository = new GeminiRepository();
     private final MutableLiveData<String> aiResult = new MutableLiveData<>();
 
+
     public MutableLiveData<String> getAiResult() {
         return aiResult;
     }
+
+
+    public void saveDocment() {
+    }
+
 
     public void setAiResponse(String extractedText, String taskType) {
         int chunkSize = 1000;
@@ -256,4 +262,5 @@ public class SummarizationViewModel extends ViewModel {
                 "- Avoid compliance judgments\n" +
                 "- Contract Text Provided:\n" ;
     }
+
 }

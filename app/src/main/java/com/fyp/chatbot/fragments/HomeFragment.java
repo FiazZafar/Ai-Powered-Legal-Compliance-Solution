@@ -9,25 +9,28 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.fyp.chatbot.ContractGenerate;
-import com.fyp.chatbot.MainActivity;
 import com.fyp.chatbot.R;
 import com.fyp.chatbot.activities.ClauseHistory;
-import com.fyp.chatbot.activities.DocAnalyzer;
 import com.fyp.chatbot.activities.DocsHistory;
 import com.fyp.chatbot.adapters.RecentDocAdapter;
 import com.fyp.chatbot.databinding.FragmentHomeBinding;
 import com.fyp.chatbot.models.Docoments;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding ;
     private List<Docoments> docomentsList;
+    private RecentDocAdapter adapter ;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -39,13 +42,11 @@ public class HomeFragment extends Fragment {
         View view = binding.getRoot();
 
         docomentsList = new ArrayList<>();
-        docomentsList.add(new Docoments("doc.pdf",String.valueOf(System.currentTimeMillis())));
-        docomentsList.add(new Docoments("doc.pdf",String.valueOf(System.currentTimeMillis())));
-        docomentsList.add(new Docoments("doc.pdf",String.valueOf(System.currentTimeMillis())));
-        docomentsList.add(new Docoments("doc.pdf",String.valueOf(System.currentTimeMillis())));
+        adapter = new RecentDocAdapter(docomentsList);
+        getSavedFiles();
 
         binding.recyclerRecentDocs.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        binding.recyclerRecentDocs.setAdapter(new RecentDocAdapter(docomentsList));
+        binding.recyclerRecentDocs.setAdapter(adapter);
 
 
         binding.complianceCheck.setOnClickListener(view2 -> {
@@ -84,8 +85,47 @@ public class HomeFragment extends Fragment {
                     .commit();
         });
         binding.viewAll.setOnClickListener(view6 -> {
-            startActivity(new Intent(this.getContext(), DocsHistory.class));
-        } );
+            startActivity(new Intent(this.getContext(), DocsHistory.class));} );
         return view;
     }
+
+    private void getSavedFiles() {
+        File fileDir = requireContext().getFilesDir();
+        File[] allFiles = fileDir.listFiles();
+
+        if (allFiles != null) {
+            for (File file : allFiles) {
+                if (file.getName().startsWith("Smart_Goval_") && file.getName().endsWith(".pdf")) {
+                    try {
+                        String namePart = file.getName()
+                                .replace("Smart_Goval_", "")
+                                .replace(".pdf", "");
+                        String [] parts = namePart.split("_");
+                        String name = parts[0];
+                        String timestampStr = parts[1];
+
+                        long timestamp = Long.parseLong(timestampStr);
+                        String formattedTime = formatTimestamp(timestamp);
+
+                        docomentsList.add(new Docoments(name, formattedTime));
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            // Notify adapter after loop
+            adapter.notifyDataSetChanged();
+            binding.recyclerRecentDocs.scrollToPosition(docomentsList.size() - 1);
+
+        } else {
+            Toast.makeText(requireContext(), "No files found", Toast.LENGTH_SHORT).show();
+        }
+    }
+    private String formatTimestamp(long timestamp) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault());
+        return sdf.format(new Date(timestamp));
+    }
+
 }

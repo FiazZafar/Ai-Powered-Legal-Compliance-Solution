@@ -48,6 +48,7 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/openPdfBtn"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/open_in_new_24px"
