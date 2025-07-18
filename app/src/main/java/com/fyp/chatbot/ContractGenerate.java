@@ -3,49 +3,38 @@ package com.fyp.chatbot;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.fyp.chatbot.ChatBot.API_KEY;
 
 import android.animation.ObjectAnimator;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.fyp.chatbot.apimodels.Content;
-import com.fyp.chatbot.apimodels.GeminiResponse;
-import com.fyp.chatbot.apimodels.Part;
-import com.fyp.chatbot.apimodels.RequestBodyGemini;
 import com.fyp.chatbot.databinding.ActivityContractGenerateBinding;
 import com.fyp.chatbot.fragments.PreviewContractFragment;
-import com.fyp.chatbot.helpers.RetrofitClient;
-import com.fyp.chatbot.interfaces.GeminiApi;
+import com.fyp.chatbot.viewModels.GenerateContractMVVM;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ContractGenerate extends AppCompatActivity {
 
     private ActivityContractGenerateBinding binding;
 
-    //Step 1 Creds
     private String party1Name,party2Name,party1Email,party2Email;
-    //Step 2 Creds
-    private String contractTitle,contractType,entityTypeA,entityTypeB,startDate,endDate,paymentTerms,jurisdication;
-    //Step 3 Creds
+    private String contractTitle,contractType,entityTypeA,entityTypeB,
+            startDate,endDate,paymentTerms,jurisdiction;
     private String generalTerms,specialClauses;
     private Calendar calendar;
     private int progressCounter;
     private ObjectAnimator animation;
+    GenerateContractMVVM contractMVVM ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +42,9 @@ public class ContractGenerate extends AppCompatActivity {
         binding = ActivityContractGenerateBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        contractMVVM = new ViewModelProvider(this).get(GenerateContractMVVM.class);
+
+        generateContract();
         progressCounter = 0;
         binding.stepProgress.setProgress(progressCounter);
         calendar = Calendar.getInstance();
@@ -83,12 +75,9 @@ public class ContractGenerate extends AppCompatActivity {
             int endYear = calendar.get(Calendar.YEAR);
 
             DatePickerDialog datePicker = new DatePickerDialog(this,
-                    new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                            endDate = endDay + "/" + endMonth + "/" + endYear;
-                            binding.step2Layout.endDate.setText(endDate);
-                        }
+                    (datePicker1, i, i1, i2) -> {
+                        endDate = endDay + "/" + endMonth + "/" + endYear;
+                        binding.step2Layout.endDate.setText(endDate);
                     },endYear,endMonth,endDay);
             datePicker.show();
         });
@@ -99,7 +88,12 @@ public class ContractGenerate extends AppCompatActivity {
             getStep3Data();
             getStep4Data();
         });
-        binding.step4Layout.generateButton.setOnClickListener(view -> generateContract());
+        binding.step4Layout.generateButton.setOnClickListener(view ->
+            contractMVVM.setContractResponse(jurisdiction,contractType
+                    ,contractTitle,party1Name,
+                    entityTypeA,party2Name
+                    ,entityTypeB,party1Email
+                    ,party2Email,startDate,endDate));
 
 
         binding.step3Layout.prevBtnStep3.setOnClickListener(view -> {
@@ -165,8 +159,8 @@ public class ContractGenerate extends AppCompatActivity {
         party1Email = binding.step1Layout.partyAEmail.getText().toString().trim();
         party2Email = binding.step1Layout.partyBEmail.getText().toString().trim();
 
-        if (party2Email.equals("") && party1Email.equals("")
-                && party1Name.equals("") && party2Name.equals("")){
+        if (party2Email.isEmpty() && party1Email.isEmpty()
+                && party1Name.isEmpty() && party2Name.isEmpty()){
             Toast.makeText(ContractGenerate.this, "fill all credentials...", Toast.LENGTH_SHORT).show();
         }else {
 
@@ -187,13 +181,13 @@ public class ContractGenerate extends AppCompatActivity {
         contractType = binding.step2Layout.contractTypeSpinner.getSelectedItem().toString().trim();
         entityTypeA = binding.step2Layout.entityTypeA.getSelectedItem().toString().trim();
         entityTypeB = binding.step2Layout.entityTypeB.getSelectedItem().toString().trim();
-        jurisdication = binding.step2Layout.endDate.getText().toString().trim();
+        jurisdiction = binding.step2Layout.endDate.getText().toString().trim();
         paymentTerms = binding.step2Layout.paymentTerms.getText().toString().trim();
 
-        if (!(!contractType.equals("") || !contractTitle.equals("") ||
-                !entityTypeA.equals("") || !entityTypeB.equals("") ||
-                !startDate.equals("") || !endDate.equals("")
-                || !jurisdication.equals("") )){
+        if (!(!contractType.isEmpty() || !contractTitle.isEmpty() ||
+                !entityTypeA.isEmpty() || !entityTypeB.isEmpty() ||
+                !startDate.isEmpty() || !endDate.isEmpty()
+                || !jurisdiction.isEmpty())){
             Toast.makeText(this, "fill all credentials...", Toast.LENGTH_SHORT).show();
         }else {
             progressCounter = progressCounter + 33;
@@ -211,12 +205,12 @@ public class ContractGenerate extends AppCompatActivity {
         generalTerms = binding.step3Layout.generalTerms.getText().toString().trim();
         specialClauses = binding.step3Layout.specialClauses.getText().toString().trim();
 
-        if(generalTerms.equals("") && specialClauses.equals("")){
+        if(generalTerms.isEmpty() && specialClauses.isEmpty()){
             Toast.makeText(this, "fill all credentials...", Toast.LENGTH_SHORT).show();
         }else{
             progressCounter = progressCounter + 33;
             animation = ObjectAnimator.ofInt(binding.stepProgress, "progress", binding.stepProgress.getProgress(), progressCounter);
-            animation.setDuration(600); // 600ms nice smooth animation
+            animation.setDuration(600);
             animation.setInterpolator(new AccelerateDecelerateInterpolator());
             animation.start();
             binding.viewFlipper.showNext();
@@ -235,7 +229,7 @@ public class ContractGenerate extends AppCompatActivity {
         binding.step4Layout.contractTypeTxt.setText(contractType);
         binding.step4Layout.startDateTxt.setText(startDate);
         binding.step4Layout.endDateTxt.setText(endDate);
-        binding.step4Layout.jurisdictionTxt.setText(jurisdication);
+        binding.step4Layout.jurisdictionTxt.setText(jurisdiction);
         binding.step4Layout.paymentTermsTxt.setText(paymentTerms);
 
         binding.step4Layout.generalTermsTxt.setText(generalTerms);
@@ -245,97 +239,20 @@ public class ContractGenerate extends AppCompatActivity {
 
 
     private void generateContract() {
-        String prompt = "Generate ONLY the contract text :\n\n" +
-                "Your ROLE: Senior Legal Counsel specializing in " + jurisdication + " contract law\n" +
-                "TASK: Draft a fully enforceable " + contractType + " compliant with " + jurisdication + " jurisdiction\n" +
-                "FORMAT: Industry-standard legal document with section headers\n\n" +
-                "with EXACTLY this structure:" +
-                "## PARTIES\n" +
-                "1. **" + party1Name + "** (" + entityTypeA + ")\n" +
-                "   - Contact: " + party1Email + "\n" +
-                "   - Legal Capacity: " + (entityTypeA.equals("Individual") ? "Natural Person" : "Corporate Entity") + "\n" +
-                "2. **" + party2Name + "** (" + entityTypeB + ")\n" +
-                "   - Contact: " + party2Email + "\n\n" +
+        contractMVVM.getContractResponse().observe(this,onResponseText -> {
 
-                "## KEY TERMS\n" +
-                "- Effective Date: " + (startDate.isEmpty() ? "[DATE]" : startDate) + "\n" +
-                "- Termination: " + (endDate.isEmpty() ? "As per Clause X" : endDate) + "\n" +
-                "- Governing Law: " + jurisdication + " (including all conflict of law provisions)\n\n" +
+            PreviewContractFragment generateContract = new PreviewContractFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("AI_RESPONSE", onResponseText);
+            generateContract.setArguments(bundle);
+            binding.container2.setVisibility(VISIBLE);
+            binding.stepProgress.setVisibility(GONE);
+            binding.viewFlipper.setVisibility(GONE);
 
-                "## DOCUMENT REQUIREMENTS\n" +
-                "1. STRUCTURE:\n" +
-                "   a. Title: '" + contractTitle + "' centered and bolded\n" +
-                "   b. Recitals (Whereas clauses)\n" +
-                "   c. Operative clauses with Arabic numerals (1, 2, 3)\n" +
-                "   d. Signature blocks with date lines\n\n" +
-
-                "2. MANDATORY CLAUSES:\n" +
-                "   - Definitions (capitalized terms)\n" +
-                "   - Representations & Warranties\n" +
-                "   - " + (contractType.contains("NDA") ?
-                "Confidentiality (including permitted disclosures and exclusions)" :
-                "Performance Obligations") + "\n" +
-                "   - Termination (including automatic renewal if applicable)\n" +
-                "   - Force Majeure\n" +
-                "   - Entire Agreement\n\n" +
-
-                "3. SPECIAL PROVISIONS:\n" +
-                "   - Include a severability clause\n" +
-                "   - Jurisdiction-specific boilerplate for " + jurisdication + "\n" +
-                "   - Electronic signature provision\n\n" +
-
-                "## STYLE GUIDE\n" +
-                "- Language: Plain English with precise legal terminology\n" +
-                "- Tense: Shall for obligations, May for rights\n" +
-                "- Defined terms: Capitalized and consistent\n" +
-                "- Avoid: Legalese where possible without losing enforceability";
-
-
-        // Call Gemini API
-        RetrofitClient retrofitClient = new RetrofitClient("https://generativelanguage.googleapis.com/");
-        GeminiApi geminiApi = retrofitClient.getRetrofit().create(GeminiApi.class);
-
-        List<Part> parts = new ArrayList<>();
-        parts.add(new Part(prompt));
-        List<Content> contents = new ArrayList<>();
-        contents.add(new Content(parts));
-        RequestBodyGemini requestBody = new RequestBodyGemini(contents);
-
-        Call<GeminiResponse> call = geminiApi.generateContent(API_KEY, requestBody);
-
-        call.enqueue(new Callback<GeminiResponse>() {
-            @Override
-            public void onResponse(Call<GeminiResponse> call, Response<GeminiResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    String responseText = response.body()
-                            .getCandidates()
-                            .get(0)
-                            .getContent()
-                            .getParts()
-                            .get(0)
-                            .getText();
-                    PreviewContractFragment generateContract = new PreviewContractFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("AI_RESPONSE", responseText);
-                    generateContract.setArguments(bundle);
-                    binding.container2.setVisibility(VISIBLE);
-                    binding.stepProgress.setVisibility(GONE);
-                    binding.viewFlipper.setVisibility(GONE);
-// Then add the fragment to your activity
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .add(R.id.container_2,generateContract)
-                            .commit();
-
-                } else {
-                    Toast.makeText(ContractGenerate.this, "Error generating contract", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GeminiResponse> call, Throwable t) {
-                Toast.makeText(ContractGenerate.this, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container_2, generateContract)
+                    .commit();
         });
     }
 

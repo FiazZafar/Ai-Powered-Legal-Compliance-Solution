@@ -2,19 +2,15 @@ package com.fyp.chatbot.fragments;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.hardware.input.InputManager;
 import android.os.Bundle;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,9 +28,7 @@ import com.fyp.chatbot.R;
 import com.fyp.chatbot.databinding.FragmentGenerateClauseBinding;
 import com.fyp.chatbot.viewModels.GenerateClauseMVVM;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;

@@ -1,17 +1,11 @@
 package com.fyp.chatbot.fragments;
 
-import android.content.ActivityNotFoundException;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.pdf.PdfDocument;
-import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.core.content.FileProvider;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
@@ -19,41 +13,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.Toast;
-
 import com.fyp.chatbot.databinding.FragmentPreviewContractBinding;
-import com.tom_roush.pdfbox.util.PDFHighlighter;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
-
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import io.noties.markwon.Markwon;
-
 public class PreviewContractFragment extends Fragment {
 
     private FragmentPreviewContractBinding binding;
     private String htmlContent ;
-
+    String contractText;
     public PreviewContractFragment() {
         // Required empty public constructor
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentPreviewContractBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
-        String contractText = getArguments().getString("AI_RESPONSE");
+        if (getArguments() != null){
+            contractText = getArguments().getString("AI_RESPONSE");
+        }
 
-        Markwon markwon = Markwon.create(getContext());
+        Markwon markwon = Markwon.create(requireContext());
         markwon.setMarkdown(binding.contractTextView,contractText);
 
 
@@ -74,6 +60,7 @@ public class PreviewContractFragment extends Fragment {
         return view;
     }
 
+    @SuppressLint("SimpleDateFormat")
     private String convertMarkdownToHtml(String markdown) {
         String body = HtmlRenderer.builder().build().render(Parser.builder().build().parse(markdown));
 
