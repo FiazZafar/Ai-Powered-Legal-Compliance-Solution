@@ -17,23 +17,21 @@
         android:theme="@style/Theme.ChatBot"
         tools:targetApi="31">
         <activity
+            android:name=".activities.SplashActivity"
+            android:exported="true" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+        <activity
             android:name=".activities.DocsHistory"
             android:exported="false" />
         <activity
             android:name=".activities.IntroActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".activities.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.SignupActivity"
-            android:exported="false" />
         <activity
             android:name=".activities.ClauseHistory"
             android:exported="false" />
@@ -59,10 +57,10 @@
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
-            <meta-data android:name="android.support.FILE_PROVIDER_PATH"
-                android:resource="@xml/file_paths"/>
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATH"
+                android:resource="@xml/file_paths" />
         </provider>
-
 
         <activity
             android:name=".ChatBot"

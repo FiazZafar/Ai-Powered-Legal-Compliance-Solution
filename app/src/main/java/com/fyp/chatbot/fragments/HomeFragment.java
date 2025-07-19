@@ -1,22 +1,31 @@
 package com.fyp.chatbot.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.fyp.chatbot.R;
 import com.fyp.chatbot.activities.ClauseHistory;
 import com.fyp.chatbot.activities.DocsHistory;
 import com.fyp.chatbot.adapters.RecentDocAdapter;
 import com.fyp.chatbot.databinding.FragmentHomeBinding;
 import com.fyp.chatbot.models.Docoments;
+import com.fyp.chatbot.viewModels.UserViewModel;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -31,9 +40,8 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding ;
     private List<Docoments> docomentsList;
     private RecentDocAdapter adapter ;
-    public HomeFragment() {
-        // Required empty public constructor
-    }
+    private UserViewModel userViewModel;
+    public HomeFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,14 +49,42 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
 
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel.fetchUser();
+
+        initObserver();
+
+
         docomentsList = new ArrayList<>();
         adapter = new RecentDocAdapter(docomentsList);
+
         getSavedFiles();
+        setListeners();
 
         binding.recyclerRecentDocs.setLayoutManager(new LinearLayoutManager(this.getContext()));
         binding.recyclerRecentDocs.setAdapter(adapter);
 
+        return view;
+    }
 
+    private void initObserver() {
+        userViewModel.getUser().observe(getViewLifecycleOwner(),onResult -> {
+
+            if(onResult != null){
+                String userName = onResult.getUserName();
+                String userImage = onResult.getImgUrl();
+                if (userName != null)
+                    binding.userName.setText(userName);
+                if (userImage != null)
+                    Glide.with(this.getContext()).load(userImage)
+                            .placeholder(R.drawable.account_circle_24px)
+                            .error(R.drawable.account_circle_24px)
+                            .into(binding.userProfile);
+            }
+        });
+    }
+
+    void setListeners(){
         binding.savedClauses.setOnClickListener(view1 -> {
             startActivity(new Intent(this.getContext(), ClauseHistory.class));
         });
@@ -59,8 +95,8 @@ public class HomeFragment extends Fragment {
             bundle.putString("TaskType","Contract Summarizer");
             summarizationFragment.setArguments(bundle);
             getParentFragmentManager().beginTransaction().replace(R.id.container,summarizationFragment)
-                .addToBackStack(null)
-                .commit();
+                    .addToBackStack(null)
+                    .commit();
         });
         binding.generateClause.setOnClickListener(view4 ->{
             getParentFragmentManager().beginTransaction()
@@ -80,41 +116,50 @@ public class HomeFragment extends Fragment {
         });
         binding.viewAll.setOnClickListener(view6 -> {
             startActivity(new Intent(this.getContext(), DocsHistory.class));} );
-        return view;
-    }
 
+
+    }
     private void getSavedFiles() {
+        docomentsList.clear(); // Clear old list
         File fileDir = requireContext().getFilesDir();
         File[] allFiles = fileDir.listFiles();
 
-        if (allFiles != null) {
+        if (allFiles != null && allFiles.length > 0) {
             for (File file : allFiles) {
                 if (file.getName().startsWith("Smart_Goval_") && file.getName().endsWith(".pdf")) {
                     try {
                         String namePart = file.getName()
                                 .replace("Smart_Goval_", "")
                                 .replace(".pdf", "");
-                        String [] parts = namePart.split("_");
-                        String name = parts[0];
-                        String timestampStr = parts[1];
+                        String[] parts = namePart.split("_");
+                        if (parts.length >= 2) {
+                            String name = parts[0];
+                            String timestampStr = parts[1];
 
-                        long timestamp = Long.parseLong(timestampStr);
-                        String formattedTime = formatTimestamp(timestamp);
+                            long timestamp = Long.parseLong(timestampStr);
+                            String formattedTime = formatTimestamp(timestamp);
 
-                        docomentsList.add(new Docoments(name, formattedTime));
-
+                            docomentsList.add(new Docoments(name, formattedTime));
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             }
 
-            // Notify adapter after loop
-            adapter.notifyDataSetChanged();
-            binding.recyclerRecentDocs.scrollToPosition(docomentsList.size() - 1);
+            if (docomentsList.isEmpty()) {
+                binding.recyclerRecentDocs.setVisibility(View.GONE);
+                binding.emptyView.setVisibility(View.VISIBLE);
+            } else {
+                binding.recyclerRecentDocs.setVisibility(View.VISIBLE);
+                binding.emptyView.setVisibility(View.GONE);
+                adapter.notifyDataSetChanged();
+                binding.recyclerRecentDocs.scrollToPosition(docomentsList.size() - 1);
+            }
 
         } else {
-            Toast.makeText(requireContext(), "No files found", Toast.LENGTH_SHORT).show();
+            binding.recyclerRecentDocs.setVisibility(View.GONE);
+            binding.emptyView.setVisibility(View.VISIBLE);
         }
     }
     private String formatTimestamp(long timestamp) {

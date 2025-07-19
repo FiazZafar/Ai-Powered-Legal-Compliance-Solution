@@ -1,6 +1,5 @@
 package com.fyp.chatbot.firebaseHelpers;
 
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -17,10 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClauseFB implements ClauseInterface {
-    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("FYP App");
+    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Smart_Goval");
     @Override
     public void saveClause(String userId, ClauseModel clauseModel, FirebaseCallback<Boolean> onSave) {
-        myRef.child("Clause Node").push().setValue(clauseModel).addOnCompleteListener(task -> {
+        myRef.child(userId).child("Clause Node").push().setValue(clauseModel).addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 onSave.onComplete(true);
             }else {
@@ -32,7 +31,7 @@ public class ClauseFB implements ClauseInterface {
     @Override
     public void fetchClause(String userId, FirebaseCallback<List<ClauseModel>> onClauseList) {
         List<ClauseModel> myList = new ArrayList<>();
-        myRef.child("Clause Node").addValueEventListener(new ValueEventListener() {
+        myRef.child(userId).child("Clause Node").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 myList.clear();
@@ -58,7 +57,7 @@ public class ClauseFB implements ClauseInterface {
 
     @Override
     public void deleteClause(String userId, String clauseId, FirebaseCallback<Boolean> onDeleteClause) {
-        myRef.child("Clause Node").removeValue().addOnCompleteListener(task -> {
+        myRef.child(userId).child("Clause Node").removeValue().addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 onDeleteClause.onComplete(true);
             }else {
@@ -69,7 +68,7 @@ public class ClauseFB implements ClauseInterface {
 
     @Override
     public void deleteAll(String userId, FirebaseCallback<Boolean> onDeleteAll) {
-        myRef.child("Clause Node").removeValue().addOnCompleteListener(task -> {
+        myRef.child(userId).child("Clause Node").removeValue().addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 onDeleteAll.onComplete(true);
             }else {

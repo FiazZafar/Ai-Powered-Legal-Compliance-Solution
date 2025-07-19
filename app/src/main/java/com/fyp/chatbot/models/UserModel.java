@@ -4,31 +4,28 @@ package com.fyp.chatbot.models;
 public class UserModel {
     String uId;
     String userName;
-    Long lastSeen;
     String imgUrl;
     String userEmail;
 
     public UserModel( String uId,
                       String uName,
                       String userEmail,
-                      String imgUrl,
-                      Long lastSeen) {
+                      String imgUrl) {
         this.userName = uName;
         this.uId = uId;
         this.userEmail = userEmail;
         this.imgUrl = imgUrl;
-        this.lastSeen = lastSeen;
     }
 
     public UserModel() {
     }
 
 
-    public String getuId() {
+    public String getUId() {
         return uId;
     }
 
-    public void setuId(String uId) {
+    public void setUId(String uId) {
         this.uId = uId;
     }
     public String getImgUrl() {

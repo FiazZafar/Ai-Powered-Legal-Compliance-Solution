@@ -1,17 +1,17 @@
 package com.fyp.chatbot.fragments;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.Context.MODE_PRIVATE;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
@@ -26,7 +26,7 @@ import com.cloudinary.android.callback.UploadCallback;
 import com.fyp.chatbot.MainActivity;
 import com.fyp.chatbot.R;
 import com.fyp.chatbot.databinding.FragmentProfileScreenBinding;
-import com.fyp.chatbot.viewModels.ProfileMVVM;
+import com.fyp.chatbot.viewModels.UserViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.ByteArrayOutputStream;
@@ -35,41 +35,38 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.Executors;
 
 public class ProfileScreen extends Fragment {
 
     private final int REQUEST_CODE_IMAGE = 101;
     FragmentProfileScreenBinding binding;
-    SharedPreferences.Editor editor;
+    UserViewModel userViewModel;
 
-
-    ProfileMVVM profileMVVM;
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentProfileScreenBinding.inflate(inflater, container, false);
-
-        profileMVVM = new ViewModelProvider(this).get(ProfileMVVM.class);
-        profileMVVM.setUserDetail();
-
-        SharedPreferences prefs = getContext().getSharedPreferences("ThemePrefs", MODE_PRIVATE);
-        editor = prefs.edit();
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
         initListeners();
-        setupUserProfile();
+        getPreferences();
         return binding.getRoot();
     }
-    private void setupUserProfile() {
-        SharedPreferences detailPrefs = getContext().getSharedPreferences("UserDetail", MODE_PRIVATE);
-        editor = detailPrefs.edit();
 
-        profileMVVM.getUserDetail().observe(getViewLifecycleOwner(),userDetail -> {
-            binding.userName.setText(userDetail.getUserName());
-            binding.userEmail.setText(userDetail.getUserEmail());
-            Glide.with(getContext()).load(userDetail.getImgUrl())
-                    .placeholder(R.drawable.account_circle_24px)
-                    .into(binding.userProfile);
+    private void getPreferences() {
+        userViewModel.getUser().observe(getViewLifecycleOwner(), onData -> {
+            String userName = onData.getUserName();
+            String userEmail = onData.getUserEmail();
+            String userImage = onData.getImgUrl();
+
+            if (userName != null)
+                binding.userName.setText(userName);
+            if (userImage != null)
+                Glide.with(this.getContext()).load(userImage)
+                        .placeholder(R.drawable.account_circle_24px)
+                        .error(R.drawable.account_circle_24px)
+                        .into(binding.userProfile);
+            if (userEmail != null)
+                binding.userEmail.setText(userEmail);
         });
     }
     private void initListeners() {
@@ -77,6 +74,7 @@ public class ProfileScreen extends Fragment {
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
             startActivityForResult(intent, REQUEST_CODE_IMAGE);
+            binding.linearlayout2.setVisibility(VISIBLE);
         });
         binding.logoutBtn.setOnClickListener(view -> {
 
@@ -93,7 +91,6 @@ public class ProfileScreen extends Fragment {
         if (requestCode == REQUEST_CODE_IMAGE && resultCode == RESULT_OK) {
             if (data != null) {
                 Uri uri = data.getData();
-                Glide.with(getContext()).load(uri).into(binding.userProfile);
                 uploadToCloudinary(uri);
             }
         }
@@ -114,8 +111,15 @@ public class ProfileScreen extends Fragment {
                         public void onSuccess(String requestId, Map resultData) {
                             Toast.makeText(getContext(), "uploaded", Toast.LENGTH_SHORT).show();
                             String userImage = resultData.get("secure_url").toString();
-
-                            profileMVVM.setUpdatedImageStatus(userImage);
+                            binding.linearlayout2.setVisibility(GONE);
+                            userViewModel.updateImage(userImage,onResult -> {
+                                if (onResult != null){
+                                    Glide.with(getContext()).load(userImage)
+                                            .placeholder(R.drawable.account_circle_24px)
+                                            .error(R.drawable.account_circle_24px)
+                                            .into(binding.userProfile);
+                                }
+                            });
                         }
 
                         @Override

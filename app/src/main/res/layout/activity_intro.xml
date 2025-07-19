@@ -7,48 +7,58 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
     tools:context=".activities.IntroActivity">
+  <FrameLayout
+      android:id="@+id/auth_container"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent" />
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:id="@+id/intro_constraint"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:maxHeight="440dp"
+        android:layout_height="300dp"
+        android:maxHeight="340dp"
         android:scaleType="fitCenter"
         android:src="@drawable/intro_ai_court"
-
-        app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-  <View
+
+    <View
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/intro_background"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="440dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
-  <TextView
-      android:id="@+id/textView3"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_marginHorizontal="16dp"
-      android:layout_marginTop="16dp"
-      android:text="Welcome to SmartGavel"
-      android:textAlignment="center"
-      android:textColor="@color/textColor"
-      android:textSize="24sp"
-      android:textStyle="bold"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="@+id/view"
-      app:layout_constraintVertical_bias="0.25" />
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Welcome to SmartGavel"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view"
+        app:layout_constraintVertical_bias="0.25" />
 
     <TextView
         android:id="@+id/textView4"
@@ -58,7 +68,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginTop="8dp"
         android:text="Your AI-powered legal and compliance partner — simplifying regulations, enhancing trust, and automating decisions."
-        android:textColor="@color/textColor"
+        android:textColor="@color/white"
         android:textSize="14sp"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -94,4 +104,5 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/textView4"/>
+  </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.credentials)
     implementation(libs.credentials.play.services.auth)
     implementation(libs.googleid)
+    implementation(libs.firebase.messaging)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -74,7 +75,6 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:4.9.3")
     implementation ("io.noties.markwon:core:4.6.2")
     implementation ("com.vladsch.flexmark:flexmark:0.62.2")
-//    implementation ("com.itextpdf:itext7-core:7.1.9")
     implementation ("com.google.android.material:material:1.9.0")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
 
@@ -82,5 +82,5 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation ("com.cloudinary:cloudinary-android:2.3.1")
-
+    implementation ("com.google.android.gms:play-services-auth:20.7.0")
 }

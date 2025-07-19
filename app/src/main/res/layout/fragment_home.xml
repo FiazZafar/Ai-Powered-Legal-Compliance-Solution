@@ -13,18 +13,24 @@
         android:paddingHorizontal="12dp"
         >
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userProfile"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ai_logo"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
         <TextView
-            android:layout_marginTop="16dp"
-            android:id="@+id/txtWelcome"
+            android:id="@+id/userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hi, Alex!"
             android:textColor="@color/textColor"
+            android:layout_marginStart="8dp"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/userProfile"
             app:layout_constraintTop_toTopOf="parent"/>
-
         <TextView
             android:id="@+id/txtSubtitle"
             android:layout_width="wrap_content"
@@ -33,18 +39,9 @@
             android:textColor="@color/textColor"
             android:textStyle="italic"
             android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@id/txtWelcome"
-            app:layout_constraintTop_toBottomOf="@id/txtWelcome"/>
+            app:layout_constraintStart_toStartOf="@id/userName"
+            app:layout_constraintTop_toBottomOf="@id/userName"/>
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            app:tint="@color/icons_bg"
-            android:src="@drawable/notifications_active_24px"
-            app:layout_constraintBottom_toBottomOf="@+id/txtSubtitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/txtWelcome" />
         <HorizontalScrollView
             android:id="@+id/horizontalTxt"
             android:layout_width="wrap_content"
@@ -300,7 +297,7 @@
                         android:layout_marginTop="8dp"
                         android:paddingHorizontal="8dp"
                         android:textAlignment="center"
-                        android:text="Saved\Clauses"
+                        android:text="Saved\nClauses"
                         android:textColor="@color/textColor"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -337,10 +334,37 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginBottom="8dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtRecentActivity" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/emptyView"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            app:cardElevation="2dp"
+            android:layout_rowWeight="1"
+            app:cardBackgroundColor="@color/backgroundColor"
+            app:cardCornerRadius="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtRecentActivity">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="8dp"
+
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:text="You haven’t analyzed any documents yet. Try Quick Actions now!"
+                    android:textColor="@color/textColor"/>
+        </com.google.android.material.card.MaterialCardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
