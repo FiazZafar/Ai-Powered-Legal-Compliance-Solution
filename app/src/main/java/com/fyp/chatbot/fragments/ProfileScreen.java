@@ -25,6 +25,7 @@ import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
 import com.fyp.chatbot.MainActivity;
 import com.fyp.chatbot.R;
+import com.fyp.chatbot.activities.IntroActivity;
 import com.fyp.chatbot.databinding.FragmentProfileScreenBinding;
 import com.fyp.chatbot.viewModels.UserViewModel;
 import com.google.firebase.auth.FirebaseAuth;
@@ -80,7 +81,7 @@ public class ProfileScreen extends Fragment {
 
             FirebaseAuth.getInstance().signOut();
 
-            startActivity(new Intent(getContext(), MainActivity.class));
+            startActivity(new Intent(getContext(), IntroActivity.class));
 
         });
     }

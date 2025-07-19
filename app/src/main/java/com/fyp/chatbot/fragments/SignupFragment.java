@@ -51,7 +51,7 @@ import java.util.concurrent.Executors;
 public class SignupFragment extends Fragment {
 
     private FragmentSignupBinding binding;
-    private String userName,userEmail,passwords,confirmPass;
+    private String userName,userEmail,passwords,confirmPass,userImage;
     private final int REQUEST_CODE_IMAGE = 101;
     private static final int RC_SIGN_IN = 1001;
 
@@ -212,7 +212,7 @@ public class SignupFragment extends Fragment {
             setErrorsOnViews();
             if (isValid){
                 binding.linearlayout2.setVisibility(VISIBLE);
-                signupMVVM.registerUser(userEmail,passwords,userName);
+                signupMVVM.registerUser(userEmail,passwords,userName,userImage);
                 editor.putString("userName",userName);
                 editor.putString("userEmail",userEmail);
                 editor.commit();
@@ -289,11 +289,9 @@ public class SignupFragment extends Fragment {
                                 public void onProgress(String requestId, long bytes, long totalBytes) {}
                                 @Override
                                 public void onSuccess(String requestId, Map resultData) {
-                                    String userImage = resultData.get("secure_url").toString();
+                                    userImage = resultData.get("secure_url").toString();
                                     signupMVVM.updateImage(userImage,onResult -> {
                                         if (onResult){
-                                            editor.putString("userImage",userImage);
-                                            editor.commit();
                                         }
                                     });
                                 }

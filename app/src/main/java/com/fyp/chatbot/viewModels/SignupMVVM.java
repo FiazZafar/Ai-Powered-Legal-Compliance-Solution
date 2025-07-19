@@ -34,10 +34,9 @@ public class SignupMVVM extends ViewModel {
             if (result){
                 String userId = FirebaseAuth.getInstance().getUid();
                 updateUser(userId,account.getDisplayName(),account.getEmail(),profile,onResult -> {
-                    if (onResult != null) {
-                        googleSignInStatus.postValue(result);
-                    }
                 });
+                googleSignInStatus.postValue(result);
+
             }
         });
     }
@@ -46,7 +45,7 @@ public class SignupMVVM extends ViewModel {
         return loginStatus;
     }
 
-    public void loginUser(String email, String password,String userImage,String userName) {
+    public void loginUser(String email,String password,String userImage,String userName) {
         signupInterface.loginUser(email, password, onResult -> {
                 if (onResult){
                     String userId = FirebaseAuth.getInstance().getUid();
@@ -58,13 +57,13 @@ public class SignupMVVM extends ViewModel {
     }
 
     public LiveData<Boolean> getRegistrationStatus() { return registrationStatus; }
-    public void registerUser(String email, String password,String userName) {
+    public void registerUser(String email, String password,String userName,String userImage) {
 
         signupInterface.signupUser(email, password, isSigned -> {
             if (isSigned) {
                 String userId = FirebaseAuth.getInstance().getUid();
 
-                updateUser(userId,userName,email,password,onDataSave -> {
+                updateUser(userId,userName,email,userImage,onDataSave -> {
                     if (onDataSave){
                         registrationStatus.postValue(true);
                     }else {

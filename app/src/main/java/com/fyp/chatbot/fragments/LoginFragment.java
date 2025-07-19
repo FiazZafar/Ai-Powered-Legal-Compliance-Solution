@@ -129,7 +129,7 @@ public class LoginFragment extends Fragment {
 
             if (isValid) {
                 binding.linearlayout2.setVisibility(View.VISIBLE);
-                signupMVVM.loginUser(userEmail, userPassword,userImage,userName);
+                signupMVVM.loginUser(userEmail,userPassword,userImage,userName);
             } else {
                 Toast.makeText(requireActivity(), "Invalid inputs...", Toast.LENGTH_SHORT).show();
             }
