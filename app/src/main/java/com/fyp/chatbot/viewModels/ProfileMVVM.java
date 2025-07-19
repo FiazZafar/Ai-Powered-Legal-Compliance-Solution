@@ -40,7 +40,7 @@ public class ProfileMVVM extends ViewModel {
         return updateImage;
     }
     public void setUpdatedImageStatus(String imageUrl){
-        userInterFace.setProfilePic(FirebaseAuth.getInstance().getUid(), imageUrl,onUpload -> {
+        userInterFace.setProfilePic("null", imageUrl,onUpload -> {
             if (onUpload) updateImage.setValue(onUpload);
         });
     }
@@ -48,7 +48,7 @@ public class ProfileMVVM extends ViewModel {
         return userDetail;
     }
     public void setUserDetail(){
-        userInterFace.fetchUserProfile(FirebaseAuth.getInstance().getUid(), user -> {
+        userInterFace.fetchUserProfile("null", user -> {
             userDetail.setValue(user);
         });
     }

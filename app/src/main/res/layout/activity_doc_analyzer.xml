@@ -8,14 +8,15 @@
     tools:context=".activities.DocAnalyzer">
 
     <ImageView
+        android:id="@+id/backBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/arrow_back_24px"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
         app:tint="@color/icons_bg"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="@+id/analyzeDocTitle"
+        app:layout_constraintBottom_toBottomOf="@id/analyzeDocTitle"/>
     <TextView
         android:id="@+id/analyzeDocTitle"
         android:layout_width="0dp"
@@ -31,78 +32,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
-    <TextView
-        android:id="@+id/fullAnalyzeTxt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Full Analyzer"
-        android:textColor="@color/textColor"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginTop="32dp"
-        android:layout_marginStart="16dp"
-        style="@style/Widget.AppCompat.TextView"
-        app:layout_constraintTop_toBottomOf="@+id/analyzeDocTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        />
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/analyzeDoc"
-        android:layout_width="0dp"
-        android:layout_height="120dp"
-        app:cardBackgroundColor="@color/card1_bg"
-        app:cardElevation="5dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginHorizontal="16dp"
-        app:cardCornerRadius="12dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fullAnalyzeTxt">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                app:tint="@color/icons_bg"
-                android:src="@drawable/docs_24px"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:layout_marginTop="8dp"
-                android:paddingHorizontal="8dp"
-                android:textAlignment="center"
-                android:text="Full Document Assessment"
-                android:textColor="@color/textColor"/>
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-    <TextView
-        android:id="@+id/individualAnalyzeTxt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Individual Analyzer"
-        android:textColor="@color/textColor"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        style="@style/Widget.AppCompat.TextView"
-        app:layout_constraintTop_toBottomOf="@+id/analyzeDoc"
-        app:layout_constraintStart_toStartOf="parent"
-        />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/analyzeDocRec"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginVertical="8dp"
+        android:layout_marginVertical="32dp"
         android:layout_marginHorizontal="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/individualAnalyzeTxt"/>
+        app:layout_constraintTop_toBottomOf="@+id/analyzeDocTitle"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

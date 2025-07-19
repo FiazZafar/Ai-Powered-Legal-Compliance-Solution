@@ -49,7 +49,6 @@ public class ProfileScreen extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentProfileScreenBinding.inflate(inflater, container, false);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).hide();
 
         profileMVVM = new ViewModelProvider(this).get(ProfileMVVM.class);
         profileMVVM.setUserDetail();
@@ -64,8 +63,6 @@ public class ProfileScreen extends Fragment {
     private void setupUserProfile() {
         SharedPreferences detailPrefs = getContext().getSharedPreferences("UserDetail", MODE_PRIVATE);
         editor = detailPrefs.edit();
-//        String image = detailPrefs.getString("userProfile","");
-
 
         profileMVVM.getUserDetail().observe(getViewLifecycleOwner(),userDetail -> {
             binding.userName.setText(userDetail.getUserName());
@@ -83,7 +80,6 @@ public class ProfileScreen extends Fragment {
         });
         binding.logoutBtn.setOnClickListener(view -> {
 
-            profileMVVM.setMyOnlineStatus(false);
             FirebaseAuth.getInstance().signOut();
 
             startActivity(new Intent(getContext(), MainActivity.class));

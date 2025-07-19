@@ -1,5 +1,6 @@
 package com.fyp.chatbot.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -37,6 +38,9 @@ public class DocAnalyzerAdapter extends RecyclerView.Adapter<DocAnalyzerAdapter.
             intent.putExtra("DocAnalyzer",true);
             intent.putExtra("TaskType", currentType);
             context.startActivity(intent);
+            if (context instanceof Activity){
+                ((Activity) context).finish();
+            }
         });
     }
 

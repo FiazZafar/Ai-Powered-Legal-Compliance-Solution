@@ -42,7 +42,7 @@ public class ChatBot extends AppCompatActivity {
     private Markwon markwon;
     List<String> legalKeywords;
     private Calendar calendar;
-    public static String API_KEY ="AIzaSyDaSlnvV51ChATz83NMtF8z4xSUIJo2S7w";
+    public static String API_KEY ="AIzaSyDdAJbie50GGw4J88RC9f19njzgy0f0jcw";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

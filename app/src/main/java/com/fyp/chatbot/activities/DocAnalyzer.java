@@ -27,5 +27,12 @@ public class DocAnalyzer extends AppCompatActivity {
 
         binding.analyzeDocRec.setLayoutManager(new GridLayoutManager(this,2));
         binding.analyzeDocRec.setAdapter(new DocAnalyzerAdapter(docList,this));
+
+        binding.backBtn.setOnClickListener(view -> onBackPressed());
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

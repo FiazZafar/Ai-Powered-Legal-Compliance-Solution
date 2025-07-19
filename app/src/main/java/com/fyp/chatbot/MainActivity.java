@@ -1,24 +1,17 @@
 package com.fyp.chatbot;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.cloudinary.android.MediaManager;
 import com.fyp.chatbot.activities.DocAnalyzer;
 import com.fyp.chatbot.databinding.ActivityMainBinding;
 import com.fyp.chatbot.fragments.HomeFragment;
 import com.fyp.chatbot.fragments.ProfileScreen;
 import com.fyp.chatbot.fragments.SummarizationFragment;
-import com.fyp.chatbot.models.Docoments;
-
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,10 +27,6 @@ public class MainActivity extends AppCompatActivity {
         getIntents();
         setUpCloudinary();
 
-
-
-
-
         binding.chatBotBtn.setOnClickListener(view ->
                 startActivity(new Intent(MainActivity.this, ChatBot.class)));
         binding.dashboardBtnConstraint.setOnClickListener(view ->
@@ -46,9 +35,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this,ContractGenerate.class)));
         binding.profilePicConstraint.setOnClickListener(view ->
                     loadFragment(new ProfileScreen(),1));
-        binding.analyzeContractContraints.setOnClickListener(view -> {
-            startActivity(new Intent(this, DocAnalyzer.class));
-        });
+        binding.analyzeContractContraints.setOnClickListener(view -> startActivity(new Intent(this, DocAnalyzer.class)));
 
     }
 
@@ -93,6 +80,11 @@ public class MainActivity extends AppCompatActivity {
             ft.replace(R.id.container,fragment);
         }
         ft.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
 }

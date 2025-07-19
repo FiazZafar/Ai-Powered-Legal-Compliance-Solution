@@ -49,12 +49,6 @@ public class HomeFragment extends Fragment {
         binding.recyclerRecentDocs.setAdapter(adapter);
 
 
-        binding.complianceCheck.setOnClickListener(view2 -> {
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.container,new ComplianceCheck())
-                .addToBackStack(null)
-                .commit();
-        });
         binding.savedClauses.setOnClickListener(view1 -> {
             startActivity(new Intent(this.getContext(), ClauseHistory.class));
         });
@@ -77,7 +71,7 @@ public class HomeFragment extends Fragment {
         binding.complianceCheck.setOnClickListener(view5 -> {
             SummarizationFragment summarizationFragment = new SummarizationFragment();
             Bundle bundle = new Bundle();
-            bundle.putBoolean("Compliance_check",true);
+//            bundle.putBoolean("Compliance_check",true);
             bundle.putString("TaskType","Compliance Checker");
             summarizationFragment.setArguments(bundle);
             getParentFragmentManager().beginTransaction().replace(R.id.container,summarizationFragment)

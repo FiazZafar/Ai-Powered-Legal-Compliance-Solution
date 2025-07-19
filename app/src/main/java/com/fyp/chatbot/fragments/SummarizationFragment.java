@@ -25,13 +25,10 @@ import com.fyp.chatbot.repository.GeminiRepository;
 import com.fyp.chatbot.viewModels.SummarizationViewModel;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import io.noties.markwon.Markwon;
 
@@ -39,7 +36,6 @@ public class SummarizationFragment extends Fragment {
     private SummarizationViewModel viewModel;
     private FragmentSummarizationBinding binding;
     private static final int PICK_PDF_REQUEST = 101;
-    private Boolean complianceCheck ,DocAnalyzer,summarizationReport= false;
     private String taskType;
     public SummarizationFragment() {}
 
@@ -61,6 +57,7 @@ public class SummarizationFragment extends Fragment {
             Toast.makeText(this.getContext(), "Empty operation", Toast.LENGTH_SHORT).show();
         }
 
+        binding.uploadAgainBtn.setOnClickListener(view -> openFilePicker());
 
         return binding.getRoot();
     }
@@ -126,13 +123,11 @@ public class SummarizationFragment extends Fragment {
             while ( (length = inputStream.read(buffer)) > 0){
                 outputStream.write(buffer,0,length);
             }
-            Log.d("Storage", "saveDocToInternalStorage: File saved internally!");
             inputStream.close();
             outputStream.close();
 
         }catch (Exception e) {
             e.printStackTrace();
-            Log.d("Storage", "saveDocToInternalStorage: Failed to copy file");
         }
     }
 
