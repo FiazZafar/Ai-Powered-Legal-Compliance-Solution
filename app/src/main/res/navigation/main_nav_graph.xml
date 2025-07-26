@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.fyp.chatbot.fragments.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_summarizationFragment"
+            app:destination="@id/summarizationFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_generateClauseFrag"
+            app:destination="@id/generateClauseFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileScreen"
+        android:name="com.fyp.chatbot.fragments.ProfileScreen"
+        android:label="ProfileScreen" />
+    <fragment
+        android:id="@+id/generateClauseFrag"
+        android:name="com.fyp.chatbot.fragments.GenerateClauseFrag"
+        android:label="fragment_generate_clause"
+        tools:layout="@layout/fragment_generate_clause" />
+
+    <fragment
+        android:id="@+id/summarizationFragment"
+        android:name="com.fyp.chatbot.fragments.SummarizationFragment"
+        android:label="fragment_summarization"
+        tools:layout="@layout/fragment_summarization" >
+        <argument android:name="Summarize_Report"
+            app:argType="boolean" />
+        <argument android:name="TaskType"
+            app:argType="string"/>
+    </fragment>
+
+</navigation>

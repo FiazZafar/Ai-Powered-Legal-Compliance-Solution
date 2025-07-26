@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fyp.chatbot.MainActivity;
+import com.fyp.chatbot.activities.MainActivity;
 import com.fyp.chatbot.R;
 
 import java.util.List;

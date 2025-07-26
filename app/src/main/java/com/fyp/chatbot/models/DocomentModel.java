@@ -1,10 +1,10 @@
 package com.fyp.chatbot.models;
 
-public class Docoments {
+public class DocomentModel {
     String docName;
     String analyzedTime;
 
-    public Docoments(String docName, String analyzedTime){
+    public DocomentModel(String docName, String analyzedTime){
         this.analyzedTime = analyzedTime;
         this.docName = docName;
     }

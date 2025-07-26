@@ -1,25 +1,23 @@
 package com.fyp.chatbot.viewModels;
 
-import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.fyp.chatbot.apimodels.GeminiResponse;
 import com.fyp.chatbot.firebaseHelpers.ClauseFB;
 import com.fyp.chatbot.interfaces.ClauseInterface;
 import com.fyp.chatbot.models.ClauseModel;
-import com.fyp.chatbot.repository.GeminiRepository;
+import com.fyp.chatbot.repository.GeminiRepo;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class GenerateClauseMVVM extends ViewModel {
-    GeminiRepository geminiRepository = new GeminiRepository();
+public class ClauseViewModel extends ViewModel {
+    GeminiRepo geminiRepo = new GeminiRepo();
     ClauseInterface clauseInterface = new ClauseFB();
     MutableLiveData<List<ClauseModel>> clauseList = new MutableLiveData<>();
     MutableLiveData<String> generateClause = new MutableLiveData<>();
@@ -33,7 +31,7 @@ public class GenerateClauseMVVM extends ViewModel {
         Log.d("MvvM", "setClause: Setup of clause started");
         String prompt = buildClausePrompt(clauseType,inputValues);
         if (!prompt.isEmpty()){
-            geminiRepository.generateAnalysis(prompt,onResult -> generateClause.postValue(onResult));
+            geminiRepo.generateAnalysis(prompt, onResult -> generateClause.postValue(onResult));
         }
 
     }

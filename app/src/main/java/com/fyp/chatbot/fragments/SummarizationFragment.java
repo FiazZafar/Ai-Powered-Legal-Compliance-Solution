@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +15,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.cloudinary.android.MediaManager;
-import com.cloudinary.android.callback.ErrorInfo;
-import com.cloudinary.android.callback.UploadCallback;
 import com.fyp.chatbot.databinding.FragmentSummarizationBinding;
-import com.fyp.chatbot.repository.DocumentRepository;
-import com.fyp.chatbot.repository.GeminiRepository;
-import com.fyp.chatbot.viewModels.SummarizationViewModel;
+import com.fyp.chatbot.repository.DocumentRepo;
+import com.fyp.chatbot.viewModels.DocumentsViewModel;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,7 +28,7 @@ import java.util.concurrent.Executors;
 import io.noties.markwon.Markwon;
 
 public class SummarizationFragment extends Fragment {
-    private SummarizationViewModel viewModel;
+    private DocumentsViewModel viewModel;
     private FragmentSummarizationBinding binding;
     private static final int PICK_PDF_REQUEST = 101;
     private String taskType;
@@ -42,7 +37,7 @@ public class SummarizationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentSummarizationBinding.inflate(inflater, container, false);
-        viewModel = new ViewModelProvider(this).get(SummarizationViewModel.class);
+        viewModel = new ViewModelProvider(this).get(DocumentsViewModel.class);
 
 
         initObserver();
@@ -93,7 +88,7 @@ public class SummarizationFragment extends Fragment {
     }
     private void handleSelectedDocument(Uri docUri) {
         binding.linearlayout2.setVisibility(View.VISIBLE);
-        DocumentRepository repository = new DocumentRepository();
+        DocumentRepo repository = new DocumentRepo();
         
         Executors.newFixedThreadPool(2).execute(() -> {
             saveDocToInternalStorage(docUri);

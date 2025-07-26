@@ -1,6 +1,6 @@
 package com.fyp.chatbot.models;
 
-public class Messages {
+public class MessagesModel {
     public final static String AI_RESPONSE = "Gemini";
     public final static String USER_MESSAGE = "Users";
 
@@ -16,7 +16,7 @@ public class Messages {
     }
 
     private String currentTime;
-    public Messages(String message, String message_type, String currentTime) {
+    public MessagesModel(String message, String message_type, String currentTime) {
         this.message = message;
         this.message_type = message_type;
         this.currentTime = currentTime;

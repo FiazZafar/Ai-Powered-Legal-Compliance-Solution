@@ -1,13 +1,10 @@
 package com.fyp.chatbot.fragments;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.Context.MODE_PRIVATE;
 import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -16,6 +13,9 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
 import android.text.InputType;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -27,10 +27,10 @@ import com.bumptech.glide.Glide;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
-import com.fyp.chatbot.MainActivity;
+import com.fyp.chatbot.activities.MainActivity;
 import com.fyp.chatbot.R;
 import com.fyp.chatbot.databinding.FragmentLoginBinding;
-import com.fyp.chatbot.viewModels.SignupMVVM;
+import com.fyp.chatbot.viewModels.SignupViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -50,7 +50,7 @@ public class LoginFragment extends Fragment {
 
     private FragmentLoginBinding binding;
     private String userEmail,userPassword,userName,userImage;
-    SignupMVVM signupMVVM;
+    SignupViewModel signupViewModel;
     private final int REQUEST_CODE_IMAGE = 101;
     private static final int RC_SIGN_IN = 1001;
 
@@ -59,7 +59,7 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentLoginBinding.inflate(inflater,container,false);
-        signupMVVM = new ViewModelProvider(this).get(SignupMVVM.class);
+        signupViewModel = new ViewModelProvider(this).get(SignupViewModel.class);
 
         visibilityListener();
         authListeners();
@@ -94,7 +94,7 @@ public class LoginFragment extends Fragment {
         });
     }
     private void initObservers() {
-        signupMVVM.getLoginStatus().observe(getViewLifecycleOwner(),onLogin->{
+        signupViewModel.getLoginStatus().observe(getViewLifecycleOwner(), onLogin->{
             binding.linearlayout2.setVisibility(GONE);
             if (onLogin){
                 Toast.makeText(this.getActivity(), "Login Successful...", Toast.LENGTH_SHORT).show();
@@ -106,7 +106,7 @@ public class LoginFragment extends Fragment {
         });
 
 
-        signupMVVM.getGoogleSignInStatus().observe(getViewLifecycleOwner(), isSuccess -> {
+        signupViewModel.getGoogleSignInStatus().observe(getViewLifecycleOwner(), isSuccess -> {
             if (isSuccess != null && isSuccess) {
 
                 Toast.makeText(getContext(), "Signed in with Google successfully!", Toast.LENGTH_SHORT).show();
@@ -129,22 +129,20 @@ public class LoginFragment extends Fragment {
 
             if (isValid) {
                 binding.linearlayout2.setVisibility(View.VISIBLE);
-                signupMVVM.loginUser(userEmail,userPassword,userImage,userName);
+                signupViewModel.loginUser(userEmail,userPassword,userImage,userName);
             } else {
                 Toast.makeText(requireActivity(), "Invalid inputs...", Toast.LENGTH_SHORT).show();
             }
         });
 
         binding.signUpBtn.setOnClickListener(view -> {
-            getParentFragmentManager().beginTransaction().
-                    replace(R.id.auth_container,new SignupFragment()).
-                    addToBackStack(null).
-                    commit();
+            NavController navController = Navigation.findNavController(view);
+            navController.navigate(R.id.signupFragment);
         });
         binding.forgetPasswordBtn.setOnClickListener(view -> {
             userEmail = binding.emailTxt.getText().toString().trim();
             if (!userEmail.isEmpty()) {
-                signupMVVM.forgetPassword(userEmail).observe(getViewLifecycleOwner(), isSuccess -> {
+                signupViewModel.forgetPassword(userEmail).observe(getViewLifecycleOwner(), isSuccess -> {
                     if (isSuccess) {
                         Toast.makeText(requireContext(), "Reset link sent! Check your email.", Toast.LENGTH_LONG).show();
                     } else {
@@ -156,7 +154,6 @@ public class LoginFragment extends Fragment {
             }
         });
     }
-
     private void visibilityListener() {
         binding.eyeVisibleconfirmBTn.setOnClickListener(view -> {
             if (binding.passwordTxt.getInputType() == (InputType.TYPE_CLASS_TEXT
@@ -177,8 +174,6 @@ public class LoginFragment extends Fragment {
 
 
     }
-
-
     private Boolean validateInputs(){
 
         // Email validation
@@ -234,7 +229,7 @@ public class LoginFragment extends Fragment {
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
 
-                signupMVVM.signInWithGoogle(account,account.getIdToken());
+                signupViewModel.signInWithGoogle(account,account.getIdToken());
             } catch (ApiException e) {
                 Toast.makeText(getContext(), "Google Sign-In failed", Toast.LENGTH_SHORT).show();
             }
@@ -255,7 +250,7 @@ public class LoginFragment extends Fragment {
                                 @Override
                                 public void onSuccess(String requestId, Map resultData) {
                                     userImage = resultData.get("secure_url").toString();
-                                    signupMVVM.updateImage(userImage,onResult -> {
+                                    signupViewModel.updateImage(userImage, onResult -> {
                                         if (onResult){
                                            binding.userProfile.setImageURI(uri);
                                         }

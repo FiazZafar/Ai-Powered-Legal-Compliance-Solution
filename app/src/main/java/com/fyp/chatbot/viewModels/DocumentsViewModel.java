@@ -4,7 +4,7 @@ package com.fyp.chatbot.viewModels;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.fyp.chatbot.repository.GeminiRepository;
+import com.fyp.chatbot.repository.GeminiRepo;
 
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -13,10 +13,9 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
-public class SummarizationViewModel extends ViewModel {
-    private final GeminiRepository geminiRepository = new GeminiRepository();
+public class DocumentsViewModel extends ViewModel {
+    private final GeminiRepo geminiRepo = new GeminiRepo();
     private final MutableLiveData<String> aiResult = new MutableLiveData<>();
 
 
@@ -64,7 +63,7 @@ public class SummarizationViewModel extends ViewModel {
                 default:
                     prompt = createObligationExtractorPrompt(chunk);
             }
-            geminiRepository.generateAnalysis(prompt, result -> {
+            geminiRepo.generateAnalysis(prompt, result -> {
                 // If quota error detected
                 if (result.contains("RESOURCE_EXHAUSTED")) {
                     quotaExceeded.set(true);

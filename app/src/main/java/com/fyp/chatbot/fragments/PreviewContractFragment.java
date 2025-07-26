@@ -24,15 +24,12 @@ public class PreviewContractFragment extends Fragment {
     private FragmentPreviewContractBinding binding;
     private String htmlContent ;
     String contractText;
-    public PreviewContractFragment() {
-        // Required empty public constructor
-    }
+    public PreviewContractFragment() {}
 
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentPreviewContractBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
         if (getArguments() != null){

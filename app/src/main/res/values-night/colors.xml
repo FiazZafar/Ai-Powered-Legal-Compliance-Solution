@@ -53,5 +53,6 @@
     <color name="icons_bg_bot_nav">#FFFFFF</color>
     <color name="bottom_nav">#393E46</color><!-- Teal Blue (Secondary Brand) -->
     <color name="common_btn">#222831</color>
+    <color name="ripple">#4DFFFFFF</color>
 
 </resources>

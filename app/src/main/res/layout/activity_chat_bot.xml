@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F7FA"
-    tools:context=".ChatBot">
+    tools:context=".activities.ChatBot">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topBarProfile"
@@ -72,7 +72,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <!-- Chat Messages -->
+    <!-- Chat MessagesModel -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatsRecycler"
         android:layout_width="0dp"

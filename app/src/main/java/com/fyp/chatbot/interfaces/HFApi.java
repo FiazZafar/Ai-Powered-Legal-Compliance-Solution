@@ -12,7 +12,7 @@ import retrofit2.http.POST;
 
 public interface HFApi {
     @Headers({
-            "Authorization: Bearer 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", // 🔥 Replace YOUR_HF_API_KEY properly
+            "Authorization: Bearer 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",
             "Content-Type: application/json"
     })
     @POST("models/google/flan-t5-xl")

@@ -1,7 +1,6 @@
-package com.fyp.chatbot;
+package com.fyp.chatbot.activities;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +14,7 @@ import com.fyp.chatbot.apimodels.RequestBodyGemini;
 import com.fyp.chatbot.databinding.ActivityChatBotBinding;
 import com.fyp.chatbot.helpers.RetrofitClient;
 import com.fyp.chatbot.interfaces.GeminiApi;
-import com.fyp.chatbot.models.Messages;
+import com.fyp.chatbot.models.MessagesModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,13 +28,11 @@ import io.noties.markwon.Markwon;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChatBot extends AppCompatActivity {
 
     List<Map<String,String>> chatHistory;
-    List<Messages> messagesList;
+    List<MessagesModel> messagesModelList;
     List<String> questionList;
     ChatsAdapter chatsAdapter;
     ActivityChatBotBinding binding;
@@ -48,7 +45,7 @@ public class ChatBot extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityChatBotBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        messagesList = new ArrayList<>();
+        messagesModelList = new ArrayList<>();
         chatHistory = new ArrayList<>();
         questionList = new ArrayList<>();
 
@@ -58,7 +55,7 @@ public class ChatBot extends AppCompatActivity {
         binding.backBtn.setOnClickListener(view -> onBackPressed());
         LinearLayoutManager myManger = new LinearLayoutManager(this);
         myManger.setStackFromEnd(true);
-        chatsAdapter = new ChatsAdapter(messagesList,markwon);
+        chatsAdapter = new ChatsAdapter(messagesModelList,markwon);
         binding.chatsRecycler.setAdapter(chatsAdapter);
         binding.chatsRecycler.setLayoutManager(myManger);
 
@@ -135,13 +132,13 @@ public class ChatBot extends AppCompatActivity {
                 String formattedDate = dateFormat.format(calendar.getTime());
                 question = question.substring(0, 1).toUpperCase(Locale.ROOT) + question.substring(1);
                 if (isLegalQuery) {
-                    addtoChat(question, Messages.USER_MESSAGE, formattedDate);
+                    addtoChat(question, MessagesModel.USER_MESSAGE, formattedDate);
                     chatHistory.add(Map.of("role", "user", "content", question));
                     generateText();  // Now safe to call
                 } else {
                     String illegalQuery = "I'm specialized in assisting with Legal and Compliance topics. How may I help you today?";
-                    addtoChat(question, Messages.USER_MESSAGE, formattedDate);
-                    addtoChat(illegalQuery, Messages.AI_RESPONSE, formattedDate);
+                    addtoChat(question, MessagesModel.USER_MESSAGE, formattedDate);
+                    addtoChat(illegalQuery, MessagesModel.AI_RESPONSE, formattedDate);
                 }
             }
             binding.questionTxt.setText("");
@@ -190,9 +187,9 @@ public class ChatBot extends AppCompatActivity {
                             .get(0)
                             .getText();
                     chatHistory.add(Map.of("role","assistant","content",reply));
-                    addtoChat(reply, Messages.AI_RESPONSE,formatedDate);
+                    addtoChat(reply, MessagesModel.AI_RESPONSE,formatedDate);
                 } else {
-                    addtoChat("Failed to get response.", Messages.AI_RESPONSE,formatedDate);
+                    addtoChat("Failed to get response.", MessagesModel.AI_RESPONSE,formatedDate);
                 }
             }
 
@@ -203,7 +200,7 @@ public class ChatBot extends AppCompatActivity {
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a",Locale.getDefault());
                 String formatedDate = dateFormat.format(calendar.getTime());
-                addtoChat("Error: " + t.getMessage(), Messages.AI_RESPONSE,formatedDate);
+                addtoChat("Error: " + t.getMessage(), MessagesModel.AI_RESPONSE,formatedDate);
             }
         });
     }
@@ -214,7 +211,7 @@ public class ChatBot extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                messagesList.add(new Messages(message,sentBY,currentTime));
+                messagesModelList.add(new MessagesModel(message,sentBY,currentTime));
                 chatsAdapter.notifyDataSetChanged();
                 binding.chatsRecycler.smoothScrollToPosition(chatsAdapter.getItemCount());
             }

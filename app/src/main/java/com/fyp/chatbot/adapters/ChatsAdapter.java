@@ -8,16 +8,17 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.fyp.chatbot.R;
-import com.fyp.chatbot.models.Messages;
+import com.fyp.chatbot.models.MessagesModel;
+
 import java.util.List;
 import io.noties.markwon.Markwon;
 
 public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> {
-    List<Messages> messagesList;
+    List<MessagesModel> messagesModelList;
     private Markwon markwon;
 
-    public ChatsAdapter(List<Messages> messagesList,Markwon markwon) {
-        this.messagesList = messagesList;
+    public ChatsAdapter(List<MessagesModel> messagesModelList, Markwon markwon) {
+        this.messagesModelList = messagesModelList;
         this.markwon = markwon;
     }
 
@@ -31,15 +32,15 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        Messages currentMessage = messagesList.get(position);
+        MessagesModel currentMessage = messagesModelList.get(position);
 
-        if (currentMessage.getMessage_type().equals(Messages.USER_MESSAGE)) {
+        if (currentMessage.getMessage_type().equals(MessagesModel.USER_MESSAGE)) {
             holder.userCardView.setVisibility(View.VISIBLE);
             holder.aiCardView.setVisibility(View.GONE);
             holder.userTextView.setText(currentMessage.getMessage());
             holder.aiTextView.setText(""); // clear AI text
             holder.sentTime.setText(currentMessage.getCurrentTime());
-        } else if (currentMessage.getMessage_type().equals(Messages.AI_RESPONSE)) {
+        } else if (currentMessage.getMessage_type().equals(MessagesModel.AI_RESPONSE)) {
             holder.aiCardView.setVisibility(View.VISIBLE);
             holder.userCardView.setVisibility(View.GONE);
             markwon.setMarkdown(holder.aiTextView,currentMessage.getMessage());
@@ -50,7 +51,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return messagesList.size();
+        return messagesModelList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

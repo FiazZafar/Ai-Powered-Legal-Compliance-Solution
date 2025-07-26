@@ -4,11 +4,11 @@ package com.fyp.chatbot.viewModels;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.fyp.chatbot.repository.GeminiRepository;
+import com.fyp.chatbot.repository.GeminiRepo;
 
-public class GenerateContractMVVM extends ViewModel {
+public class ContractViewModel extends ViewModel {
     MutableLiveData<String> contractResponse = new MutableLiveData<>();
-    GeminiRepository repository = new GeminiRepository();
+    GeminiRepo repository = new GeminiRepo();
 
     public MutableLiveData<String> getContractResponse() {
         return contractResponse;

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/homeTab"
+        android:title="Home"
+        android:icon="@drawable/home_24px"
+        android:iconTint="@color/icons_bg_bot_nav"/>
+    <item android:id="@+id/contractTab"
+        android:title="Contract"
+        android:icon="@drawable/post_add_24px"
+        android:iconTint="@color/icons_bg_bot_nav"/>
+    <item android:id="@+id/analyzerTab"
+        android:title="Analyzer"
+        android:icon="@drawable/docs_24px"
+        android:iconTint="@color/icons_bg_bot_nav"/>
+    <item android:id="@+id/profileTab"
+        android:title="Profile"
+        android:icon="@drawable/account_circle_24px"
+        android:iconTint="@color/icons_bg_bot_nav"/>
+</menu>

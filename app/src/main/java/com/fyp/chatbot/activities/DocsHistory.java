@@ -3,19 +3,13 @@ package com.fyp.chatbot.activities;
 import static android.view.View.GONE;
 
 import android.os.Bundle;
-import android.util.Log;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.fyp.chatbot.R;
 import com.fyp.chatbot.adapters.RecentDocAdapter;
 import com.fyp.chatbot.databinding.ActivityDocsHistoryBinding;
-import com.fyp.chatbot.models.Docoments;
+import com.fyp.chatbot.models.DocomentModel;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -27,7 +21,7 @@ import java.util.Locale;
 public class DocsHistory extends AppCompatActivity {
 
     ActivityDocsHistoryBinding binding;
-    private List<Docoments> docomentsList;
+    private List<DocomentModel> docomentModelList;
     private RecentDocAdapter adapter;
 
     @Override
@@ -37,8 +31,8 @@ public class DocsHistory extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 
-        docomentsList = new ArrayList<>();
-        adapter = new RecentDocAdapter(docomentsList);
+        docomentModelList = new ArrayList<>();
+        adapter = new RecentDocAdapter(docomentModelList);
 
         binding.recyclerRecentDocs.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerRecentDocs.setAdapter(adapter);
@@ -67,7 +61,7 @@ public class DocsHistory extends AppCompatActivity {
                         long timestamp = Long.parseLong(timestampStr);
                         String formattedTime = formatTimestamp(timestamp);
 
-                        docomentsList.add(new Docoments(name, formattedTime));
+                        docomentModelList.add(new DocomentModel(name, formattedTime));
 
                     } catch (Exception e) {
                         e.printStackTrace();

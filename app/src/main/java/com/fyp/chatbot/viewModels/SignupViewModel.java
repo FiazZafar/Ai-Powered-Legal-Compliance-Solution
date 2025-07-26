@@ -12,7 +12,7 @@ import com.fyp.chatbot.models.UserModel;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class SignupMVVM extends ViewModel {
+public class SignupViewModel extends ViewModel {
     private final SignupInterface signupInterface = new SignupFB();
     private final UserInterFace userInterFace = new UsersFB();
     private final MutableLiveData<Boolean> registrationStatus = new MutableLiveData<>();

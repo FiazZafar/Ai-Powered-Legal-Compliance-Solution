@@ -1,13 +1,13 @@
 package com.fyp.chatbot.models;
 
-public class Checklist {
+public class ChecklistModel {
     private int id;
     private String title;
     private String description;
     private String category;
 
     // Constructor
-    public Checklist(int id, String title, String description, String category) {
+    public ChecklistModel(int id, String title, String description, String category) {
         this.id = id;
         this.title = title;
         this.description = description;

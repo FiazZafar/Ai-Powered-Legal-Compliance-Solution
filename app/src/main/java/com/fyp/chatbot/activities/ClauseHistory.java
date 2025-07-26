@@ -4,20 +4,14 @@ import static android.view.View.GONE;
 
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.fyp.chatbot.R;
 import com.fyp.chatbot.adapters.ClauseHistoryAdapter;
-import com.fyp.chatbot.adapters.DocAnalyzerAdapter;
 import com.fyp.chatbot.databinding.ActivityClauseHistoryBinding;
 import com.fyp.chatbot.models.ClauseModel;
-import com.fyp.chatbot.viewModels.GenerateClauseMVVM;
+import com.fyp.chatbot.viewModels.ClauseViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,14 +20,14 @@ public class ClauseHistory extends AppCompatActivity {
 
     ActivityClauseHistoryBinding binding;
     List<ClauseModel> clauseList ;
-    GenerateClauseMVVM clauseMVVM;
+    ClauseViewModel clauseMVVM;
     ClauseHistoryAdapter adapter ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        binding = ActivityClauseHistoryBinding.inflate(getLayoutInflater());
        setContentView(binding.getRoot());
-       clauseMVVM = new ViewModelProvider(this).get(GenerateClauseMVVM.class);
+       clauseMVVM = new ViewModelProvider(this).get(ClauseViewModel.class);
        clauseMVVM.setClauseList();
        clauseList = new ArrayList<>();
 

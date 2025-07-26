@@ -2,7 +2,7 @@ package com.fyp.chatbot.fragments;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.fyp.chatbot.ChatBot.API_KEY;
+import static com.fyp.chatbot.activities.ChatBot.API_KEY;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -23,7 +23,7 @@ import com.fyp.chatbot.apimodels.RequestBodyGemini;
 import com.fyp.chatbot.databinding.FragmentComplianceCheckBinding;
 import com.fyp.chatbot.helpers.RetrofitClient;
 import com.fyp.chatbot.interfaces.GeminiApi;
-import com.fyp.chatbot.models.Checklist;
+import com.fyp.chatbot.models.ChecklistModel;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -44,7 +44,7 @@ public class ComplianceCheck extends Fragment {
 
     private List<String> industryList;
     private List<String> countryList;
-    private List<Checklist> checklists ;
+    private List<ChecklistModel> checklistModels;
     public ComplianceCheck() {
         // Required empty public constructor
     }
@@ -57,7 +57,7 @@ public class ComplianceCheck extends Fragment {
         binding = FragmentComplianceCheckBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
 
-        checklists = new ArrayList<>();
+        checklistModels = new ArrayList<>();
 
         countryList = Arrays.asList(
                 "United States",
@@ -120,7 +120,7 @@ public class ComplianceCheck extends Fragment {
 
         binding.complianceCheckLayout.complianceListRec.setLayoutManager(new LinearLayoutManager(requireContext(),
                 LinearLayoutManager.VERTICAL,false));
-        binding.complianceCheckLayout.complianceListRec.setAdapter(new ComplianceAdapter(checklists));
+        binding.complianceCheckLayout.complianceListRec.setAdapter(new ComplianceAdapter(checklistModels));
 
         binding.sendPromptBtn.setOnClickListener(view1 -> {
             String industry = binding.spinnerIndustry.getSelectedItem().toString();
@@ -271,18 +271,18 @@ public class ComplianceCheck extends Fragment {
             JsonObject object = new JsonParser().parse(jsonString).getAsJsonObject();
             JsonArray checklistArray = object.getAsJsonArray("checklist");
 
-            List<Checklist> newList = new ArrayList<>();
+            List<ChecklistModel> newList = new ArrayList<>();
             for (JsonElement item : checklistArray) {
                 JsonObject obj = item.getAsJsonObject();
-                newList.add(new Checklist(
+                newList.add(new ChecklistModel(
                         obj.get("id").getAsInt(),
                         obj.get("title").getAsString(),
                         obj.get("description").getAsString(),
                         obj.get("category").getAsString()
                 ));
             }
-            checklists.clear();
-            checklists.addAll(newList);
+            checklistModels.clear();
+            checklistModels.addAll(newList);
             binding.complianceCheckLayout.complianceListRec.getAdapter().notifyDataSetChanged();
         } catch (Exception e) {
             Log.e("PARSING_ERROR", "Failed at: " + result, e);

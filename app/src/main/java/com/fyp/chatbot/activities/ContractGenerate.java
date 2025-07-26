@@ -1,4 +1,4 @@
-package com.fyp.chatbot;
+package com.fyp.chatbot.activities;
 
 
 import static android.view.View.GONE;
@@ -14,9 +14,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.fyp.chatbot.R;
 import com.fyp.chatbot.databinding.ActivityContractGenerateBinding;
 import com.fyp.chatbot.fragments.PreviewContractFragment;
-import com.fyp.chatbot.viewModels.GenerateContractMVVM;
+import com.fyp.chatbot.viewModels.ContractViewModel;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -33,7 +34,7 @@ public class ContractGenerate extends AppCompatActivity {
     private Calendar calendar;
     private int progressCounter;
     private ObjectAnimator animation;
-    GenerateContractMVVM contractMVVM ;
+    ContractViewModel contractMVVM ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class ContractGenerate extends AppCompatActivity {
         binding = ActivityContractGenerateBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        contractMVVM = new ViewModelProvider(this).get(GenerateContractMVVM.class);
+        contractMVVM = new ViewModelProvider(this).get(ContractViewModel.class);
 
         generateContract();
         progressCounter = 0;

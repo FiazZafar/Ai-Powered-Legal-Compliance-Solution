@@ -17,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.text.InputType;
 import android.util.Patterns;
@@ -29,10 +31,10 @@ import com.bumptech.glide.Glide;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
-import com.fyp.chatbot.MainActivity;
+import com.fyp.chatbot.activities.MainActivity;
 import com.fyp.chatbot.R;
 import com.fyp.chatbot.databinding.FragmentSignupBinding;
-import com.fyp.chatbot.viewModels.SignupMVVM;
+import com.fyp.chatbot.viewModels.SignupViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -55,7 +57,7 @@ public class SignupFragment extends Fragment {
     private final int REQUEST_CODE_IMAGE = 101;
     private static final int RC_SIGN_IN = 1001;
 
-    SignupMVVM signupMVVM;
+    SignupViewModel signupViewModel;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
 
@@ -66,7 +68,7 @@ public class SignupFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentSignupBinding.inflate(inflater,container,false);
 
-        signupMVVM = new ViewModelProvider(this).get(SignupMVVM.class);
+        signupViewModel = new ViewModelProvider(this).get(SignupViewModel.class);
 
         preferences = getContext().getSharedPreferences("Smart_Goval_Prefs",MODE_PRIVATE);
         editor = preferences.edit();
@@ -195,11 +197,10 @@ public class SignupFragment extends Fragment {
     }
     private void authListeners() {
 
-        binding.loginBtn.setOnClickListener(view -> getParentFragmentManager().
-                beginTransaction().
-                replace(R.id.auth_container,new LoginFragment()).
-                addToBackStack(null).
-                commit());
+        binding.loginBtn.setOnClickListener(view -> {
+                    NavController navController = Navigation.findNavController(view);
+                    navController.navigate(R.id.loginFragment);
+                });
 
         binding.signUpBtn.setOnClickListener(view -> {
             // Get all input values
@@ -212,7 +213,7 @@ public class SignupFragment extends Fragment {
             setErrorsOnViews();
             if (isValid){
                 binding.linearlayout2.setVisibility(VISIBLE);
-                signupMVVM.registerUser(userEmail,passwords,userName,userImage);
+                signupViewModel.registerUser(userEmail,passwords,userName,userImage);
                 editor.putString("userName",userName);
                 editor.putString("userEmail",userEmail);
                 editor.commit();
@@ -224,7 +225,7 @@ public class SignupFragment extends Fragment {
 
     }
     void initObservers(){
-        signupMVVM.getRegistrationStatus().observe(getViewLifecycleOwner(),isDone -> {
+        signupViewModel.getRegistrationStatus().observe(getViewLifecycleOwner(), isDone -> {
             binding.linearlayout2.setVisibility(GONE);
             if (isDone){
                 startActivity(new Intent(getContext(), MainActivity.class));
@@ -234,7 +235,7 @@ public class SignupFragment extends Fragment {
             }
         });
 
-        signupMVVM.getGoogleSignInStatus().observe(getViewLifecycleOwner(), isSuccess -> {
+        signupViewModel.getGoogleSignInStatus().observe(getViewLifecycleOwner(), isSuccess -> {
             if (isSuccess != null && isSuccess) {
 
                 Toast.makeText(getContext(), "Signed in with Google successfully!", Toast.LENGTH_SHORT).show();
@@ -269,7 +270,7 @@ public class SignupFragment extends Fragment {
                 editor.putString("userEmail", email);
                 editor.putString("userImage",profile);
                 editor.commit();
-                signupMVVM.signInWithGoogle(account,account.getIdToken());
+                signupViewModel.signInWithGoogle(account,account.getIdToken());
             } catch (ApiException e) {
                 Toast.makeText(getContext(), "Google Sign-In failed", Toast.LENGTH_SHORT).show();
             }
@@ -290,7 +291,7 @@ public class SignupFragment extends Fragment {
                                 @Override
                                 public void onSuccess(String requestId, Map resultData) {
                                     userImage = resultData.get("secure_url").toString();
-                                    signupMVVM.updateImage(userImage,onResult -> {
+                                    signupViewModel.updateImage(userImage, onResult -> {
                                         if (onResult){
                                         }
                                     });

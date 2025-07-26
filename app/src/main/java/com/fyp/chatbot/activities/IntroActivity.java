@@ -1,17 +1,18 @@
 package com.fyp.chatbot.activities;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.cloudinary.android.MediaManager;
+import com.fyp.chatbot.R;
 import com.fyp.chatbot.databinding.ActivityIntroBinding;
-import com.fyp.chatbot.fragments.LoginFragment;
-import com.fyp.chatbot.fragments.SignupFragment;
 import com.google.firebase.FirebaseApp;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,13 +28,19 @@ public class IntroActivity extends AppCompatActivity {
 
         FirebaseApp.initializeApp(this);
         setUpCloudinary();
-        binding.signUpBtn.setOnClickListener(v -> {
-            loadFragment(new SignupFragment(),1);
-            binding.introConstraint.setVisibility(GONE);
 
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.auth_container);
+        NavController navController = navHostFragment.getNavController();
+
+        binding.signUpBtn.setOnClickListener(v -> {
+            binding.authContainer.setVisibility(VISIBLE);
+            navController.navigate(R.id.signupFragment);
+            binding.introConstraint.setVisibility(GONE);
         });
         binding.loginBtn.setOnClickListener(v -> {
-            loadFragment(new LoginFragment(),2);
+            binding.authContainer.setVisibility(VISIBLE);
+            navController.navigate(R.id.loginFragment);
             binding.introConstraint.setVisibility(GONE);
 
         });
@@ -51,27 +58,5 @@ public class IntroActivity extends AppCompatActivity {
         } catch (IllegalStateException e) {
             MediaManager.init(this, config);
         }
-    }
-    private void loadFragment(Fragment fragment, int flag) {
-        if (isFinishing() || isDestroyed()) return;
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//        ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-
-        int containerId = binding.authContainer.getId();
-        String tag = fragment.getClass().getSimpleName();
-
-        if (flag == 1) {
-            ft.add(containerId, fragment, tag);
-        } else if (flag == 2) {
-
-            ft.replace(containerId, fragment, tag);
-            ft.addToBackStack(tag);
-        } else if (flag == 3) {
-            ft.add(containerId, fragment, tag);
-            ft.addToBackStack(tag);
-        }
-
-        ft.commitAllowingStateLoss();
     }
 }

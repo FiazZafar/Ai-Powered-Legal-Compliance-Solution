@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 import com.fyp.chatbot.R;
 import com.fyp.chatbot.databinding.FragmentGenerateClauseBinding;
-import com.fyp.chatbot.viewModels.GenerateClauseMVVM;
+import com.fyp.chatbot.viewModels.ClauseViewModel;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -36,7 +36,7 @@ import java.util.Map;
 public class GenerateClauseFrag extends Fragment {
 
     FragmentGenerateClauseBinding binding;
-    GenerateClauseMVVM clauseMVVM;
+    ClauseViewModel clauseMVVM;
     String clauseTxt,clauseType;
     public GenerateClauseFrag() {}
 
@@ -44,7 +44,7 @@ public class GenerateClauseFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentGenerateClauseBinding.inflate(getLayoutInflater());
-        clauseMVVM = new ViewModelProvider(this).get(GenerateClauseMVVM.class);
+        clauseMVVM = new ViewModelProvider(this).get(ClauseViewModel.class);
 
         binding.clauseCopyBtn.setVisibility(GONE);
         selectClauseType();

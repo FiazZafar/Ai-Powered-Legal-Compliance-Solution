@@ -23,7 +23,6 @@ import com.bumptech.glide.Glide;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
-import com.fyp.chatbot.MainActivity;
 import com.fyp.chatbot.R;
 import com.fyp.chatbot.activities.IntroActivity;
 import com.fyp.chatbot.databinding.FragmentProfileScreenBinding;

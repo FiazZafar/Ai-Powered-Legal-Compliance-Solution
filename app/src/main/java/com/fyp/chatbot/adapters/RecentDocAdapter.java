@@ -16,18 +16,18 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fyp.chatbot.R;
-import com.fyp.chatbot.models.Docoments;
+import com.fyp.chatbot.models.DocomentModel;
 
 import java.io.File;
 import java.util.List;
 
 public class RecentDocAdapter extends RecyclerView.Adapter<RecentDocAdapter.ViewHolder> {
 
-    List<Docoments> docomentsList;
+    List<DocomentModel> docomentModelList;
     Context context ;
 
-    public RecentDocAdapter(List<Docoments> docoments){
-        this.docomentsList = docoments;
+    public RecentDocAdapter(List<DocomentModel> docoments){
+        this.docomentModelList = docoments;
     }
     @NonNull
     @Override
@@ -40,7 +40,7 @@ public class RecentDocAdapter extends RecyclerView.Adapter<RecentDocAdapter.View
     @Override
     public void onBindViewHolder(@NonNull RecentDocAdapter.ViewHolder holder, int position) {
 
-        Docoments doc = docomentsList.get(position);
+        DocomentModel doc = docomentModelList.get(position);
 
         holder.itemNameTxt.setText(doc.getDocName());
         holder.itemDateTxt.setText(doc.getAnalyzedTime());
@@ -72,7 +72,7 @@ public class RecentDocAdapter extends RecyclerView.Adapter<RecentDocAdapter.View
 
     @Override
     public int getItemCount() {
-        return docomentsList.size();
+        return docomentModelList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -1,12 +1,8 @@
 package com.fyp.chatbot.repository;
 
-import static com.fyp.chatbot.ChatBot.API_KEY;
-
-import android.util.Log;
+import static com.fyp.chatbot.activities.ChatBot.API_KEY;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.fyp.chatbot.apimodels.Content;
 import com.fyp.chatbot.apimodels.GeminiResponse;
@@ -18,17 +14,14 @@ import com.fyp.chatbot.interfaces.GeminiApi;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.concurrent.TimeUnit;
 
-import okhttp3.OkHttpClient;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-public class GeminiRepository {
+public class GeminiRepo {
     private final GeminiApi geminiApi;
 
-    public GeminiRepository() {
+    public GeminiRepo() {
 
         geminiApi = new RetrofitClient("https://generativelanguage.googleapis.com/")
 
