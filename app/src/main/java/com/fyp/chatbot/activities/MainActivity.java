@@ -23,18 +23,20 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        getIntents();
-        setUpCloudinary();
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.mainNavFrag);
         navController = navHostFragment.getNavController();
+
+
+        getIntents();
+        setUpCloudinary();
 
         binding.bottomNav.setOnItemSelectedListener(view -> {
             int itemId = view.getItemId();
             if (itemId == R.id.homeTab){
                 navController.navigate(R.id.homeFragment);
             }else if (itemId == R.id.analyzerTab){
-                navController.navigate(R.id.summarizationFragment);
+                startActivity(new Intent(this, DocAnalyzer.class));
             } else if (itemId == R.id.profileTab) {
                 navController.navigate(R.id.profileScreen);
             }else if (itemId == R.id.contractTab){
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
+
+        binding.chatBot.setOnClickListener(view -> startActivity(new Intent(this,ChatBot.class)));
     }
 
     private void setUpCloudinary() {
@@ -66,25 +70,11 @@ public class MainActivity extends AppCompatActivity {
         SummarizationFragment fragment = new SummarizationFragment();
         Bundle bundle = new Bundle();
 
-//        bundle.putBoolean("DocAnalyzer",isDocAnalyzer);
-//        bundle.putString("TaskType",taskType);
-//        fragment.setArguments(bundle);
-//        if (isDocAnalyzer)
-//            loadFragment(fragment,1);
-//        else
-//            loadFragment(new HomeFragment(),0);
-    }
+        bundle.putString("TaskType",taskType);
+        fragment.setArguments(bundle);
+        if (isDocAnalyzer)
+            navController.navigate(R.id.summarizationFragment,bundle);
 
-//    public void loadFragment(Fragment fragment, int flag){
-//        FragmentManager fm = getSupportFragmentManager();
-//        FragmentTransaction ft = fm.beginTransaction();
-//
-//        if (flag == 0){
-//            ft.add(R.id.container,fragment);
-//        }else {
-//            ft.replace(R.id.container,fragment);
-//        }
-//        ft.commit();
-//    }
+    }
 }
 

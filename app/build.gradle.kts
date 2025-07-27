@@ -1,4 +1,5 @@
 import com.android.build.api.dsl.ViewBinding
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -15,6 +16,12 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+
+        val localProperties = Properties().apply {
+            load(rootProject.file("local.properties").inputStream())
+        }
+        buildConfigField("String","Google_Api_Key",
+            localProperties.getProperty("GOOGLE_API_KEY") ?: "\"\"");
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -49,6 +56,7 @@ android {
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        buildConfig = true
     }
 }
 

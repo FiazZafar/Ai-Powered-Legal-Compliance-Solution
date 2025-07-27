@@ -12,7 +12,8 @@
     <color name="pending_actions">#F8EFEE</color>
     <color name="doc_analyzer">#EFF5F8</color>
 
-
+    <color name="sent_color">#0BAB9C</color>
+    <color name="receive_color">#0B90AB</color>
     <!-- Quick actions Bg -->
     <color name="card1_bg">#3EF0E0</color>
     <color name="card2_bg">#39E9FF</color>

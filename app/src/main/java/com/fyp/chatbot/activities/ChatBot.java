@@ -4,30 +4,22 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.fyp.chatbot.BuildConfig;
 import com.fyp.chatbot.adapters.ChatsAdapter;
-import com.fyp.chatbot.apimodels.Content;
-import com.fyp.chatbot.apimodels.GeminiResponse;
-import com.fyp.chatbot.apimodels.Part;
-import com.fyp.chatbot.apimodels.RequestBodyGemini;
 import com.fyp.chatbot.databinding.ActivityChatBotBinding;
-import com.fyp.chatbot.helpers.RetrofitClient;
-import com.fyp.chatbot.interfaces.GeminiApi;
 import com.fyp.chatbot.models.MessagesModel;
+import com.fyp.chatbot.viewModels.ChatBotViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
 import io.noties.markwon.Markwon;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ChatBot extends AppCompatActivity {
 
@@ -36,20 +28,25 @@ public class ChatBot extends AppCompatActivity {
     List<String> questionList;
     ChatsAdapter chatsAdapter;
     ActivityChatBotBinding binding;
+    ChatBotViewModel viewModel;
     private Markwon markwon;
     List<String> legalKeywords;
     private Calendar calendar;
-    public static String API_KEY ="AIzaSyDdAJbie50GGw4J88RC9f19njzgy0f0jcw";
+    public static String API_KEY = BuildConfig.Google_Api_Key;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityChatBotBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        viewModel = new ViewModelProvider(this).get(ChatBotViewModel.class);
+
         messagesModelList = new ArrayList<>();
         chatHistory = new ArrayList<>();
         questionList = new ArrayList<>();
 
         markwon = Markwon.create(getApplicationContext());
+
+        generateText();
 
 
         binding.backBtn.setOnClickListener(view -> onBackPressed());
@@ -59,87 +56,38 @@ public class ChatBot extends AppCompatActivity {
         binding.chatsRecycler.setAdapter(chatsAdapter);
         binding.chatsRecycler.setLayoutManager(myManger);
 
-        chatHistory.add(Map.of("role","user","content","hi"));
-
-        legalKeywords = Arrays.asList(
-                "law",
-                "legal",
-                "compliance",
-                "contract",
-                "agreement",
-                "regulation",
-                "policy",
-                "terms and conditions",
-                "privacy",
-                "privacy policy",
-                "audit",
-                "governance",
-                "risk management",
-                "intellectual property",
-                "copyright",
-                "patent",
-                "trademark",
-                "dispute",
-                "litigation",
-                "arbitration",
-                "employment law",
-                "labor law",
-                "data protection",
-                "gdpr",
-                "cybersecurity compliance",
-                "business law",
-                "corporate law",
-                "consumer protection",
-                "compliance report",
-                "ethics",
-                "code of conduct",
-                "whistleblower",
-                "anti-bribery",
-                "anti-corruption",
-                "financial compliance",
-                "tax law",
-                "environmental compliance",
-                "health and safety regulations",
-                "regulatory compliance",
-                "sanctions",
-                "licensing",
-                "disclosure",
-                "due diligence",
-                "nda",
-                "non-disclosure agreement",
-                "service level agreement",
-                "sla",
-                "breach of contract",
-                "liability",
-                "terms of service"
-        );
-
-
+        chatHistory.add(Map.of(
+                "role", "user",
+                "content", "You are a professional legal and compliance assistant. Follow these rules strictly:\n\n" +
+                        "1. Never initiate conversation or provide unsolicited greetings\n" +
+                        "2. Only respond when explicitly asked a question\n" +
+                        "3. - Respond only with: \"I specialize in legal matters including [random 2 topics " +
+                        "from: contract law, data privacy," +
+                        " compliance regulations, intellectual property etc]. Please ask about these.\"\n" +
+                        "4. For legal/compliance questions:\n" +
+                        "   - Provide concise, professional answers\n" +
+                        "   - Use bullet points for complex information\n" +
+                        "   - Cite relevant laws/regulations when applicable\n" +
+                        "   - Never provide personal legal advice\n" +
+                        "5. For non-legal questions:\n" +
+                        "   - Respond only with: \"I specialize in legal matters including [random 2 topics from: contract law, data privacy," +
+                        " compliance regulations, intellectual property etc]. Please ask about these.\"\n" +
+                        "6. Format all responses without introductory phrases like \"Hello\" or \"I'm happy to help\""
+        ));
         binding.sendBtn.setOnClickListener(view -> {
             String question = binding.questionTxt.getText().toString().toLowerCase(Locale.ROOT);
             if (!question.equals("")) {
 
-                boolean isLegalQuery = false;  // Important: reset every time
-                for (String keyword : legalKeywords) {
-                    if (question.contains(keyword)) {
-                        isLegalQuery = true;
-                        break; // Stop checking after first match
-                    }
-                }
-
                 calendar = Calendar.getInstance();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a",
+                        Locale.getDefault());
                 String formattedDate = dateFormat.format(calendar.getTime());
-                question = question.substring(0, 1).toUpperCase(Locale.ROOT) + question.substring(1);
-                if (isLegalQuery) {
+                question = question.substring(0, 1).toUpperCase(Locale.ROOT) +
+                        question.substring(1);
                     addtoChat(question, MessagesModel.USER_MESSAGE, formattedDate);
                     chatHistory.add(Map.of("role", "user", "content", question));
-                    generateText();  // Now safe to call
-                } else {
-                    String illegalQuery = "I'm specialized in assisting with Legal and Compliance topics. How may I help you today?";
-                    addtoChat(question, MessagesModel.USER_MESSAGE, formattedDate);
-                    addtoChat(illegalQuery, MessagesModel.AI_RESPONSE, formattedDate);
-                }
+                    viewModel.setResponse(chatHistory,API_KEY);
+
             }
             binding.questionTxt.setText("");
         });
@@ -149,72 +97,24 @@ public class ChatBot extends AppCompatActivity {
 
 
     private void generateText() {
-        RetrofitClient retrofitClient = new RetrofitClient("https://generativelanguage.googleapis.com/");
 
+        viewModel.getResponse().observe(this,onReply -> {
+            calendar = Calendar.getInstance();
 
-        GeminiApi geminiApi =  retrofitClient.getRetrofit().create(GeminiApi.class);
-        // Build the request
-        List<Part> parts = new ArrayList<>();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+            String formatedDate = dateFormat.format(calendar.getTime());
+            chatHistory.add(Map.of("role","assistant","content",onReply));
+            addtoChat(onReply, MessagesModel.AI_RESPONSE,formatedDate);
 
-        for (Map<String ,String > entry:chatHistory){
-            parts.add(new Part(entry.get("content")));
-
-        }
-
-
-        List<Content> contents = new ArrayList<>();
-        contents.add(new Content(parts));
-
-        RequestBodyGemini requestBody = new RequestBodyGemini(contents);
-
-        Call<GeminiResponse> call = geminiApi.generateContent(API_KEY, requestBody);
-
-        call.enqueue(new Callback<GeminiResponse>() {
-            @Override
-            public void onResponse(Call<GeminiResponse> call, Response<GeminiResponse> response) {
-                calendar = Calendar.getInstance();
-                Toast.makeText(getApplicationContext(), "Currnet time is " + calendar.getTime(), Toast.LENGTH_SHORT).show();
-
-                SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
-                String formatedDate = dateFormat.format(calendar.getTime());
-                if (response.isSuccessful() && response.body() != null) {
-
-                    String reply = response.body()
-                            .getCandidates()
-                            .get(0)
-                            .getContent()
-                            .getParts()
-                            .get(0)
-                            .getText();
-                    chatHistory.add(Map.of("role","assistant","content",reply));
-                    addtoChat(reply, MessagesModel.AI_RESPONSE,formatedDate);
-                } else {
-                    addtoChat("Failed to get response.", MessagesModel.AI_RESPONSE,formatedDate);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GeminiResponse> call, Throwable t) {
-                calendar = Calendar.getInstance();
-                Toast.makeText(getApplicationContext(), "Currnet time is " + calendar.getTime(), Toast.LENGTH_SHORT).show();
-
-                SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a",Locale.getDefault());
-                String formatedDate = dateFormat.format(calendar.getTime());
-                addtoChat("Error: " + t.getMessage(), MessagesModel.AI_RESPONSE,formatedDate);
-            }
         });
     }
 
 
-
     void  addtoChat(String message , String sentBY,String currentTime){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                messagesModelList.add(new MessagesModel(message,sentBY,currentTime));
-                chatsAdapter.notifyDataSetChanged();
-                binding.chatsRecycler.smoothScrollToPosition(chatsAdapter.getItemCount());
-            }
+        runOnUiThread(() -> {
+            messagesModelList.add(new MessagesModel(message,sentBY,currentTime));
+            chatsAdapter.notifyDataSetChanged();
+            binding.chatsRecycler.smoothScrollToPosition(chatsAdapter.getItemCount());
         });
 
     }
