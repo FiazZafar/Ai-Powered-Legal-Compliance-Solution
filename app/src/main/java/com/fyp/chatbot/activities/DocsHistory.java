@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class DocsHistory extends AppCompatActivity {
-
     ActivityDocsHistoryBinding binding;
     private List<DocomentModel> docomentModelList;
     private RecentDocAdapter adapter;
@@ -33,6 +32,8 @@ public class DocsHistory extends AppCompatActivity {
 
         docomentModelList = new ArrayList<>();
         adapter = new RecentDocAdapter(docomentModelList);
+
+        binding.backBtn.setOnClickListener(view -> finish());
 
         binding.recyclerRecentDocs.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerRecentDocs.setAdapter(adapter);

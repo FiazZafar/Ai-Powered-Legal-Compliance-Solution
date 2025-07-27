@@ -16,7 +16,7 @@
             android:text="Step 4: Review and Generate"
             android:textSize="22sp"
             android:textStyle="bold"
-            android:textColor="@color/primary_dark"
+            android:textColor="@color/text_primary"
             android:layout_gravity="center_horizontal"
             android:paddingBottom="16dp" />
 

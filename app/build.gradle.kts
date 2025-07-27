@@ -87,7 +87,7 @@ dependencies {
     implementation ("com.vladsch.flexmark:flexmark:0.62.2")
     implementation ("com.google.android.material:material:1.9.0")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
-
+    implementation("com.google.android.material:material:1.9.0")
     implementation(platform("com.google.firebase:firebase-bom:33.16.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation ("com.github.bumptech.glide:glide:4.16.0")

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:background="@color/secondary_color"
+        android:background="@color/primary_light"
         android:orientation="vertical"
         android:layout_gravity="start"
         app:layout_constraintTop_toTopOf="parent"
@@ -87,7 +87,7 @@
         android:id="@+id/inputContainer"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@color/secondary_color"
+        android:background="@color/primary_light"
         app:layout_constraintBottom_toBottomOf="parent">
         <EditText
             android:id="@+id/questionTxt"

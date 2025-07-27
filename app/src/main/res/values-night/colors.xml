@@ -1,58 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- Primary Colors -->
-    <color name="primary_color">#90CAF9</color>
-    <color name="primary_light">#32707E</color>
-    <color name="primary_dark">#42A5F5</color>
+    <color name="primary_color">#4F83FF</color>    <!-- Bright Blue (Primary Brand for Dark Mode) -->
+    <color name="primary_light">#1E293B</color>    <!-- Dark Card Background -->
+    <color name="primary_dark">#0F172A</color>     <!-- Very Dark Blue (Status Bar, Headers) -->
 
-    <!-- Secondary Colors (Teal Blue Brand) -->
-    <color name="secondary_color">#5DA4BE</color>        <!-- Muted Teal Blue -->
-    <color name="secondary_light">#B2D7E7</color>        <!-- Soft Teal for surfaces/cards -->
+    <!-- Secondary Colors -->
+    <color name="secondary_color">#38BDF8</color>  <!-- Sky Blue (Accents) -->
+    <color name="secondary_light">#1E3A56</color>  <!-- Muted Blue for Chips, Highlights -->
 
-    <!-- pending action card bg -->
-    <color name="pending_actions">#393E46</color>
-    <color name="doc_analyzer">#393E46</color>
+
+    <color name="sent_color">#34D399</color>       <!-- Emerald Green (Sent Messages) -->
+    <color name="receive_color">#60A5FA</color>    <!-- Light Blue (Received Messages) -->
+
+    <!-- Quick actions Bg -->
+    <color name="card1_bg">#22D3EE</color>
+    <color name="card2_bg">#38BDF8</color>
+    <color name="card3_bg">#34D399</color>
+    <color name="card4_bg">#F87171</color>
 
     <!-- Surface/Background -->
-    <color name="surface">#1E1E1E</color>
-    <color name="background">#121212</color>
+    <color name="surface">#1E293B</color>          <!-- Dark Gray (Cards, Dialogs) -->
+    <color name="background">#374151</color>       <!-- Almost Black (App Background) -->
 
     <!-- Text Colors -->
-    <color name="text_primary">#FFFFFF</color>
-    <color name="text_secondary">#B0BEC5</color>
-    <color name="text_on_primary">#0D0D0D</color>
+    <color name="text_primary">#F9FAFB</color>     <!-- Bright White for Primary Text -->
+    <color name="text_secondary">#9CA3AF</color>   <!-- Gray-400 for Subtext -->
+    <color name="text_on_primary">#FFFFFF</color>  <!-- White on Primary -->
 
     <!-- Status Colors -->
-    <color name="success">#81C784</color>
-    <color name="error_alert">#EF5350</color>
-    <color name="warning">#FFB74D</color>
+    <color name="success">#22C55E</color>          <!-- Green (Positive Actions) -->
+    <color name="red_color">#EF4444</color>        <!-- Red (Errors/Alerts) -->
+    <color name="warning">#F59E0B</color>          <!-- Amber (Warnings) -->
 
     <!-- Divider/Stroke -->
-    <color name="divider_color">#2C2C2C</color>
-    <color name="stroke_color">#3D3D3D</color>
+    <color name="divider_color">#374151</color>    <!-- Dark Gray Dividers -->
+    <color name="stroke_color">#4B5563</color>     <!-- Border Gray -->
 
-    <!-- Utility -->
+    <!-- Black/White (Utility) -->
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
 
-    <!-- Aliases -->
-    <color name="backgroundColor">#222831</color>
-    <color name="textColor">#FFFF</color>
-    <color name="textColorBotNav">#FFFF</color>
+    <!-- Background & Text -->
+    <color name="backgroundColor">#0F172A</color>  <!-- Dark Background -->
+    <color name="textColor">#F9FAFB</color>        <!-- Light Text -->
+    <color name="textColorBotNav">#F9FAFB</color>  <!-- Bottom Navigation Text -->
 
-    <!-- Quick Actions (Dark Mode Adaptation) -->
-    <color name="card1_bg">#393E46</color>   <!-- Lighter cyan -->
-    <color name="card2_bg">#393E46</color>   <!-- Softer green -->
-    <color name="card3_bg">#393E46</color>   <!-- Muted teal -->
-    <color name="card4_bg">#393E46</color>
+    <!-- Icons -->
+    <color name="icons_bg">#F9FAFB</color>         <!-- Light Icons -->
+    <color name="icons_bg_bot_nav">#F9FAFB</color>
 
-
-
-    <color name="icons_bg">#FFFFFF</color>
-    <color name="icons_bg_bot_nav">#FFFFFF</color>
-    <color name="bottom_nav">#393E46</color><!-- Teal Blue (Secondary Brand) -->
-    <color name="common_btn">#222831</color>
-    <color name="ripple">#4DFFFFFF</color>
-
+    <!-- Navigation & Buttons -->
+    <color name="bottom_nav">#1E293B</color>       <!-- Dark Bottom Navigation -->
+    <color name="common_btn">#38BDF8</color>       <!-- Accent Blue Buttons -->
+    <color name="ripple">#33FFFFFF</color>         <!-- White Ripple Effect -->
 </resources>

@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:text="Analysis Result"
         android:textStyle="bold"
-        android:textColor="@color/primary_color"
+        android:textColor="@color/text_primary"
         android:textSize="18sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

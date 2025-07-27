@@ -9,9 +9,6 @@
     <color name="secondary_color">#3A7B9E</color> <!-- Teal Blue (Secondary Brand) -->
     <color name="secondary_light">#E1F0F7</color>
 
-    <color name="pending_actions">#F8EFEE</color>
-    <color name="doc_analyzer">#EFF5F8</color>
-
     <color name="sent_color">#0BAB9C</color>
     <color name="receive_color">#0B90AB</color>
     <!-- Quick actions Bg -->
@@ -30,7 +27,7 @@
 
     <!-- Status Colors -->
     <color name="success">#4CAF50</color>         <!-- Green (Positive Actions) -->
-    <color name="error_alert">#D32F2F</color>     <!-- Red (Warnings/Errors) -->
+    <color name="red_color">#D32F2F</color>     <!-- Red (Warnings/Errors) -->
     <color name="warning">#FFA000</color>         <!-- Amber (Alerts) -->
 
     <!-- Divider/Stroke -->

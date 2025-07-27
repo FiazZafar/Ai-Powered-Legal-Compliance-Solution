@@ -42,108 +42,6 @@
             app:layout_constraintStart_toStartOf="@id/userName"
             app:layout_constraintTop_toBottomOf="@id/userName"/>
 
-        <HorizontalScrollView
-            android:id="@+id/horizontalTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:scrollbars="none"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtRecentActivity">
-
-            <LinearLayout
-
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:orientation="horizontal">
-
-                <!-- Card 1: Documents Analyzed -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="150dp"
-                    android:layout_height="120dp"
-                    android:layout_marginEnd="12dp"
-                    app:cardBackgroundColor="@color/doc_analyzer"
-                    app:cardCornerRadius="12dp"
-                    app:strokeColor="@color/primary_color"
-                    app:strokeWidth="1dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:paddingHorizontal="16dp">
-
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:src="@drawable/docs_24px"
-                            app:tint="@color/primary_color" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="12"
-                            android:textColor="@color/textColor"
-                            android:textSize="28sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Documents Analyzed"
-                            android:textColor="@color/textColor"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Card 2: Pending Actions -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="150dp"
-                    android:layout_height="120dp"
-                    android:layout_weight="0.50"
-                    app:cardBackgroundColor="@color/pending_actions"
-                    app:cardCornerRadius="12dp"
-                    app:strokeColor="@color/error_alert"
-                    app:strokeWidth="1dp">
-
-                    <LinearLayout
-
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-
-                        android:orientation="vertical"
-                        android:paddingHorizontal="16dp">
-
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:src="@drawable/arming_countdown_24px"
-                            app:tint="@color/error_alert" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="3"
-                            android:textColor="@color/textColor"
-                            android:textSize="28sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Pending Actions"
-                            android:textColor="@color/textColor"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-            </LinearLayout>
-        </HorizontalScrollView>
 
         <TextView
             android:id="@+id/txtQuickActions"
@@ -321,7 +219,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="view all"
-            android:textColor="@color/error_alert"
+            android:textColor="@color/red_color"
             android:textSize="18sp"
             android:textStyle="normal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -346,9 +244,9 @@
             android:layout_height="150dp"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
-            app:cardElevation="2dp"
+            app:cardElevation="5dp"
             android:layout_rowWeight="1"
-            app:cardBackgroundColor="@color/backgroundColor"
+            app:cardBackgroundColor="@color/background"
             app:cardCornerRadius="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -359,7 +257,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingHorizontal="8dp"
-
                     android:gravity="center"
                     android:textSize="16sp"
                     android:text="You haven’t analyzed any documents yet. Try Quick Actions now!"
