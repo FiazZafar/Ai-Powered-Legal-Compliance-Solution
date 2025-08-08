@@ -294,7 +294,7 @@ public class SignupFragment extends Fragment {
                                     signupViewModel.updateImage(userImage, onResult -> {
                                         if (onResult){
                                             editor.putString("UserProfile",userImage);
-                                            editor.commit();
+                                            editor.apply();
                                         }
                                     });
                                 }

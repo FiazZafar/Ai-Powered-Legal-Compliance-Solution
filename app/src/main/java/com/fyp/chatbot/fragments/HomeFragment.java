@@ -56,7 +56,7 @@ public class HomeFragment extends Fragment {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         userViewModel.fetchUser();
 
-        pref = getActivity().getSharedPreferences("Smart_Goval_Prefs",MODE_PRIVATE);
+        pref = getActivity().getSharedPreferences("Smart_Goval",MODE_PRIVATE);
         editor = pref.edit();
         userName = pref.getString("UserName",null);
         userProfile = pref.getString("UserProfile",null);
@@ -87,15 +87,32 @@ public class HomeFragment extends Fragment {
     }
 
     private void initObserver() {
+        userViewModel.getProfileUpdated().observe(getViewLifecycleOwner(),onUpdate -> {
+            if (onUpdate){
+                userName = pref.getString("UserName",null).toString();
+                userProfile = pref.getString("UserProfile",null).toString();
+                if (userName != null) binding.userName.setText(userName);
+                if (userProfile != null)
+                    Glide.with(this.getContext()).load(userProfile)
+                            .placeholder(R.drawable.account_circle_24px)
+                            .error(R.drawable.account_circle_24px)
+                            .into(binding.userProfile);
+
+            }
+        });
+
         userViewModel.getUser().observe(getViewLifecycleOwner(),onResult -> {
             if(onResult != null) {
                 editor.putString("UserName",onResult.getUserName());
                 editor.putString("UserProfile",onResult.getImgUrl());
+                editor.putString("UserEmail",onResult.getUserEmail());
                 editor.apply();
 
                 if (requireContext() instanceof Activity){
                    Intent intent =  ((Activity) requireContext()).getIntent();
+                   ((Activity) requireContext()).overridePendingTransition(0,0);
                    ((Activity) requireContext()).finish();
+                   ((Activity) requireContext()).overridePendingTransition(0,0);
                    startActivity(intent);
                 }
             }

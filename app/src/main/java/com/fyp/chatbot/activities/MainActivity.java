@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.cloudinary.android.MediaManager;
@@ -32,15 +33,18 @@ public class MainActivity extends AppCompatActivity {
         setUpCloudinary();
 
         binding.bottomNav.setOnItemSelectedListener(view -> {
+            NavOptions navOptions = new NavOptions.Builder().setLaunchSingleTop(true)
+                    .setPopUpTo(navController.getGraph().getStartDestinationId(),false)
+                    .build();
             int itemId = view.getItemId();
             if (itemId == R.id.homeTab){
-                navController.navigate(R.id.homeFragment);
+                navController.navigate(R.id.homeFragment,null,navOptions);
             } else if (itemId == R.id.analyzerTab) {
                 startActivity(new Intent(this, DocAnalyzer.class));
             } else if (itemId == R.id.chatBot){
                 startActivity(new Intent(this, ChatBot.class));
             } else if (itemId == R.id.profileTab) {
-                navController.navigate(R.id.profileScreen);
+                navController.navigate(R.id.profileScreen,null,navOptions);
             }else if (itemId == R.id.contractTab){
                 startActivity(new Intent(this, ContractGenerate.class));
             }

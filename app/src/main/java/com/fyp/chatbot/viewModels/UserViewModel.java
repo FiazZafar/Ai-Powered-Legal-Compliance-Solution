@@ -15,8 +15,14 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class UserViewModel extends ViewModel {
         MutableLiveData<UserModel> myUser = new MutableLiveData<>();
+        MutableLiveData<Boolean> dataUpdated = new MutableLiveData<>();
         UserInterFace userInterFace = new UsersFB();
-
+        public void setProfileUpdated(boolean updated) {
+            dataUpdated.setValue(updated);
+        }
+        public LiveData<Boolean> getProfileUpdated() {
+            return dataUpdated;
+        }
         public LiveData<UserModel> getUser() {
             return myUser;
         }
