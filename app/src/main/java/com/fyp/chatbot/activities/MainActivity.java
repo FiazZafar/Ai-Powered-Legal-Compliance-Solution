@@ -35,8 +35,10 @@ public class MainActivity extends AppCompatActivity {
             int itemId = view.getItemId();
             if (itemId == R.id.homeTab){
                 navController.navigate(R.id.homeFragment);
-            }else if (itemId == R.id.analyzerTab){
+            } else if (itemId == R.id.analyzerTab) {
                 startActivity(new Intent(this, DocAnalyzer.class));
+            } else if (itemId == R.id.chatBot){
+                startActivity(new Intent(this, ChatBot.class));
             } else if (itemId == R.id.profileTab) {
                 navController.navigate(R.id.profileScreen);
             }else if (itemId == R.id.contractTab){

@@ -1,16 +1,12 @@
 package com.fyp.chatbot.activities;
 
-import static android.view.View.GONE;
-
 import android.os.Bundle;
-
+import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import com.fyp.chatbot.adapters.RecentDocAdapter;
 import com.fyp.chatbot.databinding.ActivityDocsHistoryBinding;
 import com.fyp.chatbot.models.DocomentModel;
-
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,7 +18,7 @@ public class DocsHistory extends AppCompatActivity {
     ActivityDocsHistoryBinding binding;
     private List<DocomentModel> docomentModelList;
     private RecentDocAdapter adapter;
-
+    private static boolean isNull = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,20 +33,22 @@ public class DocsHistory extends AppCompatActivity {
 
         binding.recyclerRecentDocs.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerRecentDocs.setAdapter(adapter);
-        binding.linearlayout2.setVisibility(GONE);
 
         getSavedLegalDoc();
-
+        binding.noResultFound.setVisibility(isNull ? View.VISIBLE : View.GONE);
+        binding.recyclerRecentDocs.setVisibility(isNull ? View.GONE : View.VISIBLE);
     }
 
     private void getSavedLegalDoc() {
         File fileDir = getFilesDir();
         File [] allFiles = fileDir.listFiles();
+        binding.progressCircular.setVisibility(View.GONE);
 
 
-        if (allFiles != null){
+        if (allFiles != null) {
             for (File file : allFiles){
                 if (file.getName().startsWith("Smart_Goval_") && file.getName().endsWith(".pdf")) {
+                    isNull = false;
                     try {
                         String namePart = file.getName()
                                 .replace("Smart_Goval_", "")

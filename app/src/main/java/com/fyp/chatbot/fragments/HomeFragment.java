@@ -1,6 +1,10 @@
 package com.fyp.chatbot.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +13,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +39,12 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding ;
     private List<DocomentModel> docomentModelList;
-    private RecentDocAdapter adapter ;
+    private RecentDocAdapter adapter;
+    private String userName = "",userProfile = "";
     private UserViewModel userViewModel;
+    private SharedPreferences pref ;
+    private SharedPreferences.Editor editor;
+
     public HomeFragment() {}
 
     @Override
@@ -47,9 +56,24 @@ public class HomeFragment extends Fragment {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         userViewModel.fetchUser();
 
-        initObserver();
+        pref = getActivity().getSharedPreferences("Smart_Goval_Prefs",MODE_PRIVATE);
+        editor = pref.edit();
+        userName = pref.getString("UserName",null);
+        userProfile = pref.getString("UserProfile",null);
 
-
+        if (userName == null){
+            Log.d("HomeFrag", "onCreateView: Pref is null");
+            initObserver();
+        }else {
+            Log.d("HomeFrag", "onCreateView: Pref is Not Null");
+            if (userName != null)
+                binding.userName.setText(userName);
+            if (userProfile != null)
+                Glide.with(this.getContext()).load(userProfile)
+                        .placeholder(R.drawable.account_circle_24px)
+                        .error(R.drawable.account_circle_24px)
+                        .into(binding.userProfile);
+        }
         docomentModelList = new ArrayList<>();
         adapter = new RecentDocAdapter(docomentModelList);
 
@@ -64,17 +88,16 @@ public class HomeFragment extends Fragment {
 
     private void initObserver() {
         userViewModel.getUser().observe(getViewLifecycleOwner(),onResult -> {
+            if(onResult != null) {
+                editor.putString("UserName",onResult.getUserName());
+                editor.putString("UserProfile",onResult.getImgUrl());
+                editor.apply();
 
-            if(onResult != null){
-                String userName = onResult.getUserName();
-                String userImage = onResult.getImgUrl();
-                if (userName != null)
-                    binding.userName.setText(userName);
-                if (userImage != null)
-                    Glide.with(this.getContext()).load(userImage)
-                            .placeholder(R.drawable.account_circle_24px)
-                            .error(R.drawable.account_circle_24px)
-                            .into(binding.userProfile);
+                if (requireContext() instanceof Activity){
+                   Intent intent =  ((Activity) requireContext()).getIntent();
+                   ((Activity) requireContext()).finish();
+                   startActivity(intent);
+                }
             }
         });
     }

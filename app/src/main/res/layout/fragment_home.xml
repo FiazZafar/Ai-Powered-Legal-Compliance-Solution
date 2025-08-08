@@ -8,15 +8,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingVertical="16dp"
-        android:paddingHorizontal="12dp"
-        >
+        android:layout_height="match_parent">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/userProfile"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
             android:src="@drawable/ai_logo"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -26,11 +25,11 @@
             android:layout_height="wrap_content"
             android:text="Hi, Alex!"
             android:textColor="@color/textColor"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/userProfile"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="@id/userProfile"/>
         <TextView
             android:id="@+id/txtSubtitle"
             android:layout_width="wrap_content"
@@ -47,28 +46,35 @@
             android:id="@+id/txtQuickActions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:text="Quick Actions"
             android:textColor="@color/textColor"
             android:textSize="18sp"
             android:textStyle="bold"
+            android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtSubtitle"/>
 
         <GridLayout
             android:id="@+id/quickActionsGrid"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:paddingVertical="2dp"
             android:columnCount="2"
             android:rowCount="2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtQuickActions">
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="120dp"
                 android:layout_columnWeight="1"
-                android:layout_margin="8dp"
                 app:cardElevation="5dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:layout_rowWeight="1"
                 app:cardBackgroundColor="@color/card1_bg"
                 app:cardCornerRadius="12dp">
@@ -102,8 +108,12 @@
                 android:layout_height="120dp"
                 android:layout_columnWeight="1"
                 app:cardBackgroundColor="@color/card2_bg"
-                android:layout_margin="8dp"
                 app:cardElevation="5dp"
+
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="12dp"
                 android:layout_rowWeight="1"
                 app:cardCornerRadius="12dp">
 
@@ -135,8 +145,11 @@
                 android:layout_width="0dp"
                 android:layout_height="120dp"
                 android:layout_columnWeight="1"
-                android:layout_margin="8dp"
                 app:cardElevation="5dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="8dp"
                 android:layout_rowWeight="1"
                 app:cardBackgroundColor="@color/card3_bg"
                 app:cardCornerRadius="12dp">
@@ -170,8 +183,12 @@
                 android:layout_height="120dp"
                 app:cardBackgroundColor="@color/card4_bg"
                 android:layout_columnWeight="1"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+
                 app:cardElevation="5dp"
-                android:layout_margin="8dp"
                 android:layout_rowWeight="1"
                 app:cardCornerRadius="12dp">
 
@@ -206,9 +223,10 @@
             android:id="@+id/txtRecentActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:text="Recent Activity"
             android:textColor="@color/textColor"
+            android:layout_marginStart="16dp"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintHorizontal_bias="0.0"
@@ -220,6 +238,7 @@
             android:layout_height="wrap_content"
             android:text="view all"
             android:textColor="@color/red_color"
+            android:layout_marginEnd="16dp"
             android:textSize="18sp"
             android:textStyle="normal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -229,22 +248,24 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerRecentDocs"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginBottom="8dp"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            android:layout_marginVertical="8dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtRecentActivity" />
+            app:layout_constraintTop_toBottomOf="@+id/txtRecentActivity"/>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/emptyView"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
             android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            app:cardElevation="5dp"
+            android:layout_marginVertical="8dp"
+            android:minHeight="230dp"
+            android:layout_marginHorizontal="16dp"
+            app:cardElevation="1dp"
             android:layout_rowWeight="1"
             app:cardBackgroundColor="@color/background"
             app:cardCornerRadius="12dp"
@@ -257,7 +278,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingHorizontal="8dp"
-                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
                     android:textSize="16sp"
                     android:text="You haven’t analyzed any documents yet. Try Quick Actions now!"
                     android:textColor="@color/textColor"/>

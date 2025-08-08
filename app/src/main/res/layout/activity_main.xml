@@ -23,6 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/robot_2_24px"
+        android:visibility="gone"
         android:backgroundTint="@color/bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginHorizontal="16dp"

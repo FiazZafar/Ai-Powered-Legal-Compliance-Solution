@@ -1,10 +1,12 @@
 package com.fyp.chatbot.fragments;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
 import static android.view.View.GONE;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -53,6 +55,8 @@ public class LoginFragment extends Fragment {
     SignupViewModel signupViewModel;
     private final int REQUEST_CODE_IMAGE = 101;
     private static final int RC_SIGN_IN = 1001;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
 
     public LoginFragment() {}
     @Override
@@ -60,6 +64,9 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentLoginBinding.inflate(inflater,container,false);
         signupViewModel = new ViewModelProvider(this).get(SignupViewModel.class);
+
+        preferences = getContext().getSharedPreferences("Smart_Goval_Prefs",MODE_PRIVATE);
+        editor = preferences.edit();
 
         visibilityListener();
         authListeners();
@@ -111,6 +118,7 @@ public class LoginFragment extends Fragment {
 
                 Toast.makeText(getContext(), "Signed in with Google successfully!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getContext(), MainActivity.class));
+                this.getActivity().finish();
 
             } else {
                 Toast.makeText(getContext(), "Google Sign-In failed.", Toast.LENGTH_SHORT).show();
@@ -130,6 +138,10 @@ public class LoginFragment extends Fragment {
             if (isValid) {
                 binding.linearlayout2.setVisibility(View.VISIBLE);
                 signupViewModel.loginUser(userEmail,userPassword,userImage,userName);
+                editor.putString("UserName",userName);
+                editor.putString("UserEmail",userEmail);
+                editor.apply();
+
             } else {
                 Toast.makeText(requireActivity(), "Invalid inputs...", Toast.LENGTH_SHORT).show();
             }
@@ -229,6 +241,14 @@ public class LoginFragment extends Fragment {
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
 
+                String name = account.getDisplayName();
+                String email = account.getEmail();
+                String profile = account.getPhotoUrl() != null ?
+                        account.getPhotoUrl().toString() : "";
+                editor.putString("UserName", name);
+                editor.putString("UserEmail", email);
+                editor.putString("UserProfile",profile);
+                editor.commit();
                 signupViewModel.signInWithGoogle(account,account.getIdToken());
             } catch (ApiException e) {
                 Toast.makeText(getContext(), "Google Sign-In failed", Toast.LENGTH_SHORT).show();
@@ -253,6 +273,8 @@ public class LoginFragment extends Fragment {
                                     signupViewModel.updateImage(userImage, onResult -> {
                                         if (onResult){
                                            binding.userProfile.setImageURI(uri);
+                                            editor.putString("UserProfile",userImage);
+                                            editor.apply();
                                         }
                                     });
 

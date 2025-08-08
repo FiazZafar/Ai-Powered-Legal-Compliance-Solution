@@ -77,6 +77,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.ai.client.generativeai:generativeai:0.3.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")

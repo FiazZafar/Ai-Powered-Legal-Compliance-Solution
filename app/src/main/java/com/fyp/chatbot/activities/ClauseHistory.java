@@ -3,6 +3,7 @@ package com.fyp.chatbot.activities;
 import static android.view.View.GONE;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -31,6 +32,8 @@ public class ClauseHistory extends AppCompatActivity {
        clauseMVVM.setClauseList();
        clauseList = new ArrayList<>();
 
+       binding.linearlayout2.setVisibility(View.VISIBLE);
+
        adapter = new ClauseHistoryAdapter(clauseList,this);
        initViews();
        initObservers();
@@ -39,9 +42,14 @@ public class ClauseHistory extends AppCompatActivity {
 
     private void initObservers() {
         clauseMVVM.getClauseList().observe(this,onClauseList -> {
-            binding.linearlayout2.setVisibility(GONE);
+            binding.linearlayout2.setVisibility(View.GONE);
             if (onClauseList != null && !onClauseList.isEmpty()){
+                binding.noResultFound.setVisibility(GONE);
+                binding.clauseHistoryRec.setVisibility(View.VISIBLE);
                 adapter.updateList(onClauseList);
+            } else {
+              binding.noResultFound.setVisibility(View.VISIBLE);
+              binding.clauseHistoryRec.setVisibility(View.GONE);
             }
         });
     }

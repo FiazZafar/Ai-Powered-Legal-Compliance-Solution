@@ -129,7 +129,6 @@ public class SignupFragment extends Fragment {
                     binding.eyeVisibleconfirmBTn.setImageResource(R.drawable.visibility_24px);
                 }
             }
-//            binding.confirmPasswordEdt.setSelection(binding.passwordEdt.length());
         });
     }
 
@@ -214,9 +213,9 @@ public class SignupFragment extends Fragment {
             if (isValid){
                 binding.linearlayout2.setVisibility(VISIBLE);
                 signupViewModel.registerUser(userEmail,passwords,userName,userImage);
-                editor.putString("userName",userName);
-                editor.putString("userEmail",userEmail);
-                editor.commit();
+                editor.putString("UserName",userName);
+                editor.putString("UserEmail",userEmail);
+                editor.apply();
             }else {
                 Toast.makeText(getContext(), "empty fields error", Toast.LENGTH_SHORT).show();
             }
@@ -229,7 +228,8 @@ public class SignupFragment extends Fragment {
             binding.linearlayout2.setVisibility(GONE);
             if (isDone){
                 startActivity(new Intent(getContext(), MainActivity.class));
-                Toast.makeText(getContext(), "Signed Successfully...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Signed inSuccessfully...", Toast.LENGTH_SHORT).show();
+                this.getActivity().finish();
             }else {
                 Toast.makeText(getContext(), "User already exists...", Toast.LENGTH_SHORT).show();
             }
@@ -240,7 +240,7 @@ public class SignupFragment extends Fragment {
 
                 Toast.makeText(getContext(), "Signed in with Google successfully!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getContext(), MainActivity.class));
-
+                this.getActivity().finish();
             } else {
                 Toast.makeText(getContext(), "Google Sign-In failed.", Toast.LENGTH_SHORT).show();
             }
@@ -266,10 +266,10 @@ public class SignupFragment extends Fragment {
                 String email = account.getEmail();
                 String profile = account.getPhotoUrl() != null ?
                         account.getPhotoUrl().toString() : "";
-                editor.putString("userName", name);
-                editor.putString("userEmail", email);
-                editor.putString("userImage",profile);
-                editor.commit();
+                editor.putString("UserName", name);
+                editor.putString("UserEmail", email);
+                editor.putString("UserProfile",profile);
+                editor.apply();
                 signupViewModel.signInWithGoogle(account,account.getIdToken());
             } catch (ApiException e) {
                 Toast.makeText(getContext(), "Google Sign-In failed", Toast.LENGTH_SHORT).show();
@@ -293,6 +293,8 @@ public class SignupFragment extends Fragment {
                                     userImage = resultData.get("secure_url").toString();
                                     signupViewModel.updateImage(userImage, onResult -> {
                                         if (onResult){
+                                            editor.putString("UserProfile",userImage);
+                                            editor.commit();
                                         }
                                     });
                                 }
