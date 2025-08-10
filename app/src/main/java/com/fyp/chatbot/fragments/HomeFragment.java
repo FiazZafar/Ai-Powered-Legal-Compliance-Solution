@@ -70,8 +70,8 @@ public class HomeFragment extends Fragment {
                 binding.userName.setText(userName);
             if (userProfile != null)
                 Glide.with(this.getContext()).load(userProfile)
-                        .placeholder(R.drawable.account_circle_24px)
-                        .error(R.drawable.account_circle_24px)
+                        .placeholder(R.drawable.profile_pic)
+                        .error(R.drawable.profile_pic)
                         .into(binding.userProfile);
         }
         docomentModelList = new ArrayList<>();
@@ -94,8 +94,8 @@ public class HomeFragment extends Fragment {
                 if (userName != null) binding.userName.setText(userName);
                 if (userProfile != null)
                     Glide.with(this.getContext()).load(userProfile)
-                            .placeholder(R.drawable.account_circle_24px)
-                            .error(R.drawable.account_circle_24px)
+                            .placeholder(R.drawable.profile_pic)
+                            .error(R.drawable.profile_pic)
                             .into(binding.userProfile);
 
             }

@@ -27,7 +27,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Smart"
-                    android:textColor="@color/primary_dark"
+                    android:textColor="@color/common_btn"
                     android:textSize="45sp"
                     android:textStyle="bold"
                     android:layout_weight="0.50"/>
@@ -52,7 +52,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:src="@drawable/account_circle_24px"
+                    android:src="@drawable/profile_pic"
                     app:tint="@color/icons_bg"
                     app:civ_circle_background_color="@color/backgroundColor"
                     />
@@ -95,8 +95,8 @@
                 android:textSize="16sp"
                 android:inputType="text"
                 android:hint="User Name"
-                android:textColorHint="@color/black"
-                android:textColor="@color/black"
+                android:textColorHint="@color/text_secondary"
+                android:textColor="@color/text_primary"
 
                 />
 
@@ -114,12 +114,10 @@
                 android:textSize="16sp"
                 android:inputType="text"
                 android:hint="Email address"
-                android:textColorHint="@color/black"
-                android:textColor="@color/black"
+                android:textColorHint="@color/text_secondary"
+                android:textColor="@color/text_primary"
 
                 />
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -139,9 +137,9 @@
                     android:hint="Password text"
                     android:importantForAutofill="no"
                     android:inputType="textPassword"
-                    android:padding="16dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary"
                     android:textSize="16sp" />
                 <ImageView
                     android:layout_width="wrap_content"
@@ -167,7 +165,6 @@
                 android:orientation="horizontal">
 
                 <EditText
-
                     android:id="@+id/confirmPasswordTxt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -177,9 +174,9 @@
                     android:hint="Confirm password text"
                     android:importantForAutofill="no"
                     android:inputType="textPassword"
-                    android:padding="16dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary"
                     android:textSize="16sp"
                     tools:ignore="VisualLintTextFieldSize" />
                 <ImageView
@@ -263,7 +260,7 @@
                     android:layout_height="wrap_content"
                     android:text="Are you a member?"
                     android:textSize="16sp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/textColor"/>
                 <TextView
                     android:id="@+id/loginBtn"
                     android:layout_width="wrap_content"

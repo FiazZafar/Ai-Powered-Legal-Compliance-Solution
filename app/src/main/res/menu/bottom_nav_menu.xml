@@ -19,6 +19,6 @@
         android:iconTint="@color/icons_bg_bot_nav"/>
     <item android:id="@+id/profileTab"
         android:title="Profile"
-        android:icon="@drawable/account_circle_24px"
+        android:icon="@drawable/baseline_account_circle_24"
         android:iconTint="@color/icons_bg_bot_nav"/>
 </menu>

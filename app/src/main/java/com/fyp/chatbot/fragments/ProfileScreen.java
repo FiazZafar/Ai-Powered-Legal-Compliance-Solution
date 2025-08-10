@@ -5,7 +5,6 @@ import static android.content.Context.MODE_PRIVATE;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,7 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,8 +73,8 @@ public class ProfileScreen extends Fragment {
         }
         if (userProfile != null)
             Glide.with(this.getContext()).load(userProfile)
-                    .placeholder(R.drawable.account_circle_24px)
-                    .error(R.drawable.account_circle_24px)
+                    .placeholder(R.drawable.profile_pic)
+                    .error(R.drawable.profile_pic)
                     .into(binding.userProfile);
 
         if (userEmail != null){
@@ -130,8 +128,8 @@ public class ProfileScreen extends Fragment {
                             userViewModel.updateImage(userImage,onResult -> {
                                 if (onResult != null){
                                     Glide.with(getContext()).load(userImage)
-                                            .placeholder(R.drawable.account_circle_24px)
-                                            .error(R.drawable.account_circle_24px)
+                                            .placeholder(R.drawable.profile_pic)
+                                            .error(R.drawable.profile_pic)
                                             .into(binding.userProfile);
                                     editor.putString("UserProfile",userImage);
                                     editor.apply();

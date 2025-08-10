@@ -65,7 +65,7 @@ public class LoginFragment extends Fragment {
         binding = FragmentLoginBinding.inflate(inflater,container,false);
         signupViewModel = new ViewModelProvider(this).get(SignupViewModel.class);
 
-        preferences = getContext().getSharedPreferences("Smart_Goval_Prefs",MODE_PRIVATE);
+        preferences = getContext().getSharedPreferences("Smart_Goval",MODE_PRIVATE);
         editor = preferences.edit();
 
         visibilityListener();
