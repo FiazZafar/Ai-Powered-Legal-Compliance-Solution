@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/scrollable"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.GenerateClauseFrag">
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +25,7 @@
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:textColor="@color/text_primary"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:textAlignment="center"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
@@ -86,7 +87,8 @@
         android:textSize="16sp"
         android:paddingHorizontal="12dp"
         android:background="@drawable/btn_common_bg"
-        android:layout_margin="16dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dynamicInputFields"/>
     <TextView
@@ -108,7 +110,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginVertical="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/saveClauseBtn"
         android:elevation="3dp"
         android:minHeight="150dp"
         android:padding="8dp"
@@ -148,8 +151,10 @@
         android:textSize="16sp"
         android:paddingHorizontal="12dp"
         android:textColor="@color/textColor"
-        android:layout_margin="16dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/generateClauseResponseLinear"/>
 

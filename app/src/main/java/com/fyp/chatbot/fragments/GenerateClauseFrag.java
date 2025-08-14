@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import android.util.Log;
@@ -63,6 +64,10 @@ public class GenerateClauseFrag extends Fragment {
                         binding.generateClauseResponse.setText(onResult);
                         binding.clauseCopyBtn.setVisibility(VISIBLE);
                         binding.saveClauseBtn.setVisibility(VISIBLE);
+
+                        binding.scrollable.post(() -> {
+                            binding.scrollable.fullScroll(View.FOCUS_DOWN);
+                        });
                     }else {
                         Log.d("MvvM", "initListners: result is false" + onResult);
                     }
@@ -135,7 +140,7 @@ public class GenerateClauseFrag extends Fragment {
         label.setText(hint);
         label.setTypeface(Typeface.DEFAULT_BOLD);
         label.setTextSize(16);
-        label.setTextColor(Color.BLACK);
+        label.setTextColor(ContextCompat.getColor(requireActivity(),R.color.textColor));
         label.setPadding(0, 8, 0, 8);
         binding.dynamicInputFields.addView(label);
 
@@ -154,6 +159,7 @@ public class GenerateClauseFrag extends Fragment {
                 android.R.layout.simple_spinner_dropdown_item,suggestionsList);
         autoCompleteTextView.setAdapter(adapter);
         autoCompleteTextView.setThreshold(0);
+
         autoCompleteTextView.setOnFocusChangeListener((view , hasFocus)->{
             if (hasFocus){
                 autoCompleteTextView.showDropDown();
@@ -170,7 +176,6 @@ public class GenerateClauseFrag extends Fragment {
                 ClipboardManager clipboardManager = (ClipboardManager)getActivity()
                         .getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData data = ClipData.newPlainText("Clause",clauseTxt);
-                Log.d("ClipData", "initListners: ClipBoard after cliking copy btn:  " + data);
                 clipboardManager.setPrimaryClip(data);
                 binding.clauseCopyBtn.setEnabled(false);
                 Toast.makeText(requireContext(), "Clause copied to clipboard", Toast.LENGTH_SHORT).show();
