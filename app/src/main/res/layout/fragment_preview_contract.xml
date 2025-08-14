@@ -34,7 +34,6 @@
         style="@style/Widget.AppCompat.Button"
         android:background="@drawable/btn_common_bg"
         android:textColor="@color/textColor"
-        android:textStyle="bold"
         android:textSize="18sp"
         android:padding="12dp"
         tools:ignore="HardcodedText" />

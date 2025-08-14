@@ -25,8 +25,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Party A Full Name"
-
+            android:text="First Party"
             android:textColor="@color/textColor"
             android:textSize="16sp"
             android:paddingBottom="4dp" />
@@ -40,13 +39,13 @@
             android:capitalize="sentences"
             android:paddingStart="8dp"
             android:importantForAutofill="no"
-            android:hint="Enter Full Name" />
+            android:hint="Enter username" />
 
         <!-- Party B Full Name -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Party B Full Name"
+            android:text="Second Party"
             android:textColor="@color/textColor"
             android:textSize="16sp"
             android:paddingTop="12dp"
@@ -61,13 +60,13 @@
             android:textColor="@color/textColor"
             android:importantForAutofill="no"
             android:background="@drawable/edittext_background"
-            android:hint="Enter Full Name" />
+            android:hint="Enter username" />
 
         <!-- Party A Address -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Party A Address"
+            android:text="First Party Address"
             android:textColor="@color/textColor"
             android:textSize="16sp"
             android:paddingTop="12dp"
@@ -79,8 +78,9 @@
             android:layout_height="50dp"
             android:paddingStart="8dp"
             android:textColor="@color/textColor"
+            android:capitalize="sentences"
             android:background="@drawable/edittext_background"
-            android:hint="Enter Email Address"
+            android:hint="Enter address"
             android:importantForAutofill="no"
             android:inputType="text"/>
 
@@ -88,7 +88,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Party B Address"
+            android:text="Second Party Address"
             android:textColor="@color/textColor"
             android:textSize="16sp"
             android:paddingTop="12dp"
@@ -97,10 +97,11 @@
             android:id="@+id/partyBAddress"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:capitalize="sentences"
             android:paddingStart="8dp"
             android:textColor="@color/textColor"
             android:background="@drawable/edittext_background"
-            android:hint="Enter Email Address"
+            android:hint="Enter address"
             android:importantForAutofill="no"
             android:inputType="text" />
         <!-- Party A Email -->
@@ -120,7 +121,7 @@
             android:paddingStart="8dp"
             android:textColor="@color/textColor"
             android:background="@drawable/edittext_background"
-            android:hint="Enter Email Address"
+            android:hint="Enter email address"
             android:importantForAutofill="no"
             android:inputType="textEmailAddress" />
 
@@ -140,7 +141,7 @@
             android:paddingStart="8dp"
             android:textColor="@color/textColor"
             android:background="@drawable/edittext_background"
-            android:hint="Enter Email Address"
+            android:hint="Enter email address"
             android:importantForAutofill="no"
             android:inputType="textEmailAddress" />
         <androidx.appcompat.widget.AppCompatButton
