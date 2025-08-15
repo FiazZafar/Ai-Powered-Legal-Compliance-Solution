@@ -9,7 +9,7 @@
         android:id="@+id/splash_logo"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:src="@drawable/ai_logo"
+        android:src="@mipmap/ic_launcher"
         android:layout_centerInParent="true"
         android:contentDescription="@string/app_name"
         android:scaleType="fitCenter" />
