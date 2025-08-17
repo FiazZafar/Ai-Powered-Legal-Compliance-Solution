@@ -2,39 +2,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/contractTextView"
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp"
         android:layout_weight="1"
-        android:background="#FFFFFF"
-        android:gravity="top"
-        android:padding="12dp"
-        android:scrollbars="vertical"
-        android:textColor="#111827"
-        android:textSize="16sp"
-        tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,TextFields,VisualLintTextFieldSize" />
+        android:layout_margin="8dp"
+        app:cardBackgroundColor="@color/white">
+        <EditText
+            android:id="@+id/contractTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:background="@android:color/transparent"
+            android:gravity="top"
+            android:scrollbars="vertical"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:scrollbarSize="0dp"
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,TextFields,VisualLintTextFieldSize" />
+
+    </com.google.android.material.card.MaterialCardView>
     <WebView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        android:id="@+id/webView"
-
-        />
+        android:layout_margin="8dp"
+        android:id="@+id/webView" />
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/generatePdfButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Approve and Generate PDF"
         android:layout_gravity="center_horizontal"
+        android:textAllCaps="false"
+        android:layout_weight="0"
+        android:layout_marginBottom="8dp"
+        android:layout_marginHorizontal="8dp"
         android:layout_marginTop="16dp"
-        style="@style/Widget.AppCompat.Button"
         android:background="@drawable/btn_common_bg"
-        android:textColor="@color/textColor"
-        android:textSize="18sp"
+        android:textColor="@color/textColor2"
+        android:textSize="16sp"
         android:padding="12dp"
         tools:ignore="HardcodedText" />
 </LinearLayout>

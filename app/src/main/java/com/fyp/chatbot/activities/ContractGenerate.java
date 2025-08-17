@@ -7,6 +7,7 @@ import static android.view.View.VISIBLE;
 import android.animation.ObjectAnimator;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
@@ -45,6 +46,11 @@ public class ContractGenerate extends AppCompatActivity {
 
         contractMVVM = new ViewModelProvider(this).get(ContractViewModel.class);
 
+        binding.step4Layout.generateButton.setEnabled(true);
+        binding.step4Layout.generateButton.setAlpha(1.0f);
+        binding.step4Layout.editButton.setEnabled(true);
+        binding.step4Layout.editButton.setAlpha(1.0f);
+
         generateContract();
         progressCounter = 0;
         binding.stepProgress.setProgress(progressCounter);
@@ -82,20 +88,29 @@ public class ContractGenerate extends AppCompatActivity {
                     },endYear,endMonth,endDay);
             datePicker.show();
         });
-
         binding.step1Layout.nextBtnStep1.setOnClickListener(view -> getStep1Data());
         binding.step2Layout.nextBtnStep2.setOnClickListener(view -> getStep2Data());
         binding.step3Layout.nextBtnStep3.setOnClickListener(view -> {
             getStep3Data();
             getStep4Data();
         });
-        binding.step4Layout.generateButton.setOnClickListener(view ->
+
+        binding.step4Layout.generateButton.setOnClickListener(view -> {
+
+            binding.step4Layout.generateButton.setAlpha(0.5f);
+            binding.step4Layout.generateButton.setEnabled(false);
+            binding.step4Layout.editButton.setAlpha(0.5f);
+            binding.step4Layout.editButton.setEnabled(false);
+
+            binding.linearlayout2.setVisibility(VISIBLE);
+
             contractMVVM.setContractResponse(jurisdiction,contractType
                     ,contractTitle,party1Name,
                     entityTypeA,party2Name
                     ,entityTypeB,party1Email
-                    ,party2Email,startDate,endDate));
+                    ,party2Email,startDate,endDate);
 
+                });
 
         binding.step3Layout.prevBtnStep3.setOnClickListener(view -> {
             progressCounter = progressCounter - 33;
@@ -106,7 +121,6 @@ public class ContractGenerate extends AppCompatActivity {
             binding.viewFlipper.showPrevious();
         });
         binding.step2Layout.prevBtnStep2.setOnClickListener(view -> {
-
             progressCounter = progressCounter - 33;
             animation = ObjectAnimator.ofInt(binding.stepProgress, "progress", binding.stepProgress.getProgress(), progressCounter);
             animation.setDuration(600); // 600ms nice smooth animation
@@ -123,17 +137,15 @@ public class ContractGenerate extends AppCompatActivity {
             binding.viewFlipper.showPrevious();
         });
 
-//         Spinner Setup
-// In your Activity/Fragment
+
         List<String> contractTypes = Arrays.asList(
                 "Freelance Agreement",
                 "NDA (Non-Disclosure Agreement)",
                 "Employment Contract",
                 "Rental Agreement",
                 "Partnership Agreement",
-                "Service Agreement",  // Added (common use case)
-                "Loan Agreement",     // Added
-                "Custom"
+                "Service Agreement",
+                "Loan Agreement"
         );
         ArrayAdapter<String> contractAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, contractTypes);
         binding.step2Layout.contractTypeSpinner.setAdapter(contractAdapter);
@@ -182,7 +194,7 @@ public class ContractGenerate extends AppCompatActivity {
         contractType = binding.step2Layout.contractTypeSpinner.getSelectedItem().toString().trim();
         entityTypeA = binding.step2Layout.entityTypeA.getSelectedItem().toString().trim();
         entityTypeB = binding.step2Layout.entityTypeB.getSelectedItem().toString().trim();
-        jurisdiction = binding.step2Layout.endDate.getText().toString().trim();
+        jurisdiction = binding.step2Layout.jurisdiction.getText().toString().trim();
         paymentTerms = binding.step2Layout.paymentTerms.getText().toString().trim();
 
         if (!(!contractType.isEmpty() || !contractTitle.isEmpty() ||
@@ -190,7 +202,7 @@ public class ContractGenerate extends AppCompatActivity {
                 !startDate.isEmpty() || !endDate.isEmpty()
                 || !jurisdiction.isEmpty())){
             Toast.makeText(this, "fill all credentials...", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             progressCounter = progressCounter + 33;
             animation = ObjectAnimator.ofInt(binding.stepProgress, "progress", binding.stepProgress.getProgress(), progressCounter);
             animation.setDuration(600); // 600ms nice smooth animation
@@ -231,8 +243,14 @@ public class ContractGenerate extends AppCompatActivity {
         binding.step4Layout.startDateTxt.setText(startDate);
         binding.step4Layout.endDateTxt.setText(endDate);
         binding.step4Layout.jurisdictionTxt.setText(jurisdiction);
-        binding.step4Layout.paymentTermsTxt.setText(paymentTerms);
-
+        if (paymentTerms.isEmpty() || paymentTerms == null){
+            binding.step4Layout.paymentTermsTxt.setVisibility(GONE);
+            binding.step4Layout.paymentTxtHeading.setVisibility(GONE);
+        }else {
+            binding.step4Layout.paymentTxtHeading.setVisibility(VISIBLE);
+            binding.step4Layout.paymentTermsTxt.setVisibility(VISIBLE);
+            binding.step4Layout.paymentTermsTxt.setText(paymentTerms);
+        }
         binding.step4Layout.generalTermsTxt.setText(generalTerms);
         binding.step4Layout.specialClausesTxt.setText(specialClauses);
 
@@ -241,7 +259,7 @@ public class ContractGenerate extends AppCompatActivity {
 
     private void generateContract() {
         contractMVVM.getContractResponse().observe(this,onResponseText -> {
-
+            binding.linearlayout2.setVisibility(GONE);
             PreviewContractFragment generateContract = new PreviewContractFragment();
             Bundle bundle = new Bundle();
             bundle.putString("AI_RESPONSE", onResponseText);

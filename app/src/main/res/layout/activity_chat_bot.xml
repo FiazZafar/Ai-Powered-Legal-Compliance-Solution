@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:background="@color/primary_light"
+        android:background="@color/primaryLight"
         android:orientation="vertical"
         android:layout_gravity="start"
         app:layout_constraintTop_toTopOf="parent"
@@ -86,17 +86,21 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/inputContainer"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@color/primary_light"
+        android:layout_height="wrap_content"
+        android:minHeight="80dp"
+        android:background="@color/primaryLight"
         app:layout_constraintBottom_toBottomOf="parent">
         <EditText
             android:id="@+id/questionTxt"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/edt_bg"
             android:hint="Message"
+            android:maxHeight="100dp"
             android:padding="12dp"
             android:layout_margin="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/sendBtn"
             />
@@ -110,8 +114,9 @@
             android:src="@drawable/send_24px"
             android:padding="16dp"
             android:background="@drawable/edt_bg"
-            android:backgroundTint="@color/background"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:backgroundTint="@color/offWhiteColor"
+            app:layout_constraintBottom_toBottomOf="@+id/questionTxt"
+            app:layout_constraintTop_toTopOf="@+id/questionTxt"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

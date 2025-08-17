@@ -16,20 +16,9 @@
         app:defaultNavHost="true"
         android:name="androidx.navigation.fragment.NavHostFragment"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/chatBot"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
         />
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/chatBot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/robot_2_24px"
-        android:visibility="gone"
-        android:backgroundTint="@color/bottom_nav"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginVertical="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNav"
-        />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
@@ -38,9 +27,10 @@
         app:menu="@menu/bottom_nav_menu"
         app:itemPaddingBottom="8dp"
         app:itemPaddingTop="8dp"
-        android:background="@color/bottom_nav"
-        app:itemTextColor="@color/textColorBotNav"
-        app:itemIconTint="@color/icons_bg_bot_nav"
+        android:background="#008080"
+
+        app:itemTextColor="@color/textColor2"
+        app:itemIconTint="@color/iconsColor2"
         app:labelVisibilityMode="labeled"
         app:itemRippleColor="@color/ripple"
         app:animationMode="slide"

@@ -4,21 +4,21 @@
     <item android:id="@+id/homeTab"
         android:title="Home"
         android:icon="@drawable/home_24px"
-        android:iconTint="@color/icons_bg_bot_nav"/>
+        android:iconTint="@color/iconsColor2"/>
     <item android:id="@+id/contractTab"
         android:title="Contract"
         android:icon="@drawable/post_add_24px"
-        android:iconTint="@color/icons_bg_bot_nav"/>
+        android:iconTint="@color/iconsColor2"/>
     <item android:id="@+id/chatBot"
         android:title="GovalBot"
         android:icon="@drawable/robot_2_24px"
-        android:iconTint="@color/icons_bg_bot_nav"/>
+        android:iconTint="@color/iconsColor2"/>
     <item android:id="@+id/analyzerTab"
         android:title="Analyzer"
         android:icon="@drawable/docs_24px"
-        android:iconTint="@color/icons_bg_bot_nav"/>
+        android:iconTint="@color/iconsColor2"/>
     <item android:id="@+id/profileTab"
         android:title="Profile"
         android:icon="@drawable/baseline_account_circle_24"
-        android:iconTint="@color/icons_bg_bot_nav"/>
+        android:iconTint="@color/iconsColor2"/>
 </menu>

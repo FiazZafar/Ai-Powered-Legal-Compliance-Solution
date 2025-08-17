@@ -4,6 +4,8 @@
     android:id="@+id/step1Layout"
     android:orientation="vertical"
     android:fillViewport="true"
+    android:scrollbars="none"
+    android:scrollbarStyle="outsideOverlay"
     android:background="@color/backgroundColor">
 <LinearLayout
     android:layout_width="match_parent"
@@ -17,9 +19,9 @@
             android:text="Step 1: Parties Information"
             android:textSize="22sp"
             android:textStyle="bold"
-            android:textColor="@color/text_primary"
+            android:textColor="@color/textColor"
             android:layout_gravity="center_horizontal"
-            android:paddingBottom="16dp" />
+            android:paddingBottom="8dp" />
 
         <!-- Party A Full Name -->
         <TextView
@@ -33,11 +35,11 @@
         <EditText
             android:id="@+id/partyAName"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/edittext_background"
             android:textColor="@color/textColor"
-            android:capitalize="sentences"
-            android:paddingStart="8dp"
+            android:inputType="text|textCapSentences"
+            android:padding="12dp"
             android:importantForAutofill="no"
             android:hint="Enter username" />
 
@@ -48,15 +50,15 @@
             android:text="Second Party"
             android:textColor="@color/textColor"
             android:textSize="16sp"
-            android:paddingTop="12dp"
+            android:paddingTop="8dp"
             android:paddingBottom="4dp" />
 
         <EditText
             android:id="@+id/partyBName"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:paddingStart="8dp"
-            android:capitalize="sentences"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:inputType="text|textCapSentences"
             android:textColor="@color/textColor"
             android:importantForAutofill="no"
             android:background="@drawable/edittext_background"
@@ -69,20 +71,19 @@
             android:text="First Party Address"
             android:textColor="@color/textColor"
             android:textSize="16sp"
-            android:paddingTop="12dp"
+            android:paddingTop="8dp"
             android:paddingBottom="4dp" />
 
         <EditText
             android:id="@+id/partyAddress"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:paddingStart="8dp"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
             android:textColor="@color/textColor"
-            android:capitalize="sentences"
+            android:inputType="text|textCapSentences"
             android:background="@drawable/edittext_background"
             android:hint="Enter address"
-            android:importantForAutofill="no"
-            android:inputType="text"/>
+            android:importantForAutofill="no" />
 
         <!-- Party B Address -->
         <TextView
@@ -91,19 +92,19 @@
             android:text="Second Party Address"
             android:textColor="@color/textColor"
             android:textSize="16sp"
-            android:paddingTop="12dp"
+            android:paddingTop="8dp"
             android:paddingBottom="4dp" />
         <EditText
             android:id="@+id/partyBAddress"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:capitalize="sentences"
-            android:paddingStart="8dp"
+            android:padding="12dp"
             android:textColor="@color/textColor"
             android:background="@drawable/edittext_background"
             android:hint="Enter address"
             android:importantForAutofill="no"
-            android:inputType="text" />
+            android:inputType="text|textCapSentences" />
         <!-- Party A Email -->
         <TextView
             android:layout_width="wrap_content"
@@ -111,14 +112,14 @@
             android:text="Party A Email Address"
             android:textColor="@color/textColor"
             android:textSize="16sp"
-            android:paddingTop="12dp"
+            android:paddingTop="8dp"
             android:paddingBottom="4dp" />
 
         <EditText
             android:id="@+id/partyAEmail"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:paddingStart="8dp"
+            android:padding="12dp"
             android:textColor="@color/textColor"
             android:background="@drawable/edittext_background"
             android:hint="Enter email address"
@@ -132,13 +133,13 @@
             android:text="Party B Email Address"
             android:textColor="@color/textColor"
             android:textSize="16sp"
-            android:paddingTop="12dp"
+            android:paddingTop="8dp"
             android:paddingBottom="4dp" />
         <EditText
             android:id="@+id/partyBEmail"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:paddingStart="8dp"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
             android:textColor="@color/textColor"
             android:background="@drawable/edittext_background"
             android:hint="Enter email address"
@@ -151,8 +152,9 @@
             android:text="Next..."
             android:textAllCaps="false"
             android:background="@drawable/btn_common_bg"
-            android:textColor="@color/textColor"
-            android:layout_marginTop="24dp"
+            android:textColor="@color/textColor2"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="4dp"
             android:padding="14dp" />
-                </LinearLayout>
+</LinearLayout>
     </ScrollView>

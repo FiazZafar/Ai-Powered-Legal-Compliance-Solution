@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:text="Analysis Result"
         android:textStyle="bold"
-        android:textColor="@color/text_primary"
+        android:textColor="@color/textColor"
         android:textSize="18sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,11 +63,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Upload Again"
+
             android:textColor="@color/white"
+            android:textAllCaps="false"
             android:background="@drawable/btn_common_bg"
             android:layout_marginEnd="8dp"
-            android:padding="10dp"
-            android:textStyle="bold"/>
+            android:padding="10dp"/>
 
     </LinearLayout>
 

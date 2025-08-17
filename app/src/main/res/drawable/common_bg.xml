@@ -6,9 +6,9 @@
             <corners android:topRightRadius="20dp"
                 android:topLeftRadius="20dp"
                 />
-            <solid android:color="@color/secondary_color"/>
+            <solid android:color="@color/secondaryColor"/>
             <stroke android:width="2dp"
-                android:color="@color/primary_color"/>
+                android:color="@color/black"/>
         </shape>
     </item>
 </selector>

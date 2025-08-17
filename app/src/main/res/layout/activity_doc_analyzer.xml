@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/arrow_back_24px"
         android:layout_marginStart="16dp"
-        app:tint="@color/icons_bg"
+        app:tint="@color/iconColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/analyzeDocTitle"
         app:layout_constraintBottom_toBottomOf="@id/analyzeDocTitle"/>

@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:scrollbars="none"
     android:background="@color/backgroundColor">
 
     <LinearLayout
@@ -16,9 +17,9 @@
             android:text="Step 4: Review and Generate"
             android:textSize="22sp"
             android:textStyle="bold"
-            android:textColor="@color/text_primary"
+            android:textColor="@color/textColor"
             android:layout_gravity="center_horizontal"
-            android:paddingBottom="16dp" />
+            android:paddingBottom="8dp" />
 
         <!-- Review Section -->
         <TextView
@@ -33,15 +34,16 @@
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:paddingVertical="10dp"
+           android:layout_marginTop="2dp"
+           android:layout_marginBottom="5dp"
            android:orientation="horizontal">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="First Party : "
             android:layout_weight="1.75"
-            android:paddingHorizontal="10dp"
-            android:textSize="18sp"
+            android:paddingEnd="10dp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/textColor"
             />
@@ -49,9 +51,10 @@
                android:id="@+id/partyA_name_txt"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
+               android:paddingBottom="1dp"
                android:layout_weight="1.2"
                android:text="Fiaz Zafar"
-               android:textSize="16sp"
+               android:textSize="14sp"
                android:textColor="@color/textColor"
                />
        </LinearLayout>
@@ -59,15 +62,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="10dp"
+            android:layout_marginVertical="5dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Second Party: "
                 android:layout_weight="1.75"
-                android:paddingHorizontal="10dp"
-                android:textSize="18sp"
+                android:paddingEnd="10dp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/textColor"
                 />
@@ -76,8 +79,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Fiaz Zafar"
+                android:paddingBottom="1dp"
                 android:layout_weight="1.2"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="@color/textColor"
                 />
         </LinearLayout>
@@ -85,15 +89,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="10dp"
+            android:layout_marginVertical="5dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Email Party A: "
                 android:layout_weight="1.75"
-                android:paddingHorizontal="10dp"
-                android:textSize="18sp"
+                android:paddingEnd="10dp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/textColor"
                 />
@@ -102,8 +106,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.2"
+                android:paddingBottom="1dp"
                 android:text="Fiaz Zafar"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="@color/textColor"
                 />
         </LinearLayout>
@@ -111,15 +116,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="10dp"
+            android:layout_marginVertical="5dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.75"
                 android:text="Party B Email: "
-                android:paddingHorizontal="10dp"
-                android:textSize="18sp"
+                android:paddingEnd="10dp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/textColor"
                 />
@@ -127,9 +132,10 @@
                 android:id="@+id/partyB_email_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="1dp"
                 android:layout_weight="1.2"
                 android:text="Fiaz Zafar"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="@color/textColor"
                 />
         </LinearLayout>
@@ -137,15 +143,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="10dp"
+            android:layout_marginVertical="5dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.75"
                 android:text="Contract Title: "
-                android:paddingHorizontal="10dp"
-                android:textSize="18sp"
+                android:paddingEnd="10dp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/textColor"
                 />
@@ -153,9 +159,10 @@
                 android:id="@+id/contract_title_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="1dp"
                 android:layout_weight="1.2"
                 android:text="Fiaz Zafar"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="@color/textColor"
                 />
         </LinearLayout>
@@ -163,15 +170,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="10dp"
+            android:layout_marginVertical="5dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.75"
                 android:text="Contract Type: "
-                android:paddingHorizontal="10dp"
-                android:textSize="18sp"
+                android:paddingEnd="10dp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/textColor"
                 />
@@ -179,9 +186,10 @@
                 android:id="@+id/contract_type_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="1dp"
                 android:layout_weight="1.2"
                 android:text="Fiaz Zafar"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="@color/textColor"
                 />
         </LinearLayout>
@@ -189,15 +197,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="10dp"
+            android:layout_marginVertical="5dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.75"
                 android:text="Start Date: "
-                android:paddingHorizontal="10dp"
-                android:textSize="18sp"
+                android:paddingEnd="10dp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/textColor"
                 />
@@ -206,8 +214,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.2"
+                android:paddingBottom="1dp"
                 android:text="Fiaz Zafar"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="@color/textColor"
                 />
         </LinearLayout>
@@ -215,15 +224,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="10dp"
+            android:layout_marginVertical="5dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.75"
                 android:text="End Date: "
-                android:paddingHorizontal="10dp"
-                android:textSize="18sp"
+                android:paddingEnd="10dp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/textColor"
                 />
@@ -232,8 +241,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.2"
+                android:paddingBottom="1dp"
                 android:text="Fiaz Zafar"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="@color/textColor"
                 />
         </LinearLayout>
@@ -242,15 +252,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="10dp"
+            android:layout_marginVertical="5dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.75"
                 android:text="Jurisdiction: "
-                android:paddingHorizontal="10dp"
-                android:textSize="18sp"
+                android:paddingEnd="10dp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/textColor"
                 />
@@ -260,7 +270,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.2"
                 android:text="Fiaz Zafar"
-                android:textSize="16sp"
+                android:textSize="14sp"
+                android:paddingBottom="1dp"
                 android:textColor="@color/textColor"
                 />
         </LinearLayout>
@@ -268,15 +279,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="10dp"
+            android:layout_marginVertical="5dp"
             android:orientation="horizontal">
             <TextView
+                android:id="@+id/paymentTxtHeading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.75"
-                android:text="Payment Terms: "
-                android:paddingHorizontal="10dp"
-                android:textSize="18sp"
+                android:text="Payment: "
+                android:paddingEnd="10dp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/textColor"
                 />
@@ -286,7 +298,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.2"
                 android:text="Fiaz Zafar"
-                android:textSize="16sp"
+                android:paddingBottom="1dp"
+                android:textSize="14sp"
                 android:textColor="@color/textColor"
                 />
         </LinearLayout>
@@ -294,15 +307,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="10dp"
+            android:layout_marginVertical="5dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.75"
                 android:text="General Terms: "
-                android:paddingHorizontal="10dp"
-                android:textSize="18sp"
+                android:paddingEnd="10dp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/textColor"
                 />
@@ -312,7 +325,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.2"
                 android:text="Fiaz Zafar"
-                android:textSize="16sp"
+                android:paddingBottom="1dp"
+                android:textSize="14sp"
                 android:textColor="@color/textColor"
                 />
         </LinearLayout>
@@ -320,15 +334,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="10dp"
+            android:layout_marginVertical="5dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.75"
                 android:text="Special Clauses: "
-                android:paddingHorizontal="10dp"
-                android:textSize="18sp"
+                android:paddingEnd="10dp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/textColor"
                 />
@@ -337,8 +351,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.2"
+                android:paddingBottom="1dp"
                 android:text="Fiaz Zafar"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="@color/textColor"
                 />
         </LinearLayout>
@@ -354,7 +369,7 @@
             android:background="@drawable/btn_common_bg"
             android:backgroundTint="#E0E0E0"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:padding="10dp"/>
 
         <!-- Generate Button -->
@@ -364,9 +379,10 @@
             android:layout_height="wrap_content"
             android:text="Generate Contract"
             android:textAllCaps="false"
-            android:textColor="@color/text_primary"
+            android:textColor="@color/textColor2"
             android:background="@drawable/btn_common_bg"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:padding="14dp" />
 
     </LinearLayout>

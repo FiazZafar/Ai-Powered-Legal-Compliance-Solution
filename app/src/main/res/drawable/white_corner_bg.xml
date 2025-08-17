@@ -5,7 +5,7 @@
     <shape android:shape="rectangle">
     <corners android:topLeftRadius="50dp"
         android:topRightRadius="50dp"/>
-        <solid android:color="@color/bottom_nav"/>
+        <solid android:color="@color/primaryColor"/>
     </shape>
     </item>
 </selector>

@@ -69,9 +69,8 @@
                 android:layout_width="0dp"
                 android:layout_height="120dp"
                 android:layout_columnWeight="1"
-                app:cardBackgroundColor="@color/card1_bg"
                 app:cardElevation="5dp"
-
+                app:cardBackgroundColor="@color/backgroundColor"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
@@ -83,13 +82,15 @@
                     android:id="@+id/generateClause"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/gradient"
+
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        app:tint="@color/icons_bg"
+                        app:tint="@color/iconsColor2"
                         android:src="@drawable/edit_document_24px"/>
 
                     <TextView
@@ -100,7 +101,7 @@
                         android:textAlignment="center"
                         android:textSize="16sp"
                         android:text="Generate\nClause"
-                        android:textColor="@color/textColor"/>
+                        android:textColor="@color/textColor2"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -114,7 +115,8 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
                 android:layout_rowWeight="1"
-                app:cardBackgroundColor="@color/card2_bg"
+                app:cardBackgroundColor="@color/backgroundColor"
+
                 app:cardCornerRadius="12dp">
 
                 <LinearLayout
@@ -122,12 +124,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:background="@drawable/gradient"
                     android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        app:tint = "@color/icons_bg"
+                        app:tint = "@color/iconsColor2"
                         android:src="@drawable/summarize_24px"/>
 
                     <TextView
@@ -138,7 +141,7 @@
                         android:textAlignment="center"
                         android:textSize="16sp"
                         android:text="Summarize\nDocument"
-                        android:textColor="@color/textColor"/>
+                        android:textColor="@color/textColor2"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
             <com.google.android.material.card.MaterialCardView
@@ -151,20 +154,23 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
                 android:layout_rowWeight="1"
-                app:cardBackgroundColor="@color/card3_bg"
+                app:cardBackgroundColor="@color/backgroundColor"
+
                 app:cardCornerRadius="12dp">
 
                 <LinearLayout
                     android:id="@+id/complianceCheck"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/gradient"
+
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        app:tint = "@color/icons_bg"
+                        app:tint = "@color/iconsColor2"
                         android:src="@drawable/policy_24px"/>
 
                     <TextView
@@ -175,19 +181,17 @@
                         android:textAlignment="center"
                         android:text="Compliance\nCheck"
                         android:textSize="16sp"
-                        android:textColor="@color/textColor"/>
+                        android:textColor="@color/textColor2"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="120dp"
-                app:cardBackgroundColor="@color/card4_bg"
                 android:layout_columnWeight="1"
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
-
                 app:cardElevation="5dp"
                 android:layout_rowWeight="1"
                 app:cardCornerRadius="12dp">
@@ -197,12 +201,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:background="@drawable/gradient"
                     android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        app:tint="@color/icons_bg"
+                        app:tint="@color/iconsColor2"
                         android:src="@drawable/docs_24px"/>
 
                     <TextView
@@ -213,7 +218,7 @@
                         android:paddingHorizontal="8dp"
                         android:textAlignment="center"
                         android:text="Saved\nClauses"
-                        android:textColor="@color/textColor"/>
+                        android:textColor="@color/textColor2"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -237,7 +242,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="view all"
-            android:textColor="@color/red_color"
+            android:textColor="@color/redColor"
             android:layout_marginEnd="16dp"
             android:textSize="18sp"
             android:textStyle="normal"
@@ -267,7 +272,7 @@
             android:layout_marginHorizontal="16dp"
             app:cardElevation="1dp"
             android:layout_rowWeight="1"
-            app:cardBackgroundColor="@color/background"
+            app:cardBackgroundColor="@color/offWhiteColor"
             app:cardCornerRadius="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -279,6 +284,7 @@
                     android:layout_height="match_parent"
                     android:paddingHorizontal="8dp"
                     android:layout_gravity="center"
+
                     android:textAlignment="center"
                     android:textSize="16sp"
                     android:text="You haven’t analyzed any documents yet. Try Quick Actions now!"

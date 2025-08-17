@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="10dp"
             android:paddingVertical="5dp"
-            android:background="@color/receive_color"
+            android:background="@color/receiveColor"
             android:orientation="vertical">
 
             <TextView
@@ -69,7 +69,7 @@
 
             android:paddingHorizontal="10dp"
             android:paddingVertical="5dp"
-            android:background="@color/sent_color"
+            android:background="@color/sendColor"
             android:orientation="vertical">
         <TextView
             android:id="@+id/user_message_txt"

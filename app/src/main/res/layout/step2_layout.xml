@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:scrollbars="none"
     android:background="@color/backgroundColor">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="16dp">
+            android:orientation="vertical">
 
             <!-- Step Title -->
             <TextView
@@ -20,9 +19,9 @@
                 android:text="Step 2: Contract Details"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:textColor="@color/text_primary"
+                android:textColor="@color/textColor"
                 android:layout_gravity="center_horizontal"
-                android:paddingBottom="16dp" />
+                android:paddingBottom="8dp" />
 
             <!-- Contract Title -->
             <TextView
@@ -30,19 +29,20 @@
                 android:layout_height="wrap_content"
                 android:text="Contract Title"
                 android:textColor="@color/textColor"
-                android:textStyle="bold"
+                android:textStyle="normal"
                 android:textSize="16sp"
                 android:paddingBottom="4dp" />
 
             <EditText
                 android:id="@+id/contractTitle"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:textColor="@color/textColor"
+                android:padding="12dp"
                 android:hint="Enter Contract Title"
                 android:importantForAutofill="no"
-                android:background="@drawable/edittext_background"
-                android:paddingStart="10dp" />
+                android:inputType="textAutoComplete|textCapSentences"
+                android:background="@drawable/edittext_background"/>
 
             <!-- Contract Type -->
             <TextView
@@ -50,39 +50,39 @@
                 android:layout_height="wrap_content"
                 android:text="Contract Type"
                 android:textColor="@color/textColor"
-                android:textStyle="bold"
+                android:textStyle="normal"
                 android:textSize="16sp"
-                android:paddingTop="12dp"
+                android:paddingTop="8dp"
                 android:paddingBottom="4dp" />
 
             <Spinner
                 android:id="@+id/contractTypeSpinner"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
                 android:background="@drawable/edittext_background"
-                android:spinnerMode="dropdown"
-                android:paddingStart="10dp" />
+                android:spinnerMode="dropdown"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Start Date"
                 android:textColor="@color/textColor"
-                android:textStyle="bold"
+                android:textStyle="normal"
                 android:textSize="16sp"
-                android:paddingTop="12dp"
+                android:paddingTop="8dp"
                 android:paddingBottom="4dp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/startDate"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:textColor="@color/textColor"
                 android:hint="Select Start Date"
                 android:gravity="center_vertical"
                 android:background="@drawable/edittext_background"
                 android:drawableEnd="@drawable/calendar_month_24px"
-                android:paddingHorizontal="10dp" />
+                android:padding="12dp" />
 
             <!-- End Date -->
             <TextView
@@ -90,21 +90,21 @@
                 android:layout_height="wrap_content"
                 android:text="End Date"
                 android:textColor="@color/textColor"
-                android:textStyle="bold"
+                android:textStyle="normal"
                 android:textSize="16sp"
-                android:paddingTop="12dp"
+                android:paddingTop="8dp"
                 android:paddingBottom="4dp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/endDate"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:hint="Select End Date"
                 android:textColor="@color/textColor"
+                android:padding="12dp"
                 android:gravity="center_vertical"
                 android:background="@drawable/edittext_background"
-                android:drawableEnd="@drawable/calendar_month_24px"
-                android:paddingHorizontal="10dp" />
+                android:drawableEnd="@drawable/calendar_month_24px"/>
 
             <!-- Jurisdiction -->
             <TextView
@@ -112,20 +112,21 @@
                 android:layout_height="wrap_content"
                 android:text="Jurisdiction"
                 android:textColor="@color/textColor"
-                android:textStyle="bold"
+                android:textStyle="normal"
                 android:textSize="16sp"
-                android:paddingTop="12dp"
+                android:paddingTop="8dp"
                 android:paddingBottom="4dp" />
 
             <EditText
                 android:id="@+id/jurisdiction"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:textColor="@color/textColor"
                 android:hint="Enter State / Region"
                 android:importantForAutofill="no"
+                android:inputType="text|textCapSentences"
                 android:background="@drawable/edittext_background"
-                android:paddingStart="10dp" />
+                android:padding="12dp" />
             <!-- Payment Terms -->
             <TextView
                 android:id="@+id/payment_terms_txt"
@@ -141,12 +142,12 @@
             <EditText
                 android:id="@+id/paymentTerms"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:hint="Enter Payment Terms"
                 android:visibility="gone"
                 android:importantForAutofill="no"
                 android:background="@drawable/edittext_background"
-                android:paddingStart="10dp" />
+                android:padding="12dp" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -165,17 +166,18 @@
                         android:layout_height="wrap_content"
                         android:text="Entity Type B"
                         android:textColor="@color/textColor"
+                        android:textStyle="normal"
                         android:textSize="16sp"
-                        android:paddingTop="12dp"
+                        android:paddingTop="8dp"
                         android:paddingBottom="4dp" />
 
                     <Spinner
                         android:id="@+id/entityTypeA"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="wrap_content"
                         android:background="@drawable/edittext_background"
                         android:spinnerMode="dropdown"
-                        android:paddingStart="10dp" />
+                        android:paddingHorizontal="12dp" />
 
                 </LinearLayout>
                 <LinearLayout
@@ -191,19 +193,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Entity Type A"
-
+                        android:textStyle="normal"
                         android:textColor="@color/textColor"
                         android:textSize="16sp"
-                        android:paddingTop="12dp"
+                        android:paddingTop="10dp"
                         android:paddingBottom="4dp" />
 
                     <Spinner
                         android:id="@+id/entityTypeB"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="wrap_content"
                         android:background="@drawable/edittext_background"
                         android:spinnerMode="dropdown"
-                        android:paddingStart="10dp" />
+                        android:paddingHorizontal="12dp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -213,7 +215,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:paddingTop="24dp">
+                android:paddingTop="12dp">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/prevBtnStep2"
@@ -222,7 +224,7 @@
                     android:layout_weight="1"
                     android:text="Previous"
                     android:textAllCaps="false"
-                    android:textColor="@color/textColor"
+                    android:textColor="@color/textColor2"
                     android:background="@drawable/btn_common_bg"
                     android:layout_marginEnd="8dp"
                     android:padding="14dp" />
@@ -234,7 +236,7 @@
                     android:layout_weight="1"
                     android:text="Next"
                     android:textAllCaps="false"
-                    android:textColor="@color/textColor"
+                    android:textColor="@color/textColor2"
                     android:background="@drawable/btn_common_bg"
                     android:layout_marginStart="8dp"
                     android:padding="14dp" />

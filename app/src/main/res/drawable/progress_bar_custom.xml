@@ -13,7 +13,7 @@
         <clip>
             <shape android:shape="rectangle">
                 <corners android:radius="10dp" />
-                <solid android:color="@color/secondary_color"/> <!-- your teal color -->
+                <solid android:color="@color/primaryColor"/> <!-- your teal color -->
             </shape>
         </clip>
     </item>

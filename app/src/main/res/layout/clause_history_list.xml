@@ -60,7 +60,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/content_copy_24px"
             android:background="@android:color/transparent"
-            app:tint="@color/icons_bg"
+            app:tint="@color/iconColor"
             android:visibility="visible"
             android:layout_marginEnd="4dp"
             android:layout_gravity="bottom|end"

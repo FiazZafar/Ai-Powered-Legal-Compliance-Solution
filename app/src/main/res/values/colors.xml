@@ -1,52 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Primary Colors -->
-    <color name="primary_color">#2A4D8E</color>  <!-- Dark Blue (Primary Brand) -->
-    <color name="primary_light">#E3EAF5</color>  <!-- Light Blue (Card Background) -->
-    <color name="primary_dark">#1A365D</color>   <!-- Darker Blue (Optional) -->
+    <color name="textColor">@color/black</color>
+    <color name="iconColor">@color/black</color>
 
-    <!-- Secondary Colors -->
-    <color name="secondary_color">#3A7B9E</color> <!-- Teal Blue (Secondary Brand) -->
-    <color name="secondary_light">#E1F0F7</color>
+    <color name="backgroundColor">@color/white</color>
 
-    <color name="sent_color">#0BAB9C</color>
-    <color name="receive_color">#0B90AB</color>
-    <!-- Quick actions Bg -->
-    <color name="card1_bg">#3EF0E0</color>
-    <color name="card2_bg">#39E9FF</color>
-    <color name="card3_bg">#45A7F6</color>
-    <color name="card4_bg">#FF5D5D</color>
-    <!-- Surface/Background -->
-    <color name="surface">#FFFFFF</color>         <!-- White (Cards, Dialogs) -->
-    <color name="background">#F8F9FA</color>      <!-- Off-White (App Background) -->
+    <color name="buttonColor">@color/primaryColor</color>
+    <color name="bottomNavColor">@color/primaryColor</color>
 
-    <!-- Text Colors -->
-    <color name="text_primary">#212121</color>    <!-- Almost Black (Headings) -->
-    <color name="text_secondary">#757575</color>  <!-- Gray (Subtext) -->
-    <color name="text_on_primary">#FFFFFF</color> <!-- White (Text on Primary Color) -->
+    <color name="primaryColor">#008080</color>
+    <color name="primaryLight">#DDEBEB</color>
 
-    <!-- Status Colors -->
-    <color name="success">#4CAF50</color>         <!-- Green (Positive Actions) -->
-    <color name="red_color">#D32F2F</color>     <!-- Red (Warnings/Errors) -->
-    <color name="warning">#FFA000</color>         <!-- Amber (Alerts) -->
+    <color name="secondaryColor">#66b2b2</color>
 
-    <!-- Divider/Stroke -->
-    <color name="divider_color">#E0E0E0</color>   <!-- Light Gray (Dividers) -->
-    <color name="stroke_color">#BDBDBD</color>    <!-- Border Gray -->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="offWhiteColor">#FDFDFD</color>
 
-    <!-- Black/White (Utility) -->
-    <color name="white">#FFFFFFFF</color>
-    <color name="black">#FF000000</color>
+    <color name="iconsColor2">@color/white</color>
+    <color name="textColor2">@color/white</color>
 
-    <color name="backgroundColor">#FFFFFFFF</color> <!-- Light background -->
-    <color name="textColor">#000000</color>       <!-- Dark text -->
-    <color name="textColorBotNav">#FFFFFFFF</color>
-    <!-- Dark text -->
-    <color name="icons_bg">#000000</color>
-    <color name="icons_bg_bot_nav">#FFFFFFFF</color>
-    <color name="bottom_nav">#3A7B9E</color> <!-- Teal Blue (Secondary Brand) -->
-    <color name="common_btn">#3A7B9E</color>
-    <color name="ripple">#33FFFFFF</color>
+    <color name="sendColor">#9BCECE</color>
+    <color name="receiveColor">#5BC4D1</color>
 
-
+    <color name="ripple">#e2dfe5</color>
+    <color name="redColor">#FA2828</color>
 </resources>

@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
-        binding.chatBot.setOnClickListener(view -> startActivity(new Intent(this,ChatBot.class)));
     }
 
     private void setUpCloudinary() {
