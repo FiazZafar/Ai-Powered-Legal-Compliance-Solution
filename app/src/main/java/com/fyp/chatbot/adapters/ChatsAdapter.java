@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import com.fyp.chatbot.R;
 import com.fyp.chatbot.models.MessagesModel;
@@ -35,14 +36,14 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
         MessagesModel currentMessage = messagesModelList.get(position);
 
         if (currentMessage.getMessage_type().equals(MessagesModel.USER_MESSAGE)) {
-            holder.userCardView.setVisibility(View.VISIBLE);
-            holder.aiCardView.setVisibility(View.GONE);
+            holder.userConstraint.setVisibility(View.VISIBLE);
+            holder.aiConstraint.setVisibility(View.GONE);
             holder.userTextView.setText(currentMessage.getMessage());
             holder.aiTextView.setText(""); // clear AI text
             holder.sentTime.setText(currentMessage.getCurrentTime());
         } else if (currentMessage.getMessage_type().equals(MessagesModel.AI_RESPONSE)) {
-            holder.aiCardView.setVisibility(View.VISIBLE);
-            holder.userCardView.setVisibility(View.GONE);
+            holder.aiConstraint.setVisibility(View.VISIBLE);
+            holder.userConstraint.setVisibility(View.GONE);
             markwon.setMarkdown(holder.aiTextView,currentMessage.getMessage());
             holder.userTextView.setText(""); // clear user text
             holder.recieveTime.setText(currentMessage.getCurrentTime());
@@ -55,13 +56,13 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        CardView aiCardView, userCardView;
+        ConstraintLayout userConstraint, aiConstraint;
         TextView aiTextView, userTextView,recieveTime,sentTime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            aiCardView = itemView.findViewById(R.id.ai_style);
-            userCardView = itemView.findViewById(R.id.user_style);
+            aiConstraint = itemView.findViewById(R.id.aiConstraint);
+            userConstraint = itemView.findViewById(R.id.userConstraint);
             aiTextView = itemView.findViewById(R.id.ai_message_txt);
             userTextView = itemView.findViewById(R.id.user_message_txt);
             recieveTime = itemView.findViewById(R.id.message_recieved_time);

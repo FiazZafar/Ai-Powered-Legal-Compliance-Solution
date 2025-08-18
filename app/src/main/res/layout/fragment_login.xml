@@ -96,7 +96,7 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
-                android:background="@drawable/edt_bg"
+                android:background="@drawable/edittext_background"
                 android:padding="16dp"
                 android:textSize="16sp"
                 android:inputType="text"
@@ -112,7 +112,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
-                android:background="@drawable/edt_bg"
+                android:background="@drawable/edittext_background"
                 android:padding="16dp"
                 android:textSize="16sp"
                 android:inputType="text"
@@ -124,7 +124,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/edt_bg"
+                android:background="@drawable/edittext_background"
                 android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
@@ -224,7 +224,7 @@
                     android:padding="16dp"
                     android:elevation="10dp"
                     android:src="@drawable/googleg_standard_color_18"
-                    android:background="@drawable/edt_bg"/>
+                    android:background="@drawable/edittext_background"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

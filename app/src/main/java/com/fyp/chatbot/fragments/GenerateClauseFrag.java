@@ -153,7 +153,7 @@ public class GenerateClauseFrag extends Fragment {
         params.setMargins(0,4,0,4);
         autoCompleteTextView.setLayoutParams(params);
         autoCompleteTextView.setBackgroundResource(R.drawable.edittext_background);
-        autoCompleteTextView.setPadding(16,16,16,16);
+        autoCompleteTextView.setPadding(24,32,16,32);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(),
                 android.R.layout.simple_spinner_dropdown_item,suggestionsList);
@@ -178,12 +178,15 @@ public class GenerateClauseFrag extends Fragment {
                 ClipData data = ClipData.newPlainText("Clause",clauseTxt);
                 clipboardManager.setPrimaryClip(data);
                 binding.clauseCopyBtn.setEnabled(false);
+                binding.clauseCopyBtn.setAlpha(0.5f);
                 Toast.makeText(requireContext(), "Clause copied to clipboard", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(requireContext(), "Nothing to copy", Toast.LENGTH_SHORT).show();
             }
         });
         binding.saveClauseBtn.setOnClickListener(view -> {
+            binding.saveClauseBtn.setEnabled(false);
+            binding.saveClauseBtn.setAlpha(0.5f);
             clauseMVVM.saveClause(clauseType,clauseTxt).observe(getViewLifecycleOwner(),
                     onClauseSave -> {
             if (onClauseSave)
@@ -193,6 +196,13 @@ public class GenerateClauseFrag extends Fragment {
             });
         });
         binding.generateBtn.setOnClickListener(view -> {
+
+            binding.clauseCopyBtn.setEnabled(true);
+            binding.clauseCopyBtn.setAlpha(1.0f);
+            binding.generateClauseResponse.setText("");
+            binding.saveClauseBtn.setEnabled(true);
+            binding.saveClauseBtn.setAlpha(1.0f);
+            binding.saveClauseBtn.setVisibility(GONE);
 
             InputMethodManager im = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             View currentView = requireActivity().getCurrentFocus();

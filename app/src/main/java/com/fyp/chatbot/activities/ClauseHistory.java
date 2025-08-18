@@ -33,7 +33,7 @@ public class ClauseHistory extends AppCompatActivity {
        clauseList = new ArrayList<>();
 
        binding.linearlayout2.setVisibility(View.VISIBLE);
-
+       binding.backBtn.setOnClickListener(view -> finish());
        adapter = new ClauseHistoryAdapter(clauseList,this);
        initViews();
        initObservers();

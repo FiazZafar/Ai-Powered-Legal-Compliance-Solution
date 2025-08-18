@@ -26,6 +26,7 @@
     <color name="ripple">#e2dfe5</color>
     <color name="redColor">#FA2828</color>
 
+    <color name="progressColor">#008080</color>
     <color name="decorationColor">#008080</color>
     <color name="recentDocColor">#FFFFFF</color>
 

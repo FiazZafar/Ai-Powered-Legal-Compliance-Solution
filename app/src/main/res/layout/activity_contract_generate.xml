@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/backgroundColor">
 
@@ -15,7 +13,7 @@
         android:layout_gravity="center_horizontal"
         android:fontFamily="sans-serif-medium"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:text="AI Legal Contract Assistant"
         android:textColor="@color/decorationColor"
         android:textSize="22sp"
@@ -34,15 +32,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginVertical="32dp"/>
+        android:layout_marginVertical="16dp"/>
     <ProgressBar
         android:id="@+id/stepProgress"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:layout_margin="8dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp"
         android:max="99"
-        android:progress="50"
+        android:progress="33"
         android:progressDrawable="@drawable/progress_bar_custom"
         app:layout_constraintEnd_toEndOf="@+id/titleText"
         app:layout_constraintStart_toStartOf="@+id/titleText"
@@ -55,7 +54,8 @@
             android:id="@+id/viewFlipper"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="8dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="8dp"
             app:layout_constraintTop_toBottomOf="@+id/stepProgress"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -1,4 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="textColor">@color/white</color>
+    <color name="iconColor">@color/white</color>
+
+    <color name="backgroundColor">#222831</color>
+
+    <color name="buttonColor">#222831</color>
+    <color name="bottomNavColor">#393E46</color>
+
+    <color name="primaryColor">#009688</color>
+    <color name="primaryLight">#32707E</color>
+
+    <color name="secondaryColor">#009688</color>
+
+    <color name="black">#121212</color>
+    <color name="white">#FFFFFF</color>
+    <color name="offWhiteColor">#FDFDFD</color>
+
+    <color name="iconsColor2">@color/white</color>
+    <color name="textColor2">@color/white</color>
+
+    <color name="sendColor">#9BCECE</color>
+    <color name="receiveColor">#5BC4D1</color>
+
+    <color name="ripple">#4DFFFFFF</color>
+    <color name="redColor">#FD3030</color>
+
+    <color name="progressColor">#121212</color>
+    <color name="decorationColor">#009688</color>
+    <color name="recentDocColor">#393E46</color>
+
+
+    <color name="startColor">#393E46</color>
+    <color name="centerColor">#393E46</color>
+    <color name="endColor">#393E46</color>
 
 </resources>

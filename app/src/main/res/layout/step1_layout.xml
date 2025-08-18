@@ -1,23 +1,23 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:id="@+id/step1Layout"
     android:orientation="vertical"
     android:fillViewport="true"
     android:scrollbars="none"
     android:scrollbarStyle="outsideOverlay"
     android:background="@color/backgroundColor">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
         <!-- Title -->
         <TextView
             android:id="@+id/stepTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Step 1: Parties Information"
-            android:textSize="22sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/textColor"
             android:layout_gravity="center_horizontal"
@@ -151,10 +151,11 @@
             android:layout_height="wrap_content"
             android:text="Next..."
             android:textAllCaps="false"
+            android:layout_marginBottom="8dp"
+
             android:background="@drawable/btn_common_bg"
             android:textColor="@color/textColor2"
             android:layout_marginTop="12dp"
-            android:layout_marginBottom="4dp"
-            android:padding="14dp" />
+             />
 </LinearLayout>
-    </ScrollView>
+</ScrollView>

@@ -5,102 +5,132 @@
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/ai_style"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/aiConstraint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="5dp"
-        android:elevation="10dp"
-        app:cardBackgroundColor="@color/black"
-        app:cardUseCompatPadding="true"
+        android:layout_gravity="start"
         >
-        <LinearLayout
-            android:layout_width="match_parent"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ai_style"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="5dp"
-            android:background="@color/receiveColor"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/ai_message_txt"
-                android:layout_width="wrap_content"
+            app:cardCornerRadius="5dp"
+            android:elevation="10dp"
+            app:cardBackgroundColor="@color/black"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintStart_toEndOf="@+id/aiProfile"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxWidth="280dp"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:textIsSelectable="true"
-                android:text="Hello how are you what's going on"
-                />
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="5dp"
+                android:background="@color/receiveColor"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/ai_message_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxWidth="210dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:textIsSelectable="true"
+                    android:text="Hello how are you what's going on"
+                    />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="5dp"
+                    android:layout_gravity="end|bottom"
+                    >
+
+                    <TextView
+                        android:id="@+id/message_recieved_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2:52 PM"
+                        android:textSize="12sp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/aiProfile"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/ai_logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/userConstraint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+
+        android:layout_gravity="end"
+        android:orientation="horizontal">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/user_style"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="5dp"
+            android:elevation="10dp"
+            android:layout_gravity="end"
+            app:cardBackgroundColor="@color/black"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toStartOf="@+id/userProfile"
+            >
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="5dp"
-                android:layout_gravity="end|bottom"
-                >
-
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="5dp"
+                android:background="@color/sendColor"
+                android:orientation="vertical">
                 <TextView
-                    android:id="@+id/message_recieved_time"
+                    android:id="@+id/user_message_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2:52 PM"
-                    android:textSize="14sp"
-                    android:layout_gravity="center"
+                    android:maxWidth="210dp"
+                    android:textSize="16sp"
                     android:textColor="@color/black"
-                    />
+                    android:text="Hello how are you,what's going on" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="5dp"
+                    android:layout_gravity="end|bottom">
+                    <TextView
+                        android:id="@+id/message_sent_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2:52 PM"
+                        android:textSize="12sp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black"
+                        />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-    <androidx.cardview.widget.CardView
-        android:id="@+id/user_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        app:cardCornerRadius="5dp"
-        android:elevation="10dp"
-        android:layout_gravity="end"
-        app:cardBackgroundColor="@color/black"
-        app:cardUseCompatPadding="true"
-        >
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="5dp"
-            android:background="@color/sendColor"
-            android:orientation="vertical">
-        <TextView
-            android:id="@+id/user_message_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxWidth="250dp"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:text="Hello how are you,what's going on"
+        </androidx.cardview.widget.CardView>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userProfile"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/profile_pic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginStart="5dp"
-            android:layout_gravity="end|bottom"
-            >
-
-            <TextView
-                android:id="@+id/message_sent_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2:52 PM"
-                android:textSize="14sp"
-                android:layout_gravity="center"
-                android:textColor="@color/black"
-                />
-        </LinearLayout>
-
-    </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
