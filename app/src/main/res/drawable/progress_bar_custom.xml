@@ -4,7 +4,7 @@
     <item android:id="@android:id/background">
         <shape android:shape="rectangle">
             <corners android:radius="10dp" />
-            <solid android:color="#E0E0E0"/> <!-- light gray background -->
+            <solid android:color="@color/offWhiteColor"/> <!-- light gray background -->
         </shape>
     </item>
 
@@ -13,7 +13,7 @@
         <clip>
             <shape android:shape="rectangle">
                 <corners android:radius="10dp" />
-                <solid android:color="@color/primaryColor"/> <!-- your teal color -->
+                <solid android:color="@color/backgroundColor"/> <!-- your teal color -->
             </shape>
         </clip>
     </item>

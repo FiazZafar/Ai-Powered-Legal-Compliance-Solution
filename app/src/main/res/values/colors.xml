@@ -25,4 +25,11 @@
 
     <color name="ripple">#e2dfe5</color>
     <color name="redColor">#FA2828</color>
+
+    <color name="decorationColor">#008080</color>
+    <color name="recentDocColor">#FFFFFF</color>
+
+    <color name="startColor">#66b2b2</color>
+    <color name="centerColor">#66b2b2</color>
+    <color name="endColor">#008080</color>
 </resources>
