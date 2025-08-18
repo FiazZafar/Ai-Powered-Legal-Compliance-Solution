@@ -27,7 +27,7 @@
         app:menu="@menu/bottom_nav_menu"
         app:itemPaddingBottom="8dp"
         app:itemPaddingTop="8dp"
-        android:background="#008080"
+        android:background="@color/bottomNavColor"
 
         app:itemTextColor="@color/textColor2"
         app:itemIconTint="@color/iconsColor2"

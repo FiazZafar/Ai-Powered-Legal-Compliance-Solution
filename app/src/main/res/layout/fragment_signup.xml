@@ -27,7 +27,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Smart"
-                    android:textColor="@color/primaryColor"
+                    android:textColor="@color/decorationColor"
                     android:textSize="45sp"
                     android:textStyle="bold"
                     android:layout_weight="0.50"/>
