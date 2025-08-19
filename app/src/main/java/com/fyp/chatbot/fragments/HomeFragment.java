@@ -1,10 +1,6 @@
 package com.fyp.chatbot.fragments;
 
-import static android.content.Context.MODE_PRIVATE;
-
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -25,6 +21,7 @@ import com.fyp.chatbot.activities.DocsHistory;
 import com.fyp.chatbot.adapters.RecentDocAdapter;
 import com.fyp.chatbot.databinding.FragmentHomeBinding;
 import com.fyp.chatbot.models.DocomentModel;
+import com.fyp.chatbot.viewModels.SharedPreferenceViewModel;
 import com.fyp.chatbot.viewModels.UserViewModel;
 
 import java.io.File;
@@ -36,14 +33,11 @@ import java.util.Locale;
 
 
 public class HomeFragment extends Fragment {
-
     private FragmentHomeBinding binding ;
     private List<DocomentModel> docomentModelList;
     private RecentDocAdapter adapter;
-    private String userName = "",userProfile = "";
     private UserViewModel userViewModel;
-    private SharedPreferences pref ;
-    private SharedPreferences.Editor editor;
+    SharedPreferenceViewModel viewModel;
 
     public HomeFragment() {}
 
@@ -54,26 +48,28 @@ public class HomeFragment extends Fragment {
         View view = binding.getRoot();
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+
+        viewModel = new ViewModelProvider(this,new ViewModelProvider
+                .AndroidViewModelFactory(this.getActivity().getApplication()))
+                .get(SharedPreferenceViewModel.class);
+
         userViewModel.fetchUser();
 
-        pref = getActivity().getSharedPreferences("Smart_Goval",MODE_PRIVATE);
-        editor = pref.edit();
-        userName = pref.getString("UserName",null);
-        userProfile = pref.getString("UserProfile",null);
+        viewModel.getData().observe(getViewLifecycleOwner(),userModel -> {
+            if (userModel != null){
+                if (!userModel.getUserName().isEmpty()){
+                    Log.d("HomeFrag", "onCreateView: name is " + userModel.getUserName());
+                    Log.d("HomeFrag", "onCreateView: email is " + userModel.getUserEmail());
+                    binding.userName.setText(userModel.getUserName());
+                }
+                if (!userModel.getImgUrl().isEmpty())
+                    Glide.with(this.getContext()).load(userModel.getImgUrl())
+                            .placeholder(R.drawable.profile_pic)
+                            .error(R.drawable.profile_pic)
+                            .into(binding.userProfile);
+            }
+        });
 
-        if (userName == null){
-            Log.d("HomeFrag", "onCreateView: Pref is null");
-            initObserver();
-        }else {
-            Log.d("HomeFrag", "onCreateView: Pref is Not Null");
-            if (userName != null)
-                binding.userName.setText(userName);
-            if (userProfile != null)
-                Glide.with(this.getContext()).load(userProfile)
-                        .placeholder(R.drawable.profile_pic)
-                        .error(R.drawable.profile_pic)
-                        .into(binding.userProfile);
-        }
         docomentModelList = new ArrayList<>();
         adapter = new RecentDocAdapter(docomentModelList);
 
@@ -85,40 +81,6 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
-
-    private void initObserver() {
-        userViewModel.getProfileUpdated().observe(getViewLifecycleOwner(),onUpdate -> {
-            if (onUpdate){
-                userName = pref.getString("UserName",null).toString();
-                userProfile = pref.getString("UserProfile",null).toString();
-                if (userName != null) binding.userName.setText(userName);
-                if (userProfile != null)
-                    Glide.with(this.getContext()).load(userProfile)
-                            .placeholder(R.drawable.profile_pic)
-                            .error(R.drawable.profile_pic)
-                            .into(binding.userProfile);
-
-            }
-        });
-
-        userViewModel.getUser().observe(getViewLifecycleOwner(),onResult -> {
-            if(onResult != null) {
-                editor.putString("UserName",onResult.getUserName());
-                editor.putString("UserProfile",onResult.getImgUrl());
-                editor.putString("UserEmail",onResult.getUserEmail());
-                editor.apply();
-
-                if (requireContext() instanceof Activity){
-                   Intent intent =  ((Activity) requireContext()).getIntent();
-                   ((Activity) requireContext()).overridePendingTransition(0,0);
-                   ((Activity) requireContext()).finish();
-                   ((Activity) requireContext()).overridePendingTransition(0,0);
-                   startActivity(intent);
-                }
-            }
-        });
-    }
-
     void setListeners(){
         binding.savedClauses.setOnClickListener(view1 -> {
             startActivity(new Intent(this.getContext(), ClauseHistory.class));

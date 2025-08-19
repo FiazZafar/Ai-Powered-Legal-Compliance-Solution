@@ -35,6 +35,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
 
         MessagesModel currentMessage = messagesModelList.get(position);
 
+
         if (currentMessage.getMessage_type().equals(MessagesModel.USER_MESSAGE)) {
             holder.userConstraint.setVisibility(View.VISIBLE);
             holder.aiConstraint.setVisibility(View.GONE);

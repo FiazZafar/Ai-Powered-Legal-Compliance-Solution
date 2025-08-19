@@ -29,6 +29,7 @@ import com.cloudinary.android.callback.UploadCallback;
 import com.fyp.chatbot.R;
 import com.fyp.chatbot.activities.IntroActivity;
 import com.fyp.chatbot.databinding.FragmentProfileScreenBinding;
+import com.fyp.chatbot.viewModels.SharedPreferenceViewModel;
 import com.fyp.chatbot.viewModels.UserViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -45,17 +46,13 @@ public class ProfileScreen extends Fragment {
     private final int REQUEST_CODE_IMAGE = 101;
     FragmentProfileScreenBinding binding;
     UserViewModel userViewModel;
-    private String userName = "",userEmail="",userProfile = "";
-
-    private SharedPreferences pref ;
-    private SharedPreferences.Editor editor;
+    SharedPreferenceViewModel viewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentProfileScreenBinding.inflate(inflater, container, false);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        viewModel = new ViewModelProvider(this).get(SharedPreferenceViewModel.class);
 
-        pref = getActivity().getSharedPreferences("Smart_Goval",MODE_PRIVATE);
-        editor = pref.edit();
 
         initListeners();
         getPreferences();
@@ -63,24 +60,22 @@ public class ProfileScreen extends Fragment {
     }
 
     private void getPreferences() {
-        userName = pref.getString("UserName",null);
-        userProfile = pref.getString("UserProfile",null);
-        userEmail = pref.getString("UserEmail",null);
+        viewModel.getData().observe(getViewLifecycleOwner(),userModel -> {
+            if (userModel != null){
+                if (userModel.getUserName() != null){
+                    binding.userName.setText(userModel.getUserName());
+                }
+                if (userModel.getImgUrl() != null)
+                    Glide.with(this.getContext()).load(userModel.getImgUrl())
+                            .placeholder(R.drawable.profile_pic)
+                            .error(R.drawable.profile_pic)
+                            .into(binding.userProfile);
 
-
-        if (userName != null){
-            binding.userName.setText(userName);
-        }
-        if (userProfile != null)
-            Glide.with(this.getContext()).load(userProfile)
-                    .placeholder(R.drawable.profile_pic)
-                    .error(R.drawable.profile_pic)
-                    .into(binding.userProfile);
-
-        if (userEmail != null){
-            binding.userEmail.setText(userEmail);
-        }
-
+                if (userModel.getUserEmail() != null){
+                    binding.userEmail.setText(userModel.getUserEmail());
+                }
+            }
+        });
     }
     private void initListeners() {
         binding.uploadProfile.setOnClickListener(view -> {
@@ -89,10 +84,10 @@ public class ProfileScreen extends Fragment {
             startActivityForResult(intent, REQUEST_CODE_IMAGE);
             binding.linearlayout2.setVisibility(VISIBLE);
         });
+
         binding.logoutBtn.setOnClickListener(view -> {
 
             FirebaseAuth.getInstance().signOut();
-
             startActivity(new Intent(getContext(), IntroActivity.class));
 
         });
@@ -104,100 +99,10 @@ public class ProfileScreen extends Fragment {
         if (requestCode == REQUEST_CODE_IMAGE && resultCode == RESULT_OK) {
             if (data != null) {
                 Uri uri = data.getData();
-                uploadToCloudinary(uri);
-            }
-        }
-    }
-    private void uploadToCloudinary(Uri uri) {
-        Executors.newSingleThreadExecutor().execute(() -> {
-            try {
-                File compressedFile = compressToMax200Kb(requireContext(),uri);
-
-                requireActivity().runOnUiThread(() ->{
-                    MediaManager.get().upload(Uri.fromFile(compressedFile))
-                            .callback(new UploadCallback() {
-                        @Override
-                        public void onStart(String requestId) {}
-                        @Override
-                        public void onProgress(String requestId, long bytes, long totalBytes) {}
-                        @Override
-                        public void onSuccess(String requestId, Map resultData) {
-                            Toast.makeText(getContext(), "uploaded", Toast.LENGTH_SHORT).show();
-                            String userImage = resultData.get("secure_url").toString();
-                            binding.linearlayout2.setVisibility(GONE);
-                            userViewModel.updateImage(userImage,onResult -> {
-                                if (onResult != null){
-                                    Glide.with(getContext()).load(userImage)
-                                            .placeholder(R.drawable.profile_pic)
-                                            .error(R.drawable.profile_pic)
-                                            .into(binding.userProfile);
-                                    editor.putString("UserProfile",userImage);
-                                    editor.apply();
-                                    userViewModel.setProfileUpdated(true);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onError(String requestId, ErrorInfo error) {
-
-                        }
-
-                        @Override
-                        public void onReschedule(String requestId, ErrorInfo error) {
-
-                        }
-                    }).dispatch();
-                });
-            } catch (IOException e) {
-                requireActivity().runOnUiThread(() -> {
-                    Toast.makeText(getContext(), "Upload Failed", Toast.LENGTH_SHORT).show();
+                viewModel.uploadToCloudinary(uri,onCallback -> {
+                    Toast.makeText(this.getContext(), "Image updated", Toast.LENGTH_SHORT).show();
                 });
             }
-        });
-    }
-    private File compressToMax200Kb(Context context, Uri uri) throws IOException {
-
-        InputStream input = context.getContentResolver().openInputStream(uri);
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = calculateMaxSize(context,uri,1024);
-        Bitmap bitmap = BitmapFactory.decodeStream(input,null,options);
-        input.close();
-
-        File output = File.createTempFile("compressed","jpg",context.getCacheDir());
-        ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
-
-        int quality = 90 ;
-
-        do{
-            arrayOutputStream.reset();
-            bitmap.compress(Bitmap.CompressFormat.JPEG,quality,arrayOutputStream);
-            quality -= 10;
-        }while (arrayOutputStream.size() > 200 * 1024 && quality > 30);
-
-        try (FileOutputStream fos = new FileOutputStream(output)){
-            fos.write(arrayOutputStream.toByteArray());
         }
-
-        bitmap.recycle();
-        return output;
-    }
-    private int calculateMaxSize(Context context, Uri uri, int maxDim) {
-        int scale = 1;
-        try {
-            InputStream inputStream = context.getContentResolver().openInputStream(uri);
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(inputStream,null,options);
-            inputStream.close();
-
-            while (options.outWidth / scale > maxDim || options.outHeight / scale > maxDim){
-                scale *= 2;
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return scale;
-
     }
 }

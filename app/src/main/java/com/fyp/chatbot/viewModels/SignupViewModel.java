@@ -1,28 +1,87 @@
 package com.fyp.chatbot.viewModels;
 
+import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
+import android.util.Patterns;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.fyp.chatbot.R;
 import com.fyp.chatbot.firebaseHelpers.SignupFB;
 import com.fyp.chatbot.firebaseHelpers.UsersFB;
 import com.fyp.chatbot.interfaces.FirebaseCallback;
 import com.fyp.chatbot.interfaces.SignupInterface;
 import com.fyp.chatbot.interfaces.UserInterFace;
 import com.fyp.chatbot.models.UserModel;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class SignupViewModel extends ViewModel {
+public class SignupViewModel extends AndroidViewModel {
+    private Context context;
     private final SignupInterface signupInterface = new SignupFB();
     private final UserInterFace userInterFace = new UsersFB();
     private final MutableLiveData<Boolean> registrationStatus = new MutableLiveData<>();
     MutableLiveData<Boolean> loginStatus = new MutableLiveData<>(false);
+    MutableLiveData<String> username = new MutableLiveData<>();
+    MutableLiveData<Intent> googleSignInIntent = new MutableLiveData<>();
+    private MutableLiveData<Boolean> googleSignInStatus = new MutableLiveData<>();
+    private final MutableLiveData<Integer> validationError = new MutableLiveData<>();
+
+    public SignupViewModel(@NonNull Application application){
+        super(application);
+        context = application.getApplicationContext();
+    }
+
+    public void setUsername(String name) {
+        username.setValue(name);
+    }
+
+    public boolean validateInputs(String name, String email, String pass, String confirmPass) {
+        if (name == null || name.isEmpty()) {
+            validationError.setValue(1);
+            return false;
+        } else if (email == null || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            validationError.setValue(2);
+            return false;
+        } else if (pass == null || pass.length() < 6) {
+            validationError.setValue(3);
+            return false;
+        } else if (!pass.equals(confirmPass)) {
+            validationError.setValue(4);
+            return false;
+        }
+        validationError.setValue(0); // no error
+        return true;
+    }
+
+
+    public MutableLiveData<Intent> getGoogleSignInIntent(){
+        return googleSignInIntent;
+    }
+    public void setGoogleSignInIntent(String clientId){
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(clientId) // from google-services.json
+                .requestEmail()
+                .build();
+
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(context, gso);
+
+        googleSignInIntent.postValue(googleSignInClient.getSignInIntent());
+    }
     public LiveData<Boolean> forgetPassword(String email) {
         MutableLiveData<Boolean> resetStatus = new MutableLiveData<>();
         signupInterface.resetPassword(email, resetStatus::setValue);
         return resetStatus;
     }
-    private MutableLiveData<Boolean> googleSignInStatus = new MutableLiveData<>();
     public LiveData<Boolean> getGoogleSignInStatus() {
         return googleSignInStatus;
     }
@@ -44,6 +103,7 @@ public class SignupViewModel extends ViewModel {
     public MutableLiveData<Boolean> getLoginStatus() {
         return loginStatus;
     }
+    public LiveData<Boolean> getRegistrationStatus() { return registrationStatus; }
 
     public void loginUser(String email,String password,String userImage,String userName) {
         signupInterface.loginUser(email, password, onResult -> {
@@ -56,7 +116,6 @@ public class SignupViewModel extends ViewModel {
         });
     }
 
-    public LiveData<Boolean> getRegistrationStatus() { return registrationStatus; }
     public void registerUser(String email, String password,String userName,String userImage) {
 
         signupInterface.signupUser(email, password, isSigned -> {
@@ -89,4 +148,5 @@ public class SignupViewModel extends ViewModel {
             });
         }
     }
+    public LiveData<Integer> getValidationError() { return validationError; }
 }
