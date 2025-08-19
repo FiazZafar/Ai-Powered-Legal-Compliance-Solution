@@ -25,6 +25,8 @@ import com.fyp.chatbot.viewModels.SharedPreferenceViewModel;
 import com.fyp.chatbot.viewModels.SignupViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
@@ -51,7 +53,6 @@ public class SignupFragment extends Fragment {
                 .get(SharedPreferenceViewModel.class);
 
         initObservers();
-        generalListeners();
         visibilityListeners();
         authListeners();
 
@@ -59,13 +60,16 @@ public class SignupFragment extends Fragment {
         return  binding.getRoot();
     }
     private void signInWithGoogle(){
-        signupViewModel.getGoogleSignInIntent().observe(getViewLifecycleOwner(),intent -> {
-            if (intent != null)
-                startActivityForResult(intent, RC_SIGN_IN);
-        });
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id)) // from google-services.json
+                .requestEmail()
+                .build();
+
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(requireContext(), gso);
 
         binding.googleBtn.setOnClickListener(v -> {
-            signupViewModel.setGoogleSignInIntent(String.valueOf(R.string.default_web_client_id));
+            Intent signInIntent = googleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, RC_SIGN_IN);
         });
     }
     private void visibilityListeners() {
@@ -101,13 +105,6 @@ public class SignupFragment extends Fragment {
                     binding.eyeVisibleconfirmBTn.setImageResource(R.drawable.visibility_24px);
                 }
             }
-        });
-    }
-    private void generalListeners() {
-        binding.uploadProfile.setOnClickListener(view -> {
-            Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setType("image/*");
-            startActivityForResult(intent, REQUEST_CODE_IMAGE);
         });
     }
 
@@ -148,6 +145,9 @@ public class SignupFragment extends Fragment {
                     case 3: binding.passwordTxt.setError("Password too short"); break;
                     case 4: binding.confirmPasswordTxt.setError("Passwords do not match"); break;
                 }
+                requireActivity().runOnUiThread(()-> {
+
+                });
             }
         });
 
@@ -178,17 +178,7 @@ public class SignupFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode,
                                  @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_IMAGE && resultCode == RESULT_OK) {
-            if (data != null) {
-                Uri uri = data.getData();
-                Glide.with(getContext()).load(uri).into(binding.userProfile);
-                viewModel.uploadToCloudinary(uri,onCallback -> {
-                    if (onCallback != null)
-                        userImage = onCallback;
-                });
-            }
-
-        }else if (requestCode == RC_SIGN_IN) {
+        if (requestCode == RC_SIGN_IN && requestCode == RESULT_OK) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);

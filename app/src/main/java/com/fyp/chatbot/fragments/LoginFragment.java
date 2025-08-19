@@ -2,6 +2,8 @@ package com.fyp.chatbot.fragments;
 
 import static android.app.Activity.RESULT_OK;
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +29,8 @@ import com.fyp.chatbot.viewModels.SharedPreferenceViewModel;
 import com.fyp.chatbot.viewModels.SignupViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
@@ -34,7 +39,6 @@ public class LoginFragment extends Fragment {
     private FragmentLoginBinding binding;
     private String userEmail,userPassword,userName,userImage;
     SignupViewModel signupViewModel;
-    private final int REQUEST_CODE_IMAGE = 101;
     private static final int RC_SIGN_IN = 1001;
     SharedPreferenceViewModel viewModel;
 
@@ -44,33 +48,36 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentLoginBinding.inflate(inflater,container,false);
 
-        signupViewModel = new ViewModelProvider(this).get(SignupViewModel.class);
-        viewModel = new ViewModelProvider(this).get(SharedPreferenceViewModel.class);
+
+        signupViewModel =  new ViewModelProvider(this,new ViewModelProvider
+                .AndroidViewModelFactory(this.getActivity().getApplication()))
+                .get(SignupViewModel.class);
+        viewModel = new ViewModelProvider(this,new ViewModelProvider
+                .AndroidViewModelFactory(requireActivity().getApplication()))
+                .get(SharedPreferenceViewModel.class);
+
 
         visibilityListener();
         authListeners();
         initObservers();
-        generalListeners();
         signInWithGoogle();
         return binding.getRoot();
     }
     private void signInWithGoogle(){
 
-        signupViewModel.getGoogleSignInIntent().observe(getViewLifecycleOwner(),intent -> {
-            if (intent != null)
-                startActivityForResult(intent, RC_SIGN_IN);
-        });
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id)) // from google-services.json
+                .requestEmail()
+                .build();
+
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(requireContext(), gso);
+
         binding.googleBtn.setOnClickListener(v -> {
-            signupViewModel.setGoogleSignInIntent(String.valueOf(R.string.default_web_client_id));
+            Intent signInIntent = googleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, RC_SIGN_IN);
         });
     }
-    private void generalListeners() {
-        binding.uploadProfile.setOnClickListener(view -> {
-            Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setType("image/*");
-            startActivityForResult(intent, REQUEST_CODE_IMAGE);
-        });
-    }
+
     private void initObservers() {
         signupViewModel.getValidationError().observe(getViewLifecycleOwner(), errorCode -> {
             setErrorsOnViews();
@@ -171,17 +178,7 @@ public class LoginFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode,
                                  @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_IMAGE && resultCode == RESULT_OK) {
-            if (data != null) {
-                Uri uri = data.getData();
-                Glide.with(getContext()).load(uri).into(binding.userProfile);
-                viewModel.uploadToCloudinary(uri,onCallback -> {
-                    if (onCallback != null)
-                        userImage = onCallback;
-                });
-            }
-
-        }else if (requestCode == RC_SIGN_IN) {
+        if (requestCode == RC_SIGN_IN && resultCode == RESULT_OK) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);

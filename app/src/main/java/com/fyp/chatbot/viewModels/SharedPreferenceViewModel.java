@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.concurrent.Executors;
 
 
 public class SharedPreferenceViewModel extends AndroidViewModel {
@@ -68,43 +70,49 @@ public class SharedPreferenceViewModel extends AndroidViewModel {
     }
 
 
-    public void uploadToCloudinary(Uri uri,FirebaseCallback<String> oncallback) {
+    public void uploadToCloudinary(Uri uri, FirebaseCallback<String> oncallback) {
+        Log.d("LoginFrag", "uploadToCloudinary: Image Start ");
+
+        Executors.newSingleThreadExecutor().execute(() -> {
             try {
-                File compressedFile = compressToMax200Kb(context,uri);
+                File compressedFile = compressToMax200Kb(context, uri);
 
-                    MediaManager.get().upload(Uri.fromFile(compressedFile))
-                            .callback(new UploadCallback() {
-                                @Override
-                                public void onStart(String requestId) {}
-                                @Override
-                                public void onProgress(String requestId, long bytes, long totalBytes) {}
-                                @Override
-                                public void onSuccess(String requestId, Map resultData) {
-                                    String userImage = resultData.get("secure_url").toString();
-                                    updateImage(userImage, onResult -> {
-                                        if (onResult){
-                                            editor.putString("UserProfile",userImage);
-                                            editor.apply();
+                MediaManager.get().upload(Uri.fromFile(compressedFile))
+                        .callback(new UploadCallback() {
+                            @Override
+                            public void onStart(String requestId) {}
 
-                                            oncallback.onComplete(userImage);
-                                        }
-                                    });
-                                }
+                            @Override
+                            public void onProgress(String requestId, long bytes, long totalBytes) {}
 
-                                @Override
-                                public void onError(String requestId, ErrorInfo error) {
+                            @Override
+                            public void onSuccess(String requestId, Map resultData) {
+                                String userImage = resultData.get("secure_url").toString();
+                                updateImage(userImage, onResult -> {
+                                    if (onResult) {
+                                        Log.d("LoginFrag", "uploadToCloudinary: Image updated ");
+                                        editor.putString("UserProfile", userImage);
+                                        editor.apply();
+                                        oncallback.onComplete(userImage);
+                                    }
+                                });
+                            }
 
-                                }
+                            @Override
+                            public void onError(String requestId, ErrorInfo error) {
+                                Log.d("LoginFrag", "uploadToCloudinary: Image failed " + error.getDescription());
+                            }
 
-                                @Override
-                                public void onReschedule(String requestId, ErrorInfo error) {
-
-                                }
-                });
+                            @Override
+                            public void onReschedule(String requestId, ErrorInfo error) {}
+                        }).dispatch();
             } catch (IOException e) {
-                    Toast.makeText(context, "Upload Failed", Toast.LENGTH_SHORT).show();
+                Log.e("LoginFrag", "uploadToCloudinary: Upload Failed", e);
+                // Don’t show Toast here — let Fragment decide
             }
+        });
     }
+
 
     public void updateImage(String userImage, FirebaseCallback<Boolean> onDataSave){
         String userId = FirebaseAuth.getInstance().getUid();

@@ -31,7 +31,6 @@ public class SignupViewModel extends AndroidViewModel {
     private final MutableLiveData<Boolean> registrationStatus = new MutableLiveData<>();
     MutableLiveData<Boolean> loginStatus = new MutableLiveData<>(false);
     MutableLiveData<String> username = new MutableLiveData<>();
-    MutableLiveData<Intent> googleSignInIntent = new MutableLiveData<>();
     private MutableLiveData<Boolean> googleSignInStatus = new MutableLiveData<>();
     private final MutableLiveData<Integer> validationError = new MutableLiveData<>();
 
@@ -62,21 +61,6 @@ public class SignupViewModel extends AndroidViewModel {
         return true;
     }
 
-
-    public MutableLiveData<Intent> getGoogleSignInIntent(){
-        return googleSignInIntent;
-    }
-    public void setGoogleSignInIntent(String clientId){
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(clientId) // from google-services.json
-                .requestEmail()
-                .build();
-
-        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(context, gso);
-
-        googleSignInIntent.postValue(googleSignInClient.getSignInIntent());
-    }
     public LiveData<Boolean> forgetPassword(String email) {
         MutableLiveData<Boolean> resetStatus = new MutableLiveData<>();
         signupInterface.resetPassword(email, resetStatus::setValue);

@@ -51,7 +51,10 @@ public class ProfileScreen extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentProfileScreenBinding.inflate(inflater, container, false);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        viewModel = new ViewModelProvider(this).get(SharedPreferenceViewModel.class);
+
+        viewModel = new ViewModelProvider(this,new ViewModelProvider
+                .AndroidViewModelFactory(this.getActivity().getApplication()))
+                .get(SharedPreferenceViewModel.class);
 
 
         initListeners();
@@ -100,6 +103,8 @@ public class ProfileScreen extends Fragment {
             if (data != null) {
                 Uri uri = data.getData();
                 viewModel.uploadToCloudinary(uri,onCallback -> {
+                    binding.userProfile.setImageURI(uri);
+                    binding.linearlayout2.setVisibility(GONE);
                     Toast.makeText(this.getContext(), "Image updated", Toast.LENGTH_SHORT).show();
                 });
             }
