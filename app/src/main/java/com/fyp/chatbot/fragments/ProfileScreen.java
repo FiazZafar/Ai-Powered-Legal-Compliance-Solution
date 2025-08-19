@@ -62,16 +62,16 @@ public class ProfileScreen extends Fragment {
     private void getPreferences() {
         viewModel.getData().observe(getViewLifecycleOwner(),userModel -> {
             if (userModel != null){
-                if (userModel.getUserName() != null){
+                if (!userModel.getUserName().isEmpty()){
                     binding.userName.setText(userModel.getUserName());
                 }
-                if (userModel.getImgUrl() != null)
+                if (!userModel.getImgUrl().isEmpty())
                     Glide.with(this.getContext()).load(userModel.getImgUrl())
                             .placeholder(R.drawable.profile_pic)
                             .error(R.drawable.profile_pic)
                             .into(binding.userProfile);
 
-                if (userModel.getUserEmail() != null){
+                if (!userModel.getUserEmail().isEmpty()){
                     binding.userEmail.setText(userModel.getUserEmail());
                 }
             }

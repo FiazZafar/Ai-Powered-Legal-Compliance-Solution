@@ -49,19 +49,19 @@ public class SharedPreferenceViewModel extends AndroidViewModel {
         String userName = pref.getString("UserName","");
         String userEmail = pref.getString("UserEmail","");
         String userProfile = pref.getString("UserProfile","");
-        data.postValue(new UserModel("",userName,userProfile,userEmail));
+        data.postValue(new UserModel("",userName,userEmail,userProfile));
         return data;
     }
     public void savedData(String userName,String userEmail,String userProfile){
-        if (userName.isEmpty()){
+        if (!userName.isEmpty()){
             editor.putString("UserName", userName);
             editor.apply();
         }
-        if (userEmail.isEmpty()){
+        if (!userEmail.isEmpty()){
             editor.putString("UserEmail", userEmail);
             editor.apply();
         }
-        if (userProfile.isEmpty()){
+        if (!userProfile.isEmpty()){
             editor.putString("UserProfile",userProfile);
             editor.apply();
         }
