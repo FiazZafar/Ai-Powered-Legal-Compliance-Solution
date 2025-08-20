@@ -45,23 +45,23 @@ public class DocumentsViewModel extends ViewModel {
 
             switch (taskType) {
                 case "Contract Summarizer":
-                    prompt = createContractSummaryPrompt(chunkIndex + 1, totalChunks, chunk);
+                    prompt = createContractSummaryPrompt(chunkIndex + 1, chunk);
                     break;
                 case "Risk Clause Detector":
-                    prompt = createRiskClausePrompt(chunk);
+                    prompt = createRiskClausePrompt(chunkIndex + 1,chunk);
                     break;
                 case "Confidentiality Clause Tracker":
-                    prompt = createConfidentialityClausePrompt(chunk);
+                    prompt = createConfidentialityClausePrompt(chunkIndex + 1,chunk);
                     break;
                 case "Jurisdiction Identifier":
-                    prompt = createJurisdictionFinderPrompt(chunk);
+                    prompt = createJurisdictionFinderPrompt(chunkIndex + 1,chunk);
                     break;
                 case "Compliance Checker":
 
-                    prompt = createComplianceCheckPrompt(chunk,"Pakistan");
+                    prompt = createComplianceCheckPrompt(chunkIndex + 1,chunk,"Pakistan");
                     break;
                 default:
-                    prompt = createObligationExtractorPrompt(chunk);
+                    prompt = createObligationExtractorPrompt(chunkIndex + 1 ,chunk);
             }
             geminiRepo.generateAnalysis(prompt, result -> {
                 // If quota error detected
@@ -95,140 +95,244 @@ public class DocumentsViewModel extends ViewModel {
             });
         }
     }
+    private String createContractSummaryPrompt(int partNumber, String chunkText) {
+        boolean isFirst = (partNumber == 1);
 
-
-    private String createContractSummaryPrompt(int partNumber,
-                                               int totalParts,
-                                               String chunkText) {
-        Map<String, String> sectionMap = new LinkedHashMap<>();
-        sectionMap.put("Document Type", "**Document Type**\n- Classify as Contract / Policy / Filing etc.");
-        sectionMap.put("Key Entities", "**Key Entities**\n- Parties, Jurisdiction");
-        sectionMap.put("Obligations", "✅ **Obligations / Rules**\n- Bullet-pointed duties");
-        sectionMap.put("Critical Dates", "⚠️ **Critical Dates**\n- Deadlines, renewal terms");
-        sectionMap.put("Notable Clauses", "🔍 **Notable Clauses**\n- Top 2–3 impactful sections");
-        sectionMap.put("Confidentiality", "🔒 **Confidentiality**\n- Scope, obligations");
-        sectionMap.put("Enforcement", "⚖️ **Penalties / Enforcement**\n- Non-compliance outcomes");
-        sectionMap.put("Jurisdiction", "🌐 **Jurisdiction**\n- Governing law, region");
-
-        StringBuilder includedSections = new StringBuilder();
-        for (Map.Entry<String, String> entry : sectionMap.entrySet()) {
-            if (chunkText.toLowerCase().contains(entry.getKey().toLowerCase())) {
-                includedSections.append(entry.getValue()).append("\n\n");
-            }
+        StringBuilder sections = new StringBuilder();
+        if (isFirst) {
+            sections.append("**Document Type**\n- Explain in 2–3 lines what type of document this is (like contract, policy, filing). Keep it simple.\n\n");
+            sections.append("**Key Entities**\n- Mention parties, companies, or people. Also note the region or jurisdiction in 2–3 lines.\n\n");
         }
 
-        if (includedSections.length() == 0) {
-            includedSections.append("📄 This section has general legal text. No specific clauses detected.\n");
+        sections.append("**Obligations / Rules**\n- Write the duties or rules given here. Explain in 2–3 lines per point so user understands clearly.\n\n");
+        sections.append("**Critical Dates**\n- Note any dates like deadlines, renewals, or expiry. Explain why each is important in 2–3 lines.\n\n");
+        sections.append("**Notable Clauses**\n- Pick top 2–3 important clauses. Write each in simple English, 2–3 lines per bullet.\n\n");
+        sections.append("**Confidentiality**\n- If present, explain in 2–3 lines what is confidential and what duties apply.\n\n");
+        sections.append("**Penalties / Enforcement**\n- If given, write in 2–3 lines what happens if rules are broken.\n\n");
+        if (isFirst) {
+            sections.append("**Jurisdiction**\n- Write in 2–3 lines the law or region that controls this document.\n\n");
         }
 
-        return "**Legal Summary – Part " + partNumber + " of " + totalParts + "**\n\n" +
-                "Please analyze **only this part** of the document. Return a concise, formal summary using the structure below (if applicable).\n" +
-                "- Focus only on sections found in the text.\n" +
-                "- Do NOT repeat earlier parts or explain overall context.\n" +
-                "- Use markdown formatting.\n\n" +
-                includedSections.toString() +
-                "\n**Document Text**:\n" + chunkText;
-    }
-    private String createComplianceCheckPrompt(String chunkText, String jurisdiction) {
-        return "Analyze the following excerpt from a legal or business contract **silently and directly**. " +
-                "Your task is to identify any **compliance-relevant clauses**, if any, based solely on the visible content below. " +
-                "Do **not** include any introductions, summaries, or numbered labels.\n\n" +
+        return ""
+                + "You are analyzing a part of a long legal or business document. "
+                + "Do not mention that this is only a part. Just focus on this text only.\n"
+                + "Hidden flag for you (do not show to user): FIRST_EXCERPT=" + (isFirst ? "YES" : "NO") + "\n\n"
 
-                "### **Format strictly using bold labels (e.g., `**Compliance Area**:`)**\n" +
-                "- Use the exact following format for each clause (repeat if needed):  \n\n" +
-                "**Compliance Area**: [e.g., Data Privacy, Anti-Corruption, Employment Law, etc.]  \n" +
-                "- **Clause Reference**:  Quote the exact sentence or provide a brief, clear summary of the clause.  \n" +
-                "- **Status**: Compliant / Non-Compliant / Ambiguous  \n" +
-                "- **Rationale**: Brief justification for why this status applies.  \n" +
-                "- **Suggested Amendment**:  \n" +
-                "  - Provide a correction if non-compliant.  \n\n" +
+                + "Instructions:\n"
+                + "- Use the sections listed below only.\n"
+                + "- If FIRST_EXCERPT=NO, skip general info like Document Type, Key Entities, Jurisdiction.\n"
+                + "- Each bullet must be at least 3–4 lines, easy English.\n"
+                + "- If information is missing or incomplete, **skip that section** (don’t write half points).\n"
+                + "- No intro, no conclusion, no numbering, no mention of chunks or parts.\n"
+                + "- If nothing useful is in the text, respond only with `-`.\n\n"
 
-                "### **Compliance Detection Guidelines:**\n" +
-                "- ✅ Data protection & privacy obligations (GDPR, HIPAA, etc.)  \n" +
-                "- ✅ Intellectual property ownership and license grants  \n" +
-                "- ✅ Anti-bribery, anti-corruption, and ethical compliance  \n" +
-                "- ✅ Labor law, health & safety, and regulatory adherence  \n" +
-                "- ✅ Tax and financial reporting obligations  \n" +
-                "- ✅ Payment terms, liability limitations, and dispute resolution  \n" +
-                "- ✅ Jurisdiction-specific statutory compliance (" + jurisdiction + " laws only)  \n\n" +
-
-                "If no compliance-relevant clauses are found, respond only with: `-`\n\n" +
-                "**Document Excerpt:**\n" + chunkText;
+                + "Sections you can use:\n"
+                + sections.toString()
+                + "\n**Document Excerpt:**\n" + chunkText;
     }
 
+    private String createComplianceCheckPrompt(int partNumber, String chunkText, String jurisdiction) {
+        String base = ""
+                + "This is Part " + partNumber + " of the document. "
+                + "Do not mention anywhere that this is a part or chunk. "
+                + "Just check only the given text.\n\n"
+
+                + "----------------------------\n"
+                + "      Compliance Check      \n"
+                + "----------------------------\n\n"
 
 
-    private String createRiskClausePrompt(String chunkText) {
-        return "Analyze the following excerpt from a legal or business document **silently and directly**. " +
-                "Your task is to identify potential **risks**, if any, based solely on the visible content below. " +
-                "Do **not** include any introductions, summaries, or numbered risk labels.\n\n" +
+                + "Instructions:\n"
+                + "- Find possible compliance check only from this text.\n"
+                + "- Use the format given below for each compliance check.\n"
+                + "- Each answer should be 2–3 easy lines, not just 1 short line.\n"
+                + "- Write in clear and simple English (like Pakistani style easy English).\n"
+                + "- If the text looks incomplete or unclear, just skip it instead of half answers.\n"
+                + "- Do not add intros, conclusions, or mention of parts/chunks.\n"
+                + "- If no compliance check are found, respond only with: `-`.\n\n"
 
-                "### **Format strictly using bold labels (e.g., `**Risk Type**:`)**\n" +
-                "- Use the exact following format for each risk (repeat if needed):  \n\n" +
-                "**Risk Type**: [Financial / Legal / Operational / Compliance]  \n" +
-                "- **Excerpt**:  \n" +
-                " > Quote the exact sentence or clause that poses the risk.  \n" +
-                "- **Severity**: 🟥 High / 🟧 Medium / 🟩 Low — briefly justify  \n" +
-                "- **Suggested Mitigation**:  \n" +
-                "  - Short advice to reduce or address the risk  \n\n" +
 
-                "### **Risk Detection Guidelines:**\n" +
-                "- ✅ Vague or broad language: “reasonable efforts,” “as appropriate”  \n" +
-                "- ✅ One-sided obligations: unlimited indemnity, strong penalties  \n" +
-                "- ✅ Compliance gaps: GDPR, HIPAA, export laws, etc.  \n" +
-                "- ✅ Uncapped financial liabilities or hidden obligations  \n\n" +
+                + "### **Format (follow this strictly for every clause):**\n"
+                + "**Compliance Area**: [e.g., Data Privacy, Anti-Corruption, Employment Law]  \n"
+                + "- **Clause Reference**: \n"
+                + "  > Copy the exact line or give a short, clear summary.  \n"
+                + "- **Status (Check Result)**: Compliant / Non-Compliant / Ambiguous  \n"
+                + "  - Write in 2–3 simple lines why this status applies.  \n"
+                + "- **Suggested Amendment (Fix if Needed)**:  \n"
+                + "  - Give short and clear advice (2–3 lines) to correct or improve it.  \n\n"
 
-                "If no risks are identified, respond only with: `-`\n\n" +
-                "**Document Excerpt:**\n" + chunkText;
+                + "### **Compliance Detection Hints (to guide you, don’t show user):**\n"
+                + "- ✅ Data protection & privacy (GDPR, HIPAA, etc.)\n"
+                + "- ✅ Intellectual property rights and license rules\n"
+                + "- ✅ Anti-bribery, anti-corruption, and ethical standards\n"
+                + "- ✅ Labor law, health & safety, and employee rights\n"
+                + "- ✅ Tax and financial reporting rules\n"
+                + "- ✅ Payment terms, dispute settlement, and liability limits\n";
+
+        // Sirf Part 1 mein jurisdiction ka hint
+        if (partNumber == 1) {
+            base += "- ✅ Jurisdiction-specific rules (" + jurisdiction + " laws only)\n";
+        }
+
+        base += "\nIf no compliance issues are found, respond only with: `-`\n\n"
+                + "**Document Excerpt (Part " + partNumber + "):**\n" + chunkText;
+
+        return base;
     }
-    private String createConfidentialityClausePrompt(String chunkText) {
-        return "You are analyzing **one part of a larger legal or business document**. " +
-                "Identify all **confidentiality-related clauses** strictly from the text below.\n\n" +
-                "### For each clause found, respond in this exact order:\n" +
-                " **Clause Type**: Unilateral, Mutual, Non-standard, or `Unspecified` if unclear\n" +
-                "- **Clause Text**: Exact wording mentioning confidentiality or non-disclosure\n" +
-                "- **Scope**: What is considered confidential?\n\n" +
-                "### Rules:\n" +
-                "- Use only this text; do not infer from other parts of the document\n" +
-                "- Include terms like 'confidential', 'non-disclosure', 'proprietary information'\n" +
-                "- Ignore general boilerplate unless it has legal weight\n" +
-                "- If no confidentiality clause is found in this section, respond with: `-`\n\n" +
-                "**Document Section to Analyze:**\n" + chunkText;
+
+    private String createRiskClausePrompt(int partNumber, String chunkText) {
+        return ""
+                + "This is Part " + partNumber + " of the document. "
+                + "Do not mention anywhere that this is a part or chunk. "
+                + "Just analyze only the given text.\n\n"
+
+                + "----------------------------\n"
+                + "        Risk Analysis        \n"
+                + "----------------------------\n\n"
+
+                + "Instructions:\n"
+                + "- Find possible risks only from this text.\n"
+                + "- Use the format given below for each risk.\n"
+                + "- Each answer should be 2–3 easy lines, not just 1 short line.\n"
+                + "- Write in clear and simple English (like Pakistani style easy English).\n"
+                + "- If the text looks incomplete or unclear, just skip it instead of half answers.\n"
+                + "- Do not add intros, conclusions, or mention of parts/chunks.\n"
+                + "- If no risks are found, respond only with: `-`.\n\n"
+
+                + "### **Format (repeat for every risk):**\n"
+                + "**Risk Type**: Financial / Legal / Work / Compliance  \n"
+                + "- **Excerpt**:  \n"
+                + " > Copy the exact line or sentence that shows the risk.  \n"
+                + "- **Severity (How Big the Risk Is)**: 🟥 High / 🟧 Medium / 🟩 Low  \n"
+                + "  - Explain in 2–3 simple lines why this level is chosen.  \n"
+                + "- **Mitigation (How to Fix or Reduce the Risk)**:  \n"
+                + "  - Give short and clear advice (2–3 lines) to avoid or reduce the problem.  \n\n"
+
+                + "### **Risk Detection Hints (for you only, don’t show user):**\n"
+                + "- Very general words like “reasonable efforts” or “as appropriate.”\n"
+                + "- One-sided promises like unlimited penalty or strong fine.\n"
+                + "- Missing privacy or law rules (GDPR, HIPAA, export laws, etc.).\n"
+                + "- Money loss or hidden costs without clear limits.\n\n"
+
+                + "**Document Excerpt (Part " + partNumber + "):**\n" + chunkText;
+    }
+    private String createConfidentialityClausePrompt(int partNumber, String chunkText) {
+        String base = ""
+                + "This is Part " + partNumber + " of the document. "
+                + "Do not mention anywhere that this is a part or chunk. "
+                + "Just check only the given text.\n\n"
+
+                + "----------------------------\n"
+                + " Confidentiality Check \n"
+                + "----------------------------\n\n"
+
+                + "Instructions:\n"
+                + "- Find possible confidentiality clause only from this text.\n"
+                + "- Use the format given below for each confidentiality clause.\n"
+                + "- Each answer should be 3–4 easy lines, not just 1 short line.\n"
+                + "- Write in clear and simple English (like Pakistani style easy English).\n"
+                + "- If the text looks incomplete or unclear, just skip it instead of half answers.\n"
+                + "- Do not add intros, conclusions, or mention of parts/chunks.\n"
+                + "- If no confidentiality clause are found, respond only with: `-`.\n\n"
+
+                + "### **Format (follow strictly for each clause):**\n"
+                + "**Clause Type**: Unilateral / Mutual / Non-standard / Unspecified  \n"
+                + "- **Clause Text**:  \n"
+                + "  > Copy the exact wording that mentions confidentiality, non-disclosure, or proprietary info.  \n"
+                + "- **Scope (What’s Covered)**:  \n"
+                + "  - Explain in 2–3 clear lines what is treated as confidential (e.g., data, business info, trade secrets).  \n"
+                + "- **Notes (if any special condition)**:  \n"
+                + "  - Write short and clear explanation if the clause has unique or unusual terms.  \n\n"
+
+                + "### **Detection Hints (to guide you, don’t show user):**\n"
+                + "- ✅ Look for terms like 'confidential', 'non-disclosure', 'proprietary information'.\n"
+                + "- ✅ Identify if the obligation is **one-sided (unilateral)** or **mutual**.\n"
+                + "- ✅ Ignore general boilerplate unless it clearly creates legal duty.\n"
+                + "- ✅ Highlight if the clause is vague, very broad, or unclear.\n\n"
+
+                + "If no confidentiality clause is found, respond only with: `-`\n\n"
+                + "**Document Excerpt (Part " + partNumber + "):**\n" + chunkText;
+
+        return base;
+    }
+    private String createJurisdictionFinderPrompt(int partNumber, String chunkText) {
+        String base = ""
+                + "This is Part " + partNumber + " of the document. "
+                + "Do not mention that it is part or chunk. "
+                + "Just analyze only the given text.\n\n"
+
+                + "-----------------------------\n"
+                + " Jurisdiction Check \n"
+                + "-----------------------------\n\n"
+
+                + "Instructions:\n"
+                + "- Find possible jurisdiction check only from this text.\n"
+                + "- Use the format given below for each jurisdiction check.\n"
+                + "- Each answer should be 2–3 easy lines, not just 1 short line.\n"
+                + "- Write in clear and simple English (like Pakistani style easy English).\n"
+                + "- If the text looks incomplete or unclear, just skip it instead of half answers.\n"
+                + "- Do not add intros, conclusions, or mention of parts/chunks.\n"
+                + "- If no jurisdiction check are found, respond only with: `-`.\n\n"
+
+                + "### **Format (use for each clause found):**\n"
+                + "**Clause Text**:  \n"
+                + "  - Copy the exact wording of the governing law or jurisdiction clause.  \n"
+                + "- **Jurisdiction **: [If Given] \n"
+                + "  - Mention the country, state, or region clearly if written.  \n"
+                + "- **Court Venue **: [If Given] \n"
+                + "  - State the specific court or location, but only if the text directly says it.  \n"
+                + "- **Enforceability Notes**:  \n"
+                + "  - Write only if there is something unusual, unclear, or special about enforcement. Otherwise skip.  \n\n"
+
+                + "### **Detection Hints (for guidance only):**\n"
+                + "- ✅ Look for words like: “governed by”, “under the laws of”, “exclusive jurisdiction”.  \n"
+                + "- ✅ Only rely on this part of the document, ignore missing sections.  \n"
+                + "- ❌ Do not explain the meaning of jurisdiction to the user.  \n\n"
+
+                + "If no jurisdiction clause is present, respond only with: `-`\n\n"
+                + "**Document Excerpt (Part " + partNumber + "):**\n" + chunkText;
+
+        return base;
     }
 
-    private String createJurisdictionFinderPrompt(String chunkText) {
-        return "You are analyzing **one part of a larger legal or business document**. " +
-                "Identify any **jurisdiction-related clauses** strictly from the provided text below.\n\n" +
-                "### For each clause found, use this exact format:\n" +
-                " **Clause Text**: Exact wording of the governing law/jurisdiction clause\n" +
-                "- **Jurisdiction**: Country, state, or region (only if explicitly mentioned)\n" +
-                "- **Court Venue**: Specific court or venue (only if explicitly mentioned)\n" +
-                "- **Enforceability Notes**: Only if there is ambiguity or unusual enforcement terms; otherwise omit\n\n" +
-                "### Rules:\n" +
-                "- Analyze only this section; do not infer from missing parts of the document\n" +
-                "- Do not explain what jurisdiction means\n" +
-                "- If no jurisdiction clause is found in this section, respond with: `-`\n\n" +
-                "**Document Section to Analyze:**\n" + chunkText;
+    private String createObligationExtractorPrompt(int partNumber, String chunkText) {
+        String base = ""
+                + "This is Part " + partNumber + " of the document. "
+                + "Do not mention that it is part or chunk. "
+                + "Just analyze only the given text.\n\n"
+
+                + "-------------------------\n"
+                + " Obligation Check \n"
+                + "-------------------------\n\n"
+
+                + "Instructions:\n"
+                + "- Find possible obligation check only from this text.\n"
+                + "- Use the format given below for each obligation check.\n"
+                + "- Each answer should be 2–3 easy lines, not just 1 short line.\n"
+                + "- Write in clear and simple English (like Pakistani style easy English).\n"
+                + "- If the text looks incomplete or unclear, just skip it instead of half answers.\n"
+                + "- Do not add intros, conclusions, or mention of parts/chunks.\n"
+                + "- If no obligation check are found, respond only with: `-`.\n\n"
+
+                + "### **Format (use for each obligation found):**\n"
+                + "**Party Responsible**: Buyer / Seller / Client / Vendor / Other  \n"
+                + "- **Obligation (What Must Be Done)**:  \n"
+                + "  - Write in simple words what action or duty is required. At least 3-4 lines.  \n"
+                + "- **Timeline (Due Date / Frequency)**:  \n"
+                + "  - Mention clearly if the text says when or how often this duty must be done.  \n"
+                + "- **Clause Reference**:  \n"
+                + "  > Copy the exact wording or short snippet that shows the obligation.  \n\n"
+
+                + "### **Detection Hints (for guidance only):**\n"
+                + "- ✅ Look for words like: “shall”, “must”, “is required to”, “agrees to”.  \n"
+                + "- ✅ Include one-time and repeating duties (e.g., monthly reports, yearly audits).  \n"
+                + "- ✅ Cover obligations for both sides (not just one party).  \n\n"
+
+                + "If no obligation is found, respond only with: `-`\n\n"
+                + "**Document Excerpt (Part " + partNumber + "):**\n" + chunkText;
+
+        return base;
     }
-    private String createObligationExtractorPrompt(String chunkText) {
-        return "Analyze the following excerpt from a legal contract **silently and directly**. " +
-                "Your task is to identify all **legal obligations**, if any, based solely on the visible content below. " +
-                "Do **not** include any introductions, summaries, bullet numbers, or extra commentary.\n\n" +
 
-                "### **Format strictly using bold labels for each obligation (repeat if multiple):**\n" +
-                "**Party Responsible**: [Buyer / Seller / Client / Vendor, etc.]  \n" +
-                "- **Obligation Description**: [What specific action must be performed?]  \n" +
-                "- **Due Date / Frequency**: [If specified]  \n" +
-                "- **Linked Clause**:  \n" +
-                "   Quote the exact clause text or a clear snippet.  \n\n" +
-
-                "### **Obligation Extraction Guidelines:**\n" +
-                "- ✅ Focus on mandatory terms: “shall,” “must,” “is required to,” “agrees to,” etc.  \n" +
-                "- ✅ Include recurring or time-bound obligations (e.g., monthly reporting, delivery deadlines).  \n" +
-                "- ✅ Capture obligations for all parties, not just one side.  \n" +
-                "- ⚠ If no obligations are present in this section, respond only with: `-`\n\n" +
-
-                "**Document Excerpt:**\n" + chunkText;
-    }
 
 }

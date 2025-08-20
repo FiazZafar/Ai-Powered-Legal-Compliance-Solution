@@ -5,6 +5,8 @@ import static android.content.Context.MODE_PRIVATE;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -56,13 +59,12 @@ public class ProfileScreen extends Fragment {
                 .AndroidViewModelFactory(this.getActivity().getApplication()))
                 .get(SharedPreferenceViewModel.class);
 
-
         initListeners();
-        getPreferences();
+        initObserver();
         return binding.getRoot();
     }
 
-    private void getPreferences() {
+    private void initObserver() {
         viewModel.getData().observe(getViewLifecycleOwner(),userModel -> {
             if (userModel != null){
                 if (!userModel.getUserName().isEmpty()){
@@ -81,6 +83,9 @@ public class ProfileScreen extends Fragment {
         });
     }
     private void initListeners() {
+        binding.editProfile.setOnClickListener(view -> {
+        });
+
         binding.uploadProfile.setOnClickListener(view -> {
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
