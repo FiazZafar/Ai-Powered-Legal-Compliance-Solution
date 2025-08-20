@@ -4,7 +4,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F7FA"
+    android:background="@color/backgroundColor"
     tools:context=".activities.ChatBot">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:background="@color/primaryLight"
+        android:background="@drawable/gradient"
         android:orientation="vertical"
         android:layout_gravity="start"
         app:layout_constraintTop_toTopOf="parent"
@@ -88,7 +88,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="80dp"
-        android:background="@color/primaryLight"
+        android:background="@drawable/gradient"
         app:layout_constraintBottom_toBottomOf="parent">
         <EditText
             android:id="@+id/questionTxt"
@@ -119,9 +119,10 @@
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             android:src="@drawable/send_24px"
+            app:tint="@color/iconColor"
             android:padding="16dp"
             android:background="@drawable/edt_bg"
-            android:backgroundTint="@color/offWhiteColor"
+            android:backgroundTint="@color/backgroundColor"
             app:layout_constraintBottom_toBottomOf="@+id/questionTxt"
             app:layout_constraintTop_toTopOf="@+id/questionTxt"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
