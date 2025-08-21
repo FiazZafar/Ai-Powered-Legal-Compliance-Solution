@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -12,6 +13,7 @@ import com.fyp.chatbot.adapters.ChatsAdapter;
 import com.fyp.chatbot.databinding.ActivityChatBotBinding;
 import com.fyp.chatbot.models.MessagesModel;
 import com.fyp.chatbot.viewModels.ChatBotViewModel;
+import com.fyp.chatbot.viewModels.SharedPreferenceViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,11 +28,12 @@ public class ChatBot extends AppCompatActivity {
     List<Map<String,String>> chatHistory;
     List<MessagesModel> messagesModelList;
     List<String> questionList;
+    String image;
     ChatsAdapter chatsAdapter;
     ActivityChatBotBinding binding;
     ChatBotViewModel viewModel;
     private Markwon markwon;
-    List<String> legalKeywords;
+    private SharedPreferenceViewModel sharedPreferenceViewModel ;
     private Calendar calendar;
     public static String API_KEY = BuildConfig.Google_Api_Key;
     @Override
@@ -38,11 +41,22 @@ public class ChatBot extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityChatBotBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         viewModel = new ViewModelProvider(this).get(ChatBotViewModel.class);
+        sharedPreferenceViewModel = new ViewModelProvider(this,new ViewModelProvider
+                .AndroidViewModelFactory(getApplication())).get(SharedPreferenceViewModel.class);
 
         messagesModelList = new ArrayList<>();
         chatHistory = new ArrayList<>();
         questionList = new ArrayList<>();
+
+        sharedPreferenceViewModel.getData().observe(this,onData -> {
+            if (onData != null){
+                if (onData.getImgUrl() != null){
+                    image = onData.getImgUrl();
+                }
+            }
+        });
 
         markwon = Markwon.create(getApplicationContext());
 
@@ -52,7 +66,7 @@ public class ChatBot extends AppCompatActivity {
         binding.backBtn.setOnClickListener(view -> onBackPressed());
         LinearLayoutManager myManger = new LinearLayoutManager(this);
         myManger.setStackFromEnd(true);
-        chatsAdapter = new ChatsAdapter(messagesModelList,markwon);
+        chatsAdapter = new ChatsAdapter(messagesModelList,markwon,image,this);
         binding.chatsRecycler.setAdapter(chatsAdapter);
         binding.chatsRecycler.setLayoutManager(myManger);
 
@@ -109,7 +123,7 @@ public class ChatBot extends AppCompatActivity {
 
     void  addtoChat(String message , String sentBY,String currentTime){
         runOnUiThread(() -> {
-            messagesModelList.add(new MessagesModel(message,sentBY,currentTime));
+            messagesModelList.add(new MessagesModel(message,sentBY,currentTime,image));
             chatsAdapter.notifyDataSetChanged();
             binding.chatsRecycler.smoothScrollToPosition(chatsAdapter.getItemCount());
         });

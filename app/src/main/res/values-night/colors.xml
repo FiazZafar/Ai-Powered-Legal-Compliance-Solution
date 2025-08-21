@@ -20,8 +20,8 @@
     <color name="iconsColor2">@color/white</color>
     <color name="textColor2">@color/white</color>
 
-    <color name="sendColor">#9BCECE</color>
-    <color name="receiveColor">#5BC4D1</color>
+    <color name="sendColor">#009688</color>
+    <color name="receiveColor">#393E46</color>
 
     <color name="ripple">#4DFFFFFF</color>
     <color name="redColor">#FD3030</color>

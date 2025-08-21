@@ -19,7 +19,7 @@ public class ClauseFB implements ClauseInterface {
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Smart_Goval");
     @Override
     public void saveClause(String userId, ClauseModel clauseModel, FirebaseCallback<Boolean> onSave) {
-        myRef.child(userId).child("Clause Node").push().setValue(clauseModel).addOnCompleteListener(task -> {
+        myRef.child("Clause Node").child(userId).push().setValue(clauseModel).addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 onSave.onComplete(true);
             }else {
@@ -31,7 +31,7 @@ public class ClauseFB implements ClauseInterface {
     @Override
     public void fetchClause(String userId, FirebaseCallback<List<ClauseModel>> onClauseList) {
         List<ClauseModel> myList = new ArrayList<>();
-        myRef.child(userId).child("Clause Node").addValueEventListener(new ValueEventListener() {
+        myRef.child("Clause Node").child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 myList.clear();

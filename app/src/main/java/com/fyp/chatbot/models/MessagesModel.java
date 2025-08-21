@@ -6,6 +6,7 @@ public class MessagesModel {
 
     private String message;
     private String message_type;
+    private String UserImage;
 
     public String getCurrentTime() {
         return currentTime;
@@ -16,10 +17,11 @@ public class MessagesModel {
     }
 
     private String currentTime;
-    public MessagesModel(String message, String message_type, String currentTime) {
+    public MessagesModel(String message, String message_type, String currentTime,String UserImage) {
         this.message = message;
         this.message_type = message_type;
         this.currentTime = currentTime;
+        this.UserImage = UserImage;
     }
 
     public String getMessage_type() {
@@ -39,5 +41,11 @@ public class MessagesModel {
     }
 
 
+    public String getUserImage() {
+        return UserImage;
+    }
 
+    public void setUserImage(String userImage) {
+        UserImage = userImage;
+    }
 }

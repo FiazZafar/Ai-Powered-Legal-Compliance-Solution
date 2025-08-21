@@ -10,6 +10,7 @@ import com.fyp.chatbot.firebaseHelpers.ClauseFB;
 import com.fyp.chatbot.interfaces.ClauseInterface;
 import com.fyp.chatbot.models.ClauseModel;
 import com.fyp.chatbot.repository.GeminiRepo;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,10 +51,10 @@ public class ClauseViewModel extends ViewModel {
     }
 
     public LiveData<Boolean> saveClause(String clauseType, String clauseTxt) {
-        Log.d("ClauseMVVM", "saveClause: Started");
+        String userId = FirebaseAuth.getInstance().getUid();
         MutableLiveData<Boolean> clauseStatus = new MutableLiveData<>();
         ClauseModel clauseModel = new ClauseModel(UUID.randomUUID().toString(),clauseType,clauseTxt,System.currentTimeMillis());
-        clauseInterface.saveClause("",clauseModel,onSavedClause -> {
+        clauseInterface.saveClause(userId,clauseModel,onSavedClause -> {
             Log.d("ClauseMVVM", "saveClause: result is " + onSavedClause);
             clauseStatus.postValue(onSavedClause);
         });
@@ -65,7 +66,8 @@ public class ClauseViewModel extends ViewModel {
     }
 
     public void setClauseList() {
-        clauseInterface.fetchClause("",onClauseList -> {
+        String userId = FirebaseAuth.getInstance().getUid();
+        clauseInterface.fetchClause(userId,onClauseList -> {
             if (onClauseList != null){
                 clauseList.postValue(onClauseList);
             }else {

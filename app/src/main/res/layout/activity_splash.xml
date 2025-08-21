@@ -11,8 +11,7 @@
         android:layout_height="120dp"
         android:src="@mipmap/ic_launcher"
         android:layout_centerInParent="true"
-        android:contentDescription="@string/app_name"
-        android:scaleType="fitCenter" />
+        android:contentDescription="@string/app_name" />
 
     <!-- App Name -->
     <TextView
