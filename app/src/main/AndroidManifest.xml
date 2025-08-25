@@ -18,21 +18,23 @@
         android:theme="@style/Theme.ChatBot"
         tools:targetApi="31">
         <activity
+            android:name=".activities.About"
+            android:exported="false" />
+        <activity
             android:name=".activities.SplashActivity"
-            android:exported="true" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activities.DocsHistory"
             android:exported="false" />
         <activity
             android:name=".activities.IntroActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".activities.ClauseHistory"
             android:exported="false" />

@@ -80,6 +80,8 @@ public class SignupViewModel extends AndroidViewModel {
                 });
                 googleSignInStatus.postValue(result);
 
+            }else {
+                googleSignInStatus.postValue(false);
             }
         });
     }

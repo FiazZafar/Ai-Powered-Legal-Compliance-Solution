@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,6 @@ import com.google.android.gms.tasks.Task;
 public class SignupFragment extends Fragment {
     private FragmentSignupBinding binding;
     private String userName,userEmail,passwords,confirmPass,userImage;
-    private final int REQUEST_CODE_IMAGE = 101;
     private static final int RC_SIGN_IN = 1001;
     SignupViewModel signupViewModel;
     SharedPreferenceViewModel viewModel;
@@ -70,6 +70,8 @@ public class SignupFragment extends Fragment {
         binding.googleBtn.setOnClickListener(v -> {
             Intent signInIntent = googleSignInClient.getSignInIntent();
             startActivityForResult(signInIntent, RC_SIGN_IN);
+
+            Log.d("signInWithGoogle", "signInWithGoogle: Debugging signup start on Click");
         });
     }
     private void visibilityListeners() {
@@ -164,11 +166,12 @@ public class SignupFragment extends Fragment {
 
         signupViewModel.getGoogleSignInStatus().observe(getViewLifecycleOwner(), isSuccess -> {
             if (isSuccess != null && isSuccess) {
-
+                Log.d("SignUP", "initObservers:  + signed in" );
                 Toast.makeText(getContext(), "Signed in with Google successfully!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getContext(), MainActivity.class));
                 this.getActivity().finish();
             } else {
+                Log.d("SignUP", "initObservers:  + signed in Fialed" );
                 Toast.makeText(getContext(), "Google Sign-In failed.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -178,7 +181,8 @@ public class SignupFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode,
                                  @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN && requestCode == RESULT_OK) {
+        if (requestCode == RC_SIGN_IN && resultCode == RESULT_OK) {
+
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);

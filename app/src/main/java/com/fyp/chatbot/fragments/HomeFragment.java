@@ -31,12 +31,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding ;
     private List<DocomentModel> docomentModelList;
     private RecentDocAdapter adapter;
-    private UserViewModel userViewModel;
     SharedPreferenceViewModel viewModel;
 
     public HomeFragment() {}
@@ -47,13 +45,10 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-
         viewModel = new ViewModelProvider(this,new ViewModelProvider
                 .AndroidViewModelFactory(this.getActivity().getApplication()))
                 .get(SharedPreferenceViewModel.class);
 
-        userViewModel.fetchUser();
 
         viewModel.getData().observe(getViewLifecycleOwner(),userModel -> {
             if (userModel != null){

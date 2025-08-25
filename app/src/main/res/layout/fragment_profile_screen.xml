@@ -30,8 +30,8 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/userProfile"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_marginTop="8dp"
                     android:src="@drawable/profile_pic"
                     app:civ_circle_background_color="@color/backgroundColor"
@@ -56,7 +56,7 @@
                     android:id="@+id/profileTxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:text="Profile Picture"
                     android:textColor="@color/white"
@@ -66,7 +66,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginVertical="16dp"
                     android:background="@drawable/gradient"
@@ -92,6 +92,8 @@
                         android:id="@+id/linear1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/edittext_background"
+                        android:padding="8dp"
                         android:layout_marginTop="8dp"
                         android:orientation="horizontal"
                         app:layout_constraintTop_toBottomOf="@id/accountInfoTxt">
@@ -111,6 +113,7 @@
                             android:layout_weight="1"
                             android:gravity="end"
                             android:text="--"
+                            android:layout_marginEnd="2dp"
                             android:textColor="@color/textColor"
                             android:textSize="14sp"
                             android:textStyle="normal" />
@@ -120,6 +123,8 @@
                         android:id="@+id/linear2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/edittext_background"
+                        android:padding="8dp"
                         android:layout_marginTop="8dp"
                         android:orientation="horizontal"
                         app:layout_constraintTop_toBottomOf="@id/linear1">
@@ -136,6 +141,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
+                            android:layout_marginBottom="2dp"
                             android:layout_weight="1"
                             android:gravity="end"
                             android:text="--"
@@ -155,27 +161,30 @@
                         app:layout_constraintTop_toBottomOf="@id/linear2" />
 
                     <TextView
-                        android:id="@+id/editProfile"
+                        android:id="@+id/clauseHistory"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:drawableEnd="@drawable/edit_square_24px"
-                        android:text="Edit Profile"
+                        android:text="Clause History"
+                        android:background="@drawable/edittext_background"
+                        android:padding="8dp"
                         android:textColor="@color/textColor"
                         android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/actions" />
 
                     <TextView
-                        android:id="@+id/updatePassword"
+                        android:id="@+id/doc_history"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Update Password"
+                        android:text="Documents History"
+                        android:background="@drawable/edittext_background"
+                        android:padding="8dp"
                         android:textColor="@color/textColor"
                         android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/editProfile" />
+                        app:layout_constraintTop_toBottomOf="@id/clauseHistory" />
 
                     <TextView
                         android:id="@+id/settingsInfo"
@@ -186,37 +195,47 @@
                         android:textColor="@color/textColor"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        app:layout_constraintTop_toBottomOf="@id/updatePassword" />
+                        app:layout_constraintTop_toBottomOf="@id/doc_history" />
 
                     <TextView
                         android:id="@+id/helpCenter"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:gravity="center"
+                        android:background="@drawable/edittext_background"
+                        android:gravity="start"
+                        android:padding="8dp"
                         android:text="Help"
                         android:textColor="@color/textColor"
                         android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/settingsInfo" />
 
                     <TextView
                         android:id="@+id/termCondition"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:background="@drawable/edittext_background"
+                        android:padding="8dp"
                         android:text="Terms &amp; Condition's"
                         android:textColor="@color/textColor"
+                        android:paddingEnd="8dp"
                         android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/helpCenter" />
 
                     <TextView
                         android:id="@+id/privacyPolicy"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:gravity="center"
+                        android:padding="8dp"
+                        android:gravity="start"
+                        android:background="@drawable/edittext_background"
+                        app:layout_constraintEnd_toEndOf="parent"
                         android:text="Privacy policy"
                         android:textColor="@color/textColor"
                         android:textSize="16sp"
@@ -232,6 +251,7 @@
                         android:drawableEnd="@drawable/logout_24px"
                         android:padding="10dp"
                         android:text="Logout"
+                        app:layout_constraintTop_toBottomOf="@+id/privacyPolicy"
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         android:textStyle="bold"

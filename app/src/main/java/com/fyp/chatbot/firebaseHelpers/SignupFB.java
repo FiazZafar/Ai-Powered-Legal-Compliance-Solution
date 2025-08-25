@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.fyp.chatbot.interfaces.FirebaseCallback;
 import com.fyp.chatbot.interfaces.SignupInterface;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -29,16 +30,19 @@ public class SignupFB implements SignupInterface {
 
     @Override
     public void signupUser(String email, String passwords, FirebaseCallback<Boolean> result) {
+        Log.d("SignUp", "onFailure: STart" + true);
         mAuth.createUserWithEmailAndPassword(email.trim(), passwords.trim())
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        Log.d("SignUp", "onFailure: Failed" + false );
                         result.onComplete(true);
                     } else {
+                        Log.d("SignUp", "onFailure: Failed" + true);
                         result.onComplete(false);
                     }
-                })
-                .addOnFailureListener(e -> {
+                }).addOnFailureListener(e -> {
                     result.onComplete(false);
+                    Log.d("SignUp", "onFailure: Failed" + e.getMessage());
                 });
     }
     @Override

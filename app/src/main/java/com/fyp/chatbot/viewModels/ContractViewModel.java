@@ -28,7 +28,6 @@ public class ContractViewModel extends ViewModel {
         });
 
     }
-
     private String generatContractPrompt(String jurisdiction,String contractType,
                                          String contractTitle,String party1Name,
                                          String entityTypeA,String party2Name,

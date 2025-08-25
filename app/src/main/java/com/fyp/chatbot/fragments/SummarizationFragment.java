@@ -2,10 +2,15 @@ package com.fyp.chatbot.fragments;
 
 
 import static android.app.Activity.RESULT_OK;
+
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,18 +85,26 @@ public class SummarizationFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_PDF_REQUEST && resultCode == RESULT_OK && data != null) {
+            binding.uploadAgainBtn.setText("Upload Again");
             Uri pdfUri = data.getData();
             if (pdfUri != null) {
                 handleSelectedDocument(pdfUri);
             }
+        }else {
+            Toast.makeText(this.getContext(), "No file selected", Toast.LENGTH_SHORT).show();
+            binding.uploadAgainBtn.setText("Upload Document");
         }
     }
+
     private void handleSelectedDocument(Uri docUri) {
         binding.linearlayout2.setVisibility(View.VISIBLE);
+
+        String fileName = getFileName(this.getContext(),docUri);
+
         DocumentRepo repository = new DocumentRepo();
         
         Executors.newFixedThreadPool(2).execute(() -> {
-            saveDocToInternalStorage(docUri);
+            saveDocToInternalStorage(docUri,fileName);
             try {
                 String extractedText = repository.extractText(requireContext(), docUri);
                     requireActivity().runOnUiThread(() -> {
@@ -105,13 +118,45 @@ public class SummarizationFragment extends Fragment {
         });
     }
 
-    private void saveDocToInternalStorage(Uri uri) {
+    private String getFileName(Context context, Uri docUri) {
+        String result = null;
+
+        if ("content".equals(docUri.getScheme())) {
+            Cursor cursor = null;
+            try {
+                cursor = context.getContentResolver().query(docUri, null, null, null, null);
+                if (cursor != null && cursor.moveToFirst()) {
+                    int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                    if (nameIndex != -1) {
+                        result = cursor.getString(nameIndex);
+                    }
+                }
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+        }
+
+        if (result == null) {
+            result = docUri.getPath();
+            int cut = result.lastIndexOf("/");
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+
+        return result;
+    }
+
+
+    private void saveDocToInternalStorage(Uri uri,String fileName) {
         try {
             InputStream inputStream = this.getContext().getContentResolver()
                     .openInputStream(uri);
             File docFile = new File(this.getContext().getFilesDir(),"Smart_Goval_"
-                    + taskType + "_"
-                    + System.currentTimeMillis() + ".pdf");
+                    + fileName + "_"
+                    + System.currentTimeMillis() + ".pdf" );
             OutputStream outputStream = new FileOutputStream(docFile);
             byte [] buffer = new byte[1024];
             int length;

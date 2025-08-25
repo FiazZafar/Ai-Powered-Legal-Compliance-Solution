@@ -26,7 +26,7 @@ public class UserViewModel extends ViewModel {
         }
 
         public void fetchUser() {
-            String userId = FirebaseAuth.getInstance().getInstance().getUid();
+            String userId = FirebaseAuth.getInstance().getUid();
 
             userInterFace.fetchUserProfile(userId,onResult -> {
                 if (onResult != null) {
