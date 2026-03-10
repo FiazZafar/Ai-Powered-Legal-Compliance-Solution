@@ -31,6 +31,8 @@ public class ClauseViewModel extends ViewModel {
 
         Log.d("MvvM", "setClause: Setup of clause started");
         String prompt = buildClausePrompt(clauseType,inputValues);
+        Log.d("MvvM", "setClause: " + prompt);
+
         if (!prompt.isEmpty()){
             geminiRepo.generateAnalysis(prompt, onResult -> generateClause.postValue(onResult));
         }

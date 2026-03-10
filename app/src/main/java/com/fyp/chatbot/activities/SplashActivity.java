@@ -19,7 +19,6 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivitySplashBinding binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         FirebaseApp.initializeApp(this);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">SmartGoval</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="default_web_client_id">39952232600-0dki77rgfe632l595p5u0h74bjpo4hmc.apps.googleusercontent.com
-    </string>
+    <string name="default_web_client_id">39952232600-tg9u3r2k7kuv1ljtmcjv6c4ssd884lgi.apps.googleusercontent.com</string>
 </resources>
