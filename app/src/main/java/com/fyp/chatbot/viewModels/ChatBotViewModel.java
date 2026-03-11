@@ -1,70 +1,58 @@
 package com.fyp.chatbot.viewModels;
 
-import android.widget.Toast;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.fyp.chatbot.apimodels.Content;
-import com.fyp.chatbot.apimodels.GeminiResponse;
 import com.fyp.chatbot.apimodels.Part;
-import com.fyp.chatbot.apimodels.RequestBodyGemini;
-import com.fyp.chatbot.helpers.RetrofitClient;
-import com.fyp.chatbot.interfaces.GeminiApi;
-import com.fyp.chatbot.models.MessagesModel;
 import com.fyp.chatbot.repository.GeminiRepo;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class ChatBotViewModel extends ViewModel {
-    MutableLiveData<String> aiResponse = new MutableLiveData<>();
-    GeminiRepo geminiRepo = new GeminiRepo();
-    public MutableLiveData<String> getResponse() {
-        return aiResponse;
-    }
 
+    private final MutableLiveData<String>  aiResponse   = new MutableLiveData<>();
+    private final MutableLiveData<String>  errorMessage = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isLoading    = new MutableLiveData<>(false);
 
-    public void setResponse(List<Map<String,String>> chatHistory,String apiKey) {
-        RetrofitClient retrofitClient = new
-                RetrofitClient("https://generativelanguage.googleapis.com/");
-        GeminiApi geminiApi =  retrofitClient.getRetrofit().create(GeminiApi.class);
+    private final GeminiRepo geminiRepo = new GeminiRepo();
+
+    public MutableLiveData<String>  getResponse()     { return aiResponse;   }
+    public MutableLiveData<String>  getErrorMessage() { return errorMessage; }
+    public MutableLiveData<Boolean> getIsLoading()    { return isLoading;    }
+
+    public void setResponse(List<Map<String, String>> chatHistory, String apiKey) {
+
+        if (Boolean.TRUE.equals(isLoading.getValue())) return;
+
+        isLoading.postValue(true);
+
         List<Part> parts = new ArrayList<>();
-        for (Map<String ,String > entry:chatHistory){
-            parts.add(new Part(entry.get("content")));
+        for (Map<String, String> entry : chatHistory) {
+            String content = entry.get("content");
+            if (content != null) parts.add(new Part(content));
         }
         List<Content> contents = new ArrayList<>();
         contents.add(new Content(parts));
-        RequestBodyGemini requestBody = new RequestBodyGemini(contents);
-        Call<GeminiResponse> call = geminiApi.generateContent(apiKey, requestBody);
 
-        call.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(Call<GeminiResponse> call, Response<GeminiResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    String reply = response.body()
-                            .getCandidates()
-                            .get(0)
-                            .getContent()
-                            .getParts()
-                            .get(0)
-                            .getText();
-                    aiResponse.postValue(reply);
-                }
-            }
+        geminiRepo.generateChatResponse(contents, result -> {
+            isLoading.postValue(false);
 
-            @Override
-            public void onFailure(Call<GeminiResponse> call, Throwable t) {
-                aiResponse.postValue("Error: " + t.getMessage());
+            if (isGeminiError(result)) {
+                errorMessage.postValue(result);
+            } else {
+                aiResponse.postValue(result);
             }
         });
+    }
+
+    private boolean isGeminiError(String result) {
+        if (result == null) return false;
+        for (GeminiRepo.GeminiError error : GeminiRepo.GeminiError.values()) {
+            if (error.message.equals(result)) return true;
+        }
+        return false;
     }
 }
