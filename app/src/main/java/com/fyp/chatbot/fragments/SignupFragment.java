@@ -178,10 +178,9 @@ public class SignupFragment extends Fragment {
 
     }
     @Override
-    public void onActivityResult(int requestCode, int resultCode,
-                                 @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN && resultCode == RESULT_OK) {
+        if (requestCode == RC_SIGN_IN) { // ← Remove "&& resultCode == RESULT_OK"
 
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
@@ -191,10 +190,13 @@ public class SignupFragment extends Fragment {
                 userEmail = account.getEmail();
                 userImage = account.getPhotoUrl() != null ?
                         account.getPhotoUrl().toString() : "";
-                viewModel.savedData(userName,userEmail,userImage);
-                signupViewModel.signInWithGoogle(account,account.getIdToken());
+                viewModel.savedData(userName, userEmail, userImage);
+                signupViewModel.signInWithGoogle(account, account.getIdToken());
+
             } catch (ApiException e) {
-                Toast.makeText(getContext(), "Google Sign-In failed", Toast.LENGTH_SHORT).show();
+                Log.e("GoogleSignIn", "Sign-in failed, code: " + e.getStatusCode());
+                Toast.makeText(getContext(), "Google Sign-In failed: " + e.getStatusCode(),
+                        Toast.LENGTH_LONG).show();
             }
         }
     }
